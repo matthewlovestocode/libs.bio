@@ -269,8 +269,7 @@ each topic is built.
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. All five are free to read;
   - it converts whole files, not parts of them: no filtering, no trimming, no renaming.
-- **Sequences and translation**, the sixth topic, is built on the `sequences` branch and **not yet
-  live**. The tool measures a sequence, writes it out four ways, reads it in all six frames and
+- **Sequences and translation**, the sixth topic, **went live on 2026-11-19**. The tool measures a sequence, writes it out four ways, reads it in all six frames and
   finds its open reading frames. How it stands:
   - all 27 of NCBI's genetic codes are offered, and choosing one changes the start and stop codons
     shown as well as the translation. Switching the sample to the vertebrate mitochondrial code

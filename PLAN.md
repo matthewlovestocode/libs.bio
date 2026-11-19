@@ -357,7 +357,7 @@ each topic is built.
   - `pdb` joined the API reference, making fourteen packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled;
-  - **a 3D backbone view was added on 2026-11-19**, after Matthew asked whether React Three Fiber
+  - **a 3D backbone view went live on 2026-11-19**, after Matthew asked whether React Three Fiber
     had a use here. It does: `@biolibs/bionet-scene` is already built on it, so the stack was
     already in the family. The view is a tube through the α-carbons, coloured by what the
     backbone's own angles say each stretch is doing, with the site's own orbit controls rather than

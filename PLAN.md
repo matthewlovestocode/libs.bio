@@ -415,8 +415,8 @@ each topic is built.
     service this topic asks — which Matthew has not chosen from. All five are free to read;
   - it sends a tool name and no address. NCBI asks every client for one and the field is still
     unset, so the site is an anonymous client, which works.
-- **Working safely**, the twelfth and last topic, is built on the `safety` branch and **not yet
-  live**. It is the one topic with no package behind it, so it has **three tabs, not four**: writing
+- **Working safely**, the twelfth and last topic, **went live on 2026-11-19**. It is the one topic
+  with no package behind it, so it has **three tabs, not four**: writing
   a Code view that said there was no code would be worse than leaving the tab out. How it stands:
   - the Do view asks six questions somebody qualified would ask and says where each answer actually
     lives. It answers none of them, and says so at the top rather than in small print at the bottom;

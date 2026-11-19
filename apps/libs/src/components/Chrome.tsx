@@ -14,6 +14,7 @@ export function Header() {
         </Link>
         <nav>
           <Link href="/">{text.nav.topics}</Link>
+          <Link href="/api">{text.nav.api}</Link>
           <a href={SITES.bionet.url}>{text.nav.bionet}</a>
           <a href={LINKS.source}>{text.nav.source}</a>
         </nav>

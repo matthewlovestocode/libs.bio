@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { digest } from "@/lib/digest.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { messages } from "@/messages/index.ts";
@@ -89,14 +90,14 @@ export default function Code() {
       <ul className="packages">
         {PACKAGES.map((one) => (
           <li key={one.name}>
-            <code>@biolibs/{one.name}</code> · <a href={`https://www.npmjs.com/package/@biolibs/${one.name}`}>{text.code.readme}</a>
+            <Link href={`/api/${one.name}`}><code>@biolibs/{one.name}</code></Link> · <a href={`https://www.npmjs.com/package/@biolibs/${one.name}`}>{text.code.readme}</a>
             <span className="quiet">{one.note}</span>
           </li>
         ))}
       </ul>
       <h3>{text.code.install}</h3>
       <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio @biolibs/entrez @biolibs/seqmap</code></pre>
-      <p className="quiet">{text.code.reference}</p>
+      <p className="quiet">{text.code.reference} <Link href="/api">{text.api.title}</Link></p>
     </div>
   );
 }

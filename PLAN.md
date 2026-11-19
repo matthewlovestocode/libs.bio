@@ -171,7 +171,18 @@ each topic is built.
     contact address from every client. It is read from `NEXT_PUBLIC_NCBI_EMAIL` when the site is
     built, and is not set, so the site is an anonymous client for now;
   - the mark in the header is still the sketch from the mock-up;
-  - the *Code* view links to each package's README, as planned until step 4.
+  - the *Code* view linked to each package's README until step 4 gave it the API reference.
+
+- Step 4, the generated API reference, is **built on the `api-reference` branch and not yet
+  merged**. `scripts/api-reference.mjs` reads each package's own type files, doc comments and all,
+  before every build, and the pages at `/api` are drawn from what it finds. Six packages are in: the
+  ones behind digests and gels (`seq`, `restriction`, `gel`, `seqio`, `seqmap`, `entrez`). How it
+  stands:
+  - it documents the versions installed from npm, not a checkout of biolibs, so it describes what
+    is published;
+  - the parity checklists are not beside it yet, which the plan asks for;
+  - the explanatory prose in `biolibs/docs/*.md` is not carried into the *Understand* views yet;
+  - a package's page is one long page with a filter box. `seqio` has 235 exports.
 
 Left over from step 2, none of it blocking:
 

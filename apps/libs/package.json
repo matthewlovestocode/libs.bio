@@ -4,7 +4,10 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "api": "node scripts/api-reference.mjs",
+    "predev": "node scripts/api-reference.mjs",
     "dev": "next dev --port 3000",
+    "prebuild": "node scripts/api-reference.mjs",
     "build": "next build",
     "typecheck": "tsc --noEmit"
   },

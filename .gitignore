@@ -20,3 +20,6 @@ npm-debug.log*
 
 # cloudflare
 .wrangler/
+
+# written by scripts/api-reference.mjs before every build
+apps/libs/src/generated/

@@ -50,6 +50,8 @@ Inside a site:
 | `src/components/` | Components, including the site's mark |
 | `src/messages/` | The words the interface shows, one file per language |
 | `content/<language>/` | Lessons, glossary entries and papers (libs.bio only, so far) |
+| `scripts/api-reference.mjs` | Reads each `@biolibs` package's type files and writes the API reference's data (libs.bio only) |
+| `src/generated/` | What that script writes. Not committed: it is made before every build |
 
 Colours come from [`@biolibs/bionet-theme`](https://www.npmjs.com/package/@biolibs/bionet-theme),
 which has a light and a dark value for each and follows the reader's setting. Neither site writes a

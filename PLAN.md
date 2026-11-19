@@ -152,6 +152,15 @@ each topic is built.
   It applies to every name under `libs.bio`. When Wren and Thistle move under the domain, their
   hosts must not also force the redirect, or the two will loop.
 
+- Step 3, the first release of `libs.bio`, is **built on the `first-release` branch and not yet
+  merged**. It has the landing page and the digests and gels topic with its four views, each view a
+  page of its own so it can be linked to. Before it goes to `main`:
+  - the papers on the *Read* view are a shortlist of candidates. Matthew has not chosen, their
+    details are not checked, and nothing is fetched from Europe PMC yet;
+  - "Open a file" takes FASTA or plain text only. GenBank and SnapGene need `@biolibs/seqio`;
+  - the mark in the header is still the sketch from the mock-up;
+  - the *Code* view links to each package's README, as planned until step 4.
+
 Left over from step 2, none of it blocking:
 
 - Each Worker also answers at a `workers.dev` address, which branch previews are served from.
@@ -163,8 +172,11 @@ Choices made while setting up, which were not in the plan and can be changed:
 
 - English pages have no language prefix in their address; another language goes under its code.
 - The shared package is `@libsbio/shared`, and the apps are `apps/libs` and `apps/bionet`.
-- The placeholder pages use plain CSS over the Bionet theme's variables. Tailwind, which
-  `biolibs-site` uses, is not added yet; that is decided when its content is carried over.
+- The site uses plain CSS over the Bionet theme's variables, not Tailwind, which `biolibs-site`
+  uses. The lesson and glossary text carried over so far is plain text and did not need it.
+- A link made by "Copy a link" holds the sequence after the `#` of the address. Browsers do not send
+  that part to a server, so a shared link still uploads nothing.
+- In a topic, the *Do* view is at the topic's own address and the other three views are under it.
 - `LICENSE-CONTENT.md` states the CC BY 4.0 licence and links to its text. It does not reproduce it.
 
 | Step | What | Waits on |

@@ -10,7 +10,7 @@ in one repository.
 
 Both are for the DIY bio community: free, with no account, no tracking, and nothing uploaded.
 
-**Both sites are live as placeholders at the moment.** What is being built, in what order and why is in
+**Bionet's site is a placeholder at the moment, and libs.bio has its first topic.** What is being built, in what order and why is in
 [PLAN.md](PLAN.md). The drawings the look was agreed from are in [`design/`](design/).
 
 ## Run it

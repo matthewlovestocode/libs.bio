@@ -1,42 +1,50 @@
-import { LINKS, SITES } from "@libsbio/shared";
-import { Mark } from "@/components/Mark.tsx";
+import Link from "next/link";
+import { Footer, Header } from "@/components/Chrome.tsx";
+import { StatusLabel } from "@/components/StatusLabel.tsx";
+import { TOPICS } from "@/lib/topics.ts";
 import { messages } from "@/messages/index.ts";
 
-/** The front page, until the first topic is built: what this is, and where things are meanwhile. */
+/** The front page: a list of things you can do. It is not a pitch. */
 export default function Home() {
   const text = messages();
+  const built = TOPICS.filter((topic) => topic.status !== null);
+  const coming = TOPICS.filter((topic) => topic.status === null);
   return (
     <>
-      <header className="top">
-        <div className="wrap">
-          <span className="logo"><Mark /><span>{text.name}</span><span className="tld">{text.tld}</span></span>
-          <nav>
-            <a href={SITES.bionet.url}>{text.nav.bionet}</a>
-            <a href={LINKS.source}>{text.nav.source}</a>
-          </nav>
-        </div>
-      </header>
+      <Header />
       <main>
         <div className="wrap">
-          <span className="status">{text.home.building}</span>
           <h1>{text.home.heading}</h1>
           <p className="lede">{text.home.lede}</p>
-          <p>{text.home.body}</p>
-          <section className="card">
-            <h2>{text.home.nextHeading}</h2>
-            <ul>{text.home.next.map((line) => <li key={line}>{line}</li>)}</ul>
-          </section>
-          <section className="card">
-            <h2>{text.home.nowHeading}</h2>
-            <ul>
-              <li><a href={LINKS.npm}>{text.home.packages}</a></li>
-              <li><a href={LINKS.biolibs}>{text.home.libraries}</a></li>
-              <li><a href={`${LINKS.source}/blob/main/PLAN.md`}>{text.home.plan}</a></li>
-            </ul>
-          </section>
+
+          <h2 className="section">{text.home.topicsHeading}</h2>
+          <ul className="topics">
+            {built.map((topic) => (
+              <li key={topic.slug}>
+                <Link href={`/topics/${topic.slug}`} className="topic live">
+                  <span className="topic-title">{text.topics[topic.key].title} <StatusLabel status={topic.status} /></span>
+                  <span className="topic-summary">{text.topics[topic.key].summary}</span>
+                  <span className="topic-uses">{text.home.uses} {topic.packages.map((name) => `@biolibs/${name}`).join(", ")}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+
+          <h2 className="section">{text.home.coming}</h2>
+          <p className="quiet">{text.home.comingNote}</p>
+          <ul className="topics">
+            {coming.map((topic) => (
+              <li key={topic.slug}>
+                <div className="topic">
+                  <span className="topic-title">{text.topics[topic.key].title} <StatusLabel status={null} /></span>
+                  <span className="topic-summary">{text.topics[topic.key].summary}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </main>
-      <footer><div className="wrap">{text.footer}</div></footer>
+      <Footer />
     </>
   );
 }

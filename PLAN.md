@@ -392,6 +392,29 @@ each topic is built.
     not chosen from. Three of the five are paywalled;
   - it takes the instances as given: finding a motif nobody has described is motif discovery, which
     this does not attempt, and the lesson says so. Nothing is posted to the WebLogo server.
+- **Looking things up**, the eleventh topic, is built on the `lookup` branch and **not yet live**.
+  One question to one of three public services, asked by the visitor's own browser. How it stands:
+  - **NCBI**: search nucleotide or protein records and get accessions back with what each one is,
+    which is how you find the accession the other tools take;
+  - **UniProt**: a protein by accession, with the thing most worth knowing shown first — whether a
+    curator has been over it or a machine guessed it — and **both numberings side by side**, since
+    a modification at 30 as the gene makes it is at 15 on what a lab holds, and papers use both;
+  - **Europe PMC**: a search that distinguishes open access, which is a licence, from the full text
+    being present, which is a different fact; and for a paper whose text is there, the whole thing
+    as sections rather than as JATS markup. Reading one takes fifteen to twenty seconds, which the
+    button says while it waits;
+  - all three checked from a browser, which is the check that matters: each service answers
+    cross-origin, so no part of this needs a server. The browser asks directly and each service sees
+    the query and nothing else;
+  - **BLAST is shown but not offered.** `@biolibs/blast` ports NCBI's qblast faithfully, but Matthew
+    timed the queries at over half an hour, which is a queue at NCBI rather than anything the port
+    does. That is a script to leave running, not a button on a page somebody is waiting at. The Code
+    view shows the call and the lesson says why it is not there;
+  - `uniprot` and `europepmc` joined the API reference, making seventeen packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19 — with the same
+    service this topic asks — which Matthew has not chosen from. All five are free to read;
+  - it sends a tool name and no address. NCBI asks every client for one and the field is still
+    unset, so the site is an anonymous client, which works.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

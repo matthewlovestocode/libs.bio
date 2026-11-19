@@ -463,3 +463,13 @@ table.matrix tr.information td, table.matrix tr.information th { color: var(--so
   font: 12px/1.8 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }
 .marked mark { background: color-mix(in srgb, var(--bionet-yours) 28%, transparent); color: var(--ink); border-radius: 3px; padding: 1px 0; }
 .marked mark.reverse { background: color-mix(in srgb, var(--bionet-theirs) 30%, transparent); }
+
+/* What a lookup gives back */
+.papers-found { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 14px; }
+.papers-found li { display: grid; gap: 3px; }
+.paper-title { font-weight: 600; }
+.link-button { font: inherit; color: var(--bionet-yours); background: none; border: 0; padding: 0; cursor: pointer; text-decoration: underline; }
+.link-button:disabled { opacity: 0.5; cursor: default; }
+.paper-text { margin-top: 10px; max-height: 420px; overflow-y: auto; padding-right: 6px; }
+.paper-text h4 { margin: 12px 0 4px; font-size: 14px; }
+.paper-text p { margin: 0; font-size: 13.5px; line-height: 1.65; color: var(--soft); }

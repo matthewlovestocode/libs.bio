@@ -285,8 +285,8 @@ each topic is built.
     `src/lib/sequence.ts`. Biopython's `sixFrameTranslations` returns a report meant for printing,
     not values to compute with;
   - `seqtools` joined the API reference, making eleven packages;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. One of the five is paywalled;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. One of the five is paywalled;
   - an open reading frame is a candidate, not a gene: nothing here looks for a promoter, a ribosome
     binding site or introns, and the page says so.
 - What topics share was split out while building it, so a third costs less: where a sequence comes

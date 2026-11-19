@@ -225,8 +225,8 @@ each topic is built.
   - the map has room for 22 names. Past that it names the largest features and the table has all;
   - it does not edit features or write an annotated file, and it has no link to copy, since a link
     cannot carry features;
-  - its *Read* view is a shortlist of six, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. Two of the six are paywalled;
+  - Matthew chose all six shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. Two of the six are paywalled;
   - `seqfeature` joined the API reference with it, making eight packages;
   - saving any drawing now writes each shape's real colour into the file, so a saved map or gel
     looks as it does on the page.

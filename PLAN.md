@@ -289,8 +289,8 @@ each topic is built.
     checked on Europe PMC that day. One of the five is paywalled;
   - an open reading frame is a candidate, not a gene: nothing here looks for a promoter, a ribosome
     binding site or introns, and the page says so.
-- **Alignment**, the seventh topic, is built on the `alignment` branch and **not yet live**. It does
-  the two halves of the subject separately:
+- **Alignment**, the seventh topic, **went live on 2026-11-19**. It does the two halves of the
+  subject separately:
   - **two sequences**: a pairwise alignment with the scoring in the visitor's hands — end to end or
     best stretch, a match and mismatch score or any of the 30 substitution matrices, and separate
     costs for opening a gap and extending one. The result is written in blocks of 50 columns with a

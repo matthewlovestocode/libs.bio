@@ -26,7 +26,7 @@ export function PapersView({ reading }: { reading: ReadingList }) {
             <span className="quiet">{paper.why}</span>
             <span className="paper-links">
               {paper.pmcid === null ? null : <a href={`https://europepmc.org/article/PMC/${paper.pmcid}`}>{text.read.readIt}</a>}
-              <a href={`https://doi.org/${paper.doi}`}>{text.read.publisher}</a>
+              {paper.doi === null ? null : <a href={`https://doi.org/${paper.doi}`}>{text.read.publisher}</a>}
               <a href={`https://europepmc.org/article/MED/${paper.pmid}`}>{text.read.record}</a>
             </span>
           </li>

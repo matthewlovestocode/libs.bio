@@ -448,3 +448,18 @@ table.distances td, table.distances th { padding: 3px 8px; }
 .backbone-key { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: center; margin: 8px 0 0; font-size: 12.5px; color: var(--soft); }
 .backbone-key span { display: flex; align-items: center; gap: 6px; }
 .backbone-loading { text-align: center; padding: 28px 0; }
+
+/* A sequence logo, the counts matrix and the marked-up target */
+.logo { display: block; width: 100%; height: auto; max-width: 420px; margin: 8px auto 2px; }
+.logo .logo-letter { font-family: var(--font-geist-mono), ui-monospace, monospace; font-weight: 700; }
+.logo .map-tick { font: 9px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.logo .map-note { font-size: 11px; fill: var(--soft); }
+.instances { width: 100%; min-height: 150px; resize: vertical; padding: 10px 12px;
+  font: 13px/1.7 var(--font-geist-mono), ui-monospace, monospace; letter-spacing: 1px; }
+table.matrix th[scope="row"] { font: 600 13px var(--font-geist-mono), ui-monospace, monospace; }
+table.matrix td, table.matrix th { padding: 3px 7px; }
+table.matrix tr.information td, table.matrix tr.information th { color: var(--soft); border-top: 1px solid var(--glass-edge); }
+.marked { margin: 8px 0 0; padding: 10px 12px; border: 1px solid var(--glass-edge); border-radius: 8px; background: var(--glass-inner);
+  font: 12px/1.8 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }
+.marked mark { background: color-mix(in srgb, var(--bionet-yours) 28%, transparent); color: var(--ink); border-radius: 3px; padding: 1px 0; }
+.marked mark.reverse { background: color-mix(in srgb, var(--bionet-theirs) 30%, transparent); }

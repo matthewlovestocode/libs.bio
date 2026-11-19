@@ -1160,5 +1160,7 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "protein": return <TermDiagram slug="protein" />;
     case "residue": return <TermDiagram slug="residue" />;
     case "rmsd": return <TermDiagram slug="rmsd" />;
+    case "motif": return <TermDiagram slug="motif" />;
+    case "reverse-complement": return <TermDiagram slug="reverse-complement" />;
   }
 }

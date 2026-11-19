@@ -372,6 +372,27 @@ each topic is built.
     pointed at the cause. Checked afterwards on the built output with 1CRN: crambin's fold, its two
     helices and its sheet, with a picked disulfide marked;
   - it is a trace, not a structure viewer: no side chains, no surfaces, no selection language.
+- **Motifs**, the tenth topic, is built on the `motifs` branch and **not yet live**. Give it the
+  places a short pattern has been seen and it builds the motif, draws it, and looks for it. How it
+  stands:
+  - the drawing is a **sequence logo**: each position as tall as it is telling, two bits where only
+    one letter ever appears and nothing where anything goes, with each letter's share of the height
+    its share of the instances. The information content is the site's own six lines, worked out from
+    the library's own frequencies so the picture cannot disagree with the matrix beside it;
+  - pseudocounts, background composition and the score to beat are all in the visitor's hands, with
+    two thresholds the library works out — one false hit in a thousand, and Hertz and Stormo's —
+    rather than a round number;
+  - the sample has **three copies planted at known places**, two on the strand as written and one on
+    the other. The scan finds exactly those three at the top, all at the maximum score, which is a
+    check that can be seen rather than argued about. It also finds ten more at the default
+    threshold, which is the lesson about where to draw the line, demonstrated rather than asserted;
+  - `motifs` joined the API reference, making fifteen packages;
+  - `Paper.doi` is now nullable: the MEME paper has no DOI, and inventing one or faking the type
+    would have been worse than the view simply not offering that link;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Three of the five are paywalled;
+  - it takes the instances as given: finding a motif nobody has described is motif discovery, which
+    this does not attempt, and the lesson says so. Nothing is posted to the WebLogo server.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

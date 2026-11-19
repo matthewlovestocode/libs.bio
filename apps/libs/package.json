@@ -18,6 +18,7 @@
     "@biolibs/core": "^1.2.0",
     "@biolibs/entrez": "^1.0.0",
     "@biolibs/gel": "^1.0.1",
+    "@biolibs/motifs": "^1.0.0",
     "@biolibs/pcr": "^1.0.0",
     "@biolibs/pdb": "^1.0.0",
     "@biolibs/phylo": "^1.0.0",

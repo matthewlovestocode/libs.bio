@@ -8,7 +8,7 @@ export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "g
   | "codon" | "reading-frame" | "open-reading-frame" | "genetic-code" | "strand-direction" | "gc-content"
   | "gap" | "identity-and-similarity" | "homology" | "alignment" | "substitution-matrix"
   | "phylogenetic-tree" | "clade" | "bootstrap" | "newick"
-  | "protein-fold" | "backbone-and-side-chain" | "secondary-structure" | "protein" | "residue" | "rmsd";
+  | "protein-fold" | "backbone-and-side-chain" | "secondary-structure" | "protein" | "residue" | "rmsd" | "motif" | "reverse-complement";
 
 /** One part of a lesson: a heading, some paragraphs, and perhaps a picture. */
 export interface Section {

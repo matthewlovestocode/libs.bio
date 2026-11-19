@@ -337,3 +337,39 @@ export function sampleStructure(): string {
 
 /** What the sample peptide is called, and the torsions each part was built with. */
 export const SAMPLE_STRUCTURE = { id: "0DEM", helix: SHAPES.helix, strand: SHAPES.strand, turn: SHAPES.turn };
+
+/** The motif the sample is built around: a made-up version of a promoter's TATA box. */
+const MOTIF_CONSENSUS = "TATAAA";
+
+/**
+ * Eight made-up instances of one short motif, as a collection of binding sites would look: mostly
+ * the same, each differing in a place or two.
+ *
+ * @returns Eight sequences of six bases.
+ */
+export function sampleMotifInstances(): string[] {
+  return ["TATAAA", "TATAAT", "TATATA", "TATAAA", "TAAAAA", "TATAAG", "TATTAA", "TATAAA"];
+}
+
+/** Where the sample target has copies of the motif planted, counting from 1. */
+export const SAMPLE_MOTIF_AT = { forward: [41, 151], reverse: [241] };
+
+/**
+ * A made-up 300 bp stretch with three copies of the motif planted in it: two on the strand as
+ * written and one on the other, so a scan of both strands has something to find in each.
+ *
+ * Knowing where they are is the point: a scan that does not find them, or finds them somewhere else,
+ * is wrong in a way that can be seen rather than argued about.
+ *
+ * @returns 300 bases.
+ */
+export function sampleMotifTarget(): string {
+  const next = seeded(555);
+  let bases = "";
+  for (let i = 0; i < 300; i += 1) bases += "ACGT"[Math.floor(next() * 4)];
+  const other = [...MOTIF_CONSENSUS].reverse().map((base) => ({ A: "T", C: "G", G: "C", T: "A" })[base] ?? base).join("");
+  const plant = (at: number, what: string) => { bases = bases.slice(0, at - 1) + what + bases.slice(at - 1 + what.length); };
+  for (const at of SAMPLE_MOTIF_AT.forward) plant(at, MOTIF_CONSENSUS);
+  for (const at of SAMPLE_MOTIF_AT.reverse) plant(at, other);
+  return bases;
+}

@@ -6,7 +6,8 @@ export type Access = "open" | "free" | "paywalled";
 /** One paper. */
 export interface Paper {
   pmid: string;
-  doi: string;
+  /** Its DOI, or `null` for an older paper that never got one. */
+  doi: string | null;
   /** Its PubMed Central id, when the full text is there to read. */
   pmcid: string | null;
   title: string;

@@ -1,9 +1,9 @@
 /**
- * The papers behind the PCR and primers topic.
+ * The papers behind the PCR and primers topic, chosen by Matthew on 2026-11-19.
  *
- * A shortlist: Matthew has not chosen from it yet. The details were looked up on Europe PMC by hand
- * on the date below, so each one is what Europe PMC says and not what anybody remembered. Fetching
- * them when the site is built is not written yet.
+ * The details were looked up on Europe PMC by hand on the date below, so each one is what Europe
+ * PMC says and not what anybody remembered. Fetching them when the site is built is not written
+ * yet.
  */
 import type { Paper, ReadingList } from "../../src/lib/papers.ts";
 
@@ -40,5 +40,5 @@ const papers: Paper[] = [
   },
 ];
 
-/** The list: a shortlist, with details checked on Europe PMC on the date given. */
-export const reading: ReadingList = { chosen: false, checked: "2026-11-19", papers };
+/** The list: chosen, with details checked on Europe PMC on the date given. */
+export const reading: ReadingList = { chosen: true, checked: "2026-11-19", papers };

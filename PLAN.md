@@ -212,8 +212,8 @@ each topic is built.
   each binds, every product the pair would make, each primer's melting temperature and warnings, a
   map and a gel. It was checked against pUC19 (L09137) with the M13 primers: 2,686 bp, each primer
   binding once, and one 103 bp product spanning the cloning site. How it stands:
-  - the papers on its *Read* view are a shortlist of five, checked on Europe PMC. Matthew has not
-    chosen from them;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. Three of the five are paywalled;
   - it reports what a pair should copy, not how well the reaction would go.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three

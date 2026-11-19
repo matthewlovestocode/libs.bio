@@ -139,7 +139,7 @@ each topic is built.
 
 ### Sequence of work
 
-**Progress as of 2026-11-19.** Steps 1, 2 and 3 are done.
+**Progress as of 2026-11-19.** Steps 1 to 4 are done.
 
 - Step 1: the nameservers are at Cloudflare.
 - Step 2: this directory is a public repository on GitHub with the two apps and the shared package.
@@ -173,8 +173,7 @@ each topic is built.
   - the mark in the header is still the sketch from the mock-up;
   - the *Code* view linked to each package's README until step 4 gave it the API reference.
 
-- Step 4, the generated API reference, is **built on the `api-reference` branch and not yet
-  merged**. `scripts/api-reference.mjs` reads each package's own type files, doc comments and all,
+- Step 4, the generated API reference, **went live on 2026-11-19**. `scripts/api-reference.mjs` reads each package's own type files, doc comments and all,
   before every build, and the pages at `/api` are drawn from what it finds. Six packages are in: the
   ones behind digests and gels (`seq`, `restriction`, `gel`, `seqio`, `seqmap`, `entrez`). How it
   stands:
@@ -183,7 +182,7 @@ each topic is built.
   - the parity checklists are not beside it yet, which the plan asks for;
   - the explanatory prose in `biolibs/docs/*.md` is not carried into the *Understand* views yet;
   - a package's page is one long page with a filter box. `seqio` has 235 exports.
-- Also on that branch, after Matthew reviewed the live site:
+- Released with it, after Matthew reviewed the live site:
   - **Code is highlighted**, by Shiki when the site is built, so no script colours anything in the
     browser. **DNA is coloured base by base** wherever it appears, including in the box it is typed
     into;

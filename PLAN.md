@@ -266,8 +266,8 @@ each topic is built.
     out to be readable text, so it is shown; nib and XDNA are not;
   - SFF is left out of the 26 writable formats: its writer needs the flow readings only an SFF file
     carries, so nothing else can become one;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. All five are free to read;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. All five are free to read;
   - it converts whole files, not parts of them: no filtering, no trimming, no renaming.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three

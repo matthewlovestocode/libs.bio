@@ -372,9 +372,8 @@ each topic is built.
     pointed at the cause. Checked afterwards on the built output with 1CRN: crambin's fold, its two
     helices and its sheet, with a picked disulfide marked;
   - it is a trace, not a structure viewer: no side chains, no surfaces, no selection language.
-- **Motifs**, the tenth topic, is built on the `motifs` branch and **not yet live**. Give it the
-  places a short pattern has been seen and it builds the motif, draws it, and looks for it. How it
-  stands:
+- **Motifs**, the tenth topic, **went live on 2026-11-19**. Give it the places a short pattern has
+  been seen and it builds the motif, draws it, and looks for it. How it stands:
   - the drawing is a **sequence logo**: each position as tall as it is telling, two bits where only
     one letter ever appears and nothing where anything goes, with each letter's share of the height
     its share of the instances. The information content is the site's own six lines, worked out from

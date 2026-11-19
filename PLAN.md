@@ -252,8 +252,7 @@ each topic is built.
     checked on Europe PMC that day. Two of the five are paywalled;
   - it says whether a product **can** form, not how much of it you would get: no ligation
     efficiency, no insert-to-vector ratio, no dephosphorylation, no methylation.
-- **Reading and converting files**, the fifth topic, is built on the `files` branch and **not yet
-  live**. The tool opens a file in any of the 25 formats the site offers, shows what each record in
+- **Reading and converting files**, the fifth topic, **went live on 2026-11-19**. The tool opens a file in any of the 25 formats the site offers, shows what each record in
   it holds, and writes it out again in any of 23 formats. How it stands:
   - **what a conversion costs is measured, not looked up.** The file is written, read straight back
     in, and the two are compared, so the answer is what *this* file loses. The sample plasmid as

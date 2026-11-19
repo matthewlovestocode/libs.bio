@@ -139,22 +139,23 @@ each topic is built.
 
 ### Sequence of work
 
-**Progress as of 2026-11-19.** Steps 1 and 2 are done.
+**Progress as of 2026-11-19.** Steps 1, 2 and 3 are done.
 
 - Step 1: the nameservers are at Cloudflare.
 - Step 2: this directory is a public repository on GitHub with the two apps and the shared package.
   Each app is a Cloudflare Worker (`libs-bio` and `bionet-libs-bio`) connected to the repository, so
   a push to `main` builds and deploys it and any other branch gets a preview.
-- **Both placeholder pages are live** at https://libs.bio and https://bionet.libs.bio.
+- Both sites are live at https://libs.bio and https://bionet.libs.bio. Bionet's is still its
+  placeholder page.
 - `www.libs.bio` is sent to `libs.bio`, keeping the path and the query string. It is a redirect rule
   at Cloudflare, with a placeholder DNS record for `www` so the rule has something to act on.
 - "Always Use HTTPS" is on for the whole domain, so a plain `http://` address is sent to `https://`.
   It applies to every name under `libs.bio`. When Wren and Thistle move under the domain, their
   hosts must not also force the redirect, or the two will loop.
 
-- Step 3, the first release of `libs.bio`, is **built on the `first-release` branch and not yet
-  merged**. It has the landing page and the digests and gels topic with its four views, each view a
-  page of its own so it can be linked to. Before it goes to `main`:
+- Step 3, the first release of `libs.bio`, **went live on 2026-11-19**. It has the landing page and
+  the digests and gels topic with its four views, each view a page of its own so it can be linked
+  to. How it stands:
   - Matthew chose all five shortlisted papers for the *Read* view on 2026-11-19. Their details
     were checked against Europe PMC by hand that day. Fetching them at build time is not written;
   - "Open a file" reads 25 formats through `@biolibs/seqio`, by choosing a file or dropping one on

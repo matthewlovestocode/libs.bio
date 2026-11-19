@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Floating constructs</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: #16181d; color: #d7dce4;
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .lede { margin: 0 0 24px; color: #9aa3b2; max-width: 70ch; }
+  h2 { font-size: 15px; font-weight: 600; margin: 28px 0 2px; }
+  .note { margin: 0 0 10px; color: #9aa3b2; font-size: 13px; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+
+  /* The Bionet theme's own values, from @biolibs/bionet-theme. */
+  .stage[data-theme="dark"] {
+    --ground: #05070d; --surface: #0b1020; --field: #070b16; --ink: #e8fbff; --dim: #8aa0b8;
+    --rule: #1e293b; --yours: #22d3ee; --theirs: #a78bfa; --held: #fbbf24; --on-action: #05070d;
+    --grid: rgba(138,160,184,.10); --glow-a: rgba(34,211,238,.30); --glow-b: rgba(167,139,250,.26);
+  }
+  .stage[data-theme="light"] {
+    --ground: #f6f7f9; --surface: #ffffff; --field: #ffffff; --ink: #0b1020; --dim: #5b6472;
+    --rule: #dde1e7; --yours: #0891b2; --theirs: #7c3aed; --held: #b45309; --on-action: #ffffff;
+    --grid: rgba(11,16,32,.07); --glow-a: rgba(8,145,178,.26); --glow-b: rgba(124,58,237,.20);
+  }
+
+  /* Treatment 1: what the apps do today. Opaque fill, plain rule. */
+  .stage[data-treat="solid"] { --panel: var(--surface); --edge: var(--rule); --blur: none;
+    --inner: var(--field); --shine: none; --lift: none; --glow: 0; }
+
+  /* Treatment 2: a subtle frost. Mostly opaque, a light blur. */
+  .stage[data-theme="dark"][data-treat="frost"]  { --panel: rgba(11,16,32,.72); --edge: rgba(255,255,255,.09);
+    --inner: rgba(7,11,22,.55); }
+  .stage[data-theme="light"][data-treat="frost"] { --panel: rgba(255,255,255,.74); --edge: rgba(11,16,32,.09);
+    --inner: rgba(255,255,255,.6); }
+  .stage[data-treat="frost"] { --blur: blur(12px); --shine: none; --lift: 0 6px 24px rgba(0,0,0,.12); --glow: .55; }
+
+  /* Treatment 3: pronounced glass. The background clearly shows through. */
+  .stage[data-theme="dark"][data-treat="glass"]  { --panel: rgba(150,180,230,.09); --edge: rgba(255,255,255,.20);
+    --inner: rgba(5,7,13,.30); --shine: inset 0 1px 0 rgba(255,255,255,.22); --lift: 0 10px 40px rgba(0,0,0,.45); }
+  .stage[data-theme="light"][data-treat="glass"] { --panel: rgba(255,255,255,.36); --edge: rgba(255,255,255,.85);
+    --inner: rgba(255,255,255,.45); --shine: inset 0 1px 0 rgba(255,255,255,.9); --lift: 0 10px 36px rgba(11,16,32,.14); }
+  .stage[data-treat="glass"] { --blur: blur(22px) saturate(170%); --glow: 1; }
+
+  .stage { position: relative; overflow: hidden; border-radius: 14px; background: var(--ground); color: var(--ink);
+           padding: 18px; min-height: 470px; border: 1px solid rgba(128,128,128,.25); }
+  /* What sits behind the panels: the scene's grid, and a soft glow the solid treatment does not have. */
+  .stage::before { content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(420px 300px at 22% 34%, var(--glow-a), transparent 70%),
+      radial-gradient(380px 300px at 82% 70%, var(--glow-b), transparent 70%);
+    opacity: var(--glow); }
+  .stage::after { content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 34px 34px; }
+  .scene { position: absolute; left: 4%; top: 70px; width: 92%; height: 330px; z-index: 1; }
+  /* The drawing is one symbol, used six times. A rule has to match the symbol's own paths; the
+     colours still differ per stage because custom properties are inherited through <use>. */
+  #lab .y { stroke: var(--yours); } #lab .t { stroke: var(--theirs); } #lab .h { stroke: var(--held); }
+  #lab .r { stroke: var(--dim); opacity: .6; }
+  #lab path { fill: none; stroke-width: 1.4; }
+  .stage[data-theme="dark"] .scene { filter: drop-shadow(0 0 6px rgba(34,211,238,.55)); }
+
+  .top, .card { position: relative; z-index: 2; }
+  .top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 150px; }
+  .panel { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px;
+           -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); box-shadow: var(--shine), var(--lift); }
+  .chip { padding: 8px 14px; font-weight: 600; }
+  .find { padding: 8px 14px; width: 46%; color: var(--dim); }
+  .card { padding: 16px 18px; }
+  .card h3 { margin: 0; font-size: 17px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+  .offer { font-size: 13px; font-weight: 400; white-space: nowrap; }
+  .offer i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; background: var(--yours);
+             vertical-align: -2px; margin-right: 6px; }
+  .meta { margin: 2px 0 12px; color: var(--dim); font-size: 13px; }
+  .meta code, .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--edge); }
+  .amount { font-weight: 700; margin-right: auto; padding-left: 10px; }
+  .btn, .in { border: 1px solid var(--edge); background: var(--inner); border-radius: 8px; padding: 6px 12px; font-size: 14px; }
+  .in { color: var(--dim); min-width: 84px; }
+  .go { background: var(--yours); color: var(--on-action); border-color: transparent; font-weight: 600; }
+  .where { flex-basis: 100%; font-size: 13px; color: var(--dim); }
+  .where b { color: var(--theirs); font-weight: 600; }
+  /* Variant: nothing behind the glass but the scene itself. */
+  .stage[data-bg="flat"] { --glow: 0; }
+  /* Variant: controls inside a panel stay solid, so they stand out from the glass. */
+  .stage[data-controls="solid"] .btn:not(.go), .stage[data-controls="solid"] .in { background: var(--surface); border-color: var(--rule); }
+  .stage[data-controls="solid"] .find { background: var(--surface); border-color: var(--rule);
+    -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+  /* Variant: a slightly denser tint under text, to protect the small grey lines. */
+  .stage[data-theme="dark"][data-text="guard"]  { --panel: rgba(20,28,52,.42); --dim: #a9bbd0; }
+  .stage[data-theme="light"][data-text="guard"] { --panel: rgba(255,255,255,.58); --dim: #4a5361; }
+  /* This sheet: no lab scene. What is behind the glass is the lab's own constructs, or the mark. */
+  .stage[data-bg="constructs"], .stage[data-bg="empty"] { --glow: 0; }
+  .stage[data-bg="constructs"] .scene, .stage[data-bg="empty"] .scene, .stage:not([data-bg="scene"]) .top { visibility: hidden; }
+  .stage[data-theme="dark"]  { --neutral-a: rgba(138,160,184,.20); --neutral-b: rgba(30,41,59,.9); --float: .30; }
+  .stage[data-theme="light"] { --neutral-a: rgba(91,100,114,.16); --neutral-b: rgba(221,225,231,.9); --float: .26; }
+  .stage[data-bg="empty"]::before { opacity: 1; background:
+      radial-gradient(420px 300px at 24% 36%, var(--neutral-a), transparent 70%),
+      radial-gradient(380px 300px at 80% 72%, var(--neutral-b), transparent 70%); }
+  .float { position: absolute; z-index: 1; opacity: var(--float); overflow: visible; color: var(--yours);
+           animation: drift var(--t, 140s) ease-in-out infinite alternate; }
+  .stage[data-theme="dark"] .float { filter: drop-shadow(0 0 14px rgba(34,211,238,.35)); }
+  /* Each map is far larger than the stage, so only a stretch of its ring is ever in view. */
+  .f1 { width: 1500px; left: -980px; top: -520px; --t: 140s; --dx: 150px; --dy: 110px; --r: 16deg; }
+  .f2 { width: 1050px; right: -760px; top: 40px; --t: 170s; --dx: -120px; --dy: -80px; --r: -12deg; color: var(--held); }
+  .f3 { width: 820px; left: 22%; top: 360px; --t: 190s; --dx: 80px; --dy: -60px; --r: 10deg; }
+  .mark { width: 300px; left: calc(50% - 150px); top: 36px; --dx: 14px; --dy: 12px; --r: 0deg; --t: 40s;
+          color: var(--dim); opacity: .34; filter: none !important; }
+  @keyframes drift { to { transform: translate(var(--dx), var(--dy)) rotate(var(--r)); } }
+  @media (prefers-reduced-motion: reduce) { .float { animation: none; } }
+  .still .float { animation: none; }
+  /* Each drawing takes its colour from the element that uses it, so one can be amber: held, not offered. */
+  #pa *, #pb *, #pl *, #bm * { fill: none; stroke: currentColor; }
+  .controls { display: flex; gap: 10px; margin: 0 0 20px; }
+  .controls button { font: inherit; padding: 6px 14px; border-radius: 8px; border: 1px solid #3a4150; background: #20242c; color: inherit; cursor: pointer; }
+  /* The grid is drawn over the constructs, so it is never lost behind one. */
+  .stage::after { z-index: 1; }
+  .float { z-index: 0; }
+  /* How strong the constructs are. The first version was 30% in dark and 26% in light. */
+  .stage[data-strength="6"]  { --float: .06; }
+  .stage[data-strength="10"] { --float: .10; }
+  .stage[data-strength="16"] { --float: .16; }
+  .stage[data-bg="empty"] .mark { opacity: .12; }
+</style>
+</head>
+<body>
+<main>
+  <h1>What floats behind the glass</h1>
+  <p class="lede">Variant D of the glass, on a page with no lab scene. The drawings are sketches of plasmid maps, not output from the real map package.</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="lab" viewBox="0 0 560 330">
+      <path class="r" d="M40 110 250 20 540 60 500 250 300 320 70 230Z M40 110 70 230 M250 20 262 150 M262 150 70 230 M262 150 500 250"/>
+      <path class="y" d="M250 70 300 62 300 180 250 190Z M300 62 322 72 322 186 300 180 M250 70 272 80 322 72 M272 80 272 196 250 190 M272 196 322 186"/>
+      <path class="y" d="M335 92 380 86 380 190 335 198Z M380 86 398 94 398 196 380 190 M335 92 353 100 398 94 M353 100 353 204 335 198 M353 204 398 196"/>
+      <path class="t" d="M410 150 500 164 500 226 410 208Z M410 150 428 138 518 152 500 164 M518 152 518 212 500 226"/>
+      <path class="h" d="M262 100 276 98 276 110 262 112Z M262 100 268 96 282 94 276 98 M282 94 282 106 276 110"/>
+      <path class="y" d="M110 190 170 176 200 196 140 212Z M110 190 110 214 140 236 140 212 M140 236 200 220 200 196"/>
+    </symbol>
+    <symbol id="pa" viewBox="-125 -125 250 250">
+      <circle r="100" stroke-width="1.6"/>
+      <circle r="100" stroke-width="7" pathLength="100" stroke-dasharray="0.35 4.65" opacity=".55"/>
+      <circle r="100" stroke-width="11" pathLength="100" stroke-dasharray="19 81" stroke-dashoffset="-4" stroke-linecap="round" opacity=".9"/>
+      <circle r="100" stroke-width="11" pathLength="100" stroke-dasharray="8 92" stroke-dashoffset="-34" opacity=".6"/>
+      <circle r="84" stroke-width="7" pathLength="100" stroke-dasharray="27 73" stroke-dashoffset="-55" opacity=".75"/>
+      <path d="M0 -100V-116M71 71 82 82" stroke-width="1.6"/>
+    </symbol>
+    <symbol id="pb" viewBox="-125 -125 250 250">
+      <circle r="100" stroke-width="1.6"/>
+      <circle r="100" stroke-width="12" pathLength="100" stroke-dasharray="33 67" stroke-dashoffset="-10" opacity=".85"/>
+      <circle r="100" stroke-width="12" pathLength="100" stroke-dasharray="6 94" stroke-dashoffset="-62" opacity=".6"/>
+      <circle r="100" stroke-width="12" pathLength="100" stroke-dasharray="6 94" stroke-dashoffset="-72" opacity=".6"/>
+      <circle r="86" stroke-width="1.2" stroke-dasharray="3 5" opacity=".7"/>
+    </symbol>
+    <symbol id="pl" viewBox="0 0 250 60">
+      <path d="M6 24H244M6 36H244" stroke-width="1.6"/>
+      <path d="M6 24v12M244 24v12M30 18v24M60 18v24M90 18v24M120 18v24M150 18v24M180 18v24M210 18v24" stroke-width="1" opacity=".5"/>
+      <rect x="40" y="10" width="92" height="12" rx="2" stroke-width="1.6" opacity=".9"/>
+      <path d="M150 46H214l10 -5 -10 -5" stroke-width="1.6" opacity=".8"/>
+    </symbol>
+    <symbol id="bm" viewBox="0 0 713 881">
+      <g transform="translate(-3.5 0)" stroke-linecap="round" stroke-width="30">
+        <path d="M109.5 106L109.5 763M349.93 774.8A250.5 250.5 0 1 1 436.14 285.85M515.27 327.92A250.5 250.5 0 0 1 610.3 514.43"/>
+        <path d="M597.83 603.17A250.5 250.5 0 0 1 438.67 762.33"/>
+      </g>
+    </symbol>
+  </svg>
+
+  <div class="controls"><button id="motion" type="button">Stop the drift</button></div>
+
+  <h2>1. Constructs at 6%</h2>
+  <p class="note">The coloured lines from before, at about a fifth of their strength. The grid is drawn over them.</p>
+  <div class="pair" data-v='{"bg":"constructs","controls":"glass","text":"guard","strength":"6"}'></div>
+
+  <h2>2. Constructs at 10%</h2>
+  <p class="note">About a third of the earlier strength.</p>
+  <div class="pair" data-v='{"bg":"constructs","controls":"glass","text":"guard","strength":"10"}'></div>
+
+  <h2>3. Constructs at 16%</h2>
+  <p class="note">About half of the earlier strength.</p>
+  <div class="pair" data-v='{"bg":"constructs","controls":"glass","text":"guard","strength":"16"}'></div>
+
+  <h2>4. The earlier version, for comparison</h2>
+  <p class="note">30% in dark and 26% in light. This is the one that stood out too much.</p>
+  <div class="pair" data-v='{"bg":"constructs","controls":"glass","text":"guard"}'></div>
+
+  <h2>5. An empty lab</h2>
+  <p class="note">Nothing to draw yet, so the Bionet mark sits there in grey at 12%, over a neutral glow.</p>
+  <div class="pair" data-v='{"bg":"empty","controls":"glass","text":"guard"}'></div>
+</main>
+
+<template id="stage">
+  <svg class="scene" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#lab"/></svg>
+  <div class="top">
+    <div class="panel chip">The Wren Lab</div>
+    <div class="panel find">Find a part</div>
+  </div>
+  <div class="panel card">
+    <h3>pWren-402 <span class="offer"><i></i>On offer to other labs</span></h3>
+    <p class="meta">5048 bp · circular · <code>cdseguid=C6N5_xiFoaRCL8XsH…</code></p>
+    <div class="row">
+      <span class="id">1ee11019e5…</span><span class="amount">18 µL</span>
+      <span class="btn">−1</span><span class="btn">+1</span><span class="in">±</span><span class="btn go">Apply</span>
+      <span class="where">Main lab › −80 freezer › Shelf 1 › Plasmids · A1 · also held by <b>The Thistle Lab</b></span>
+    </div>
+  </div>
+</template>
+
+<script>
+  const template = document.getElementById("stage");
+  const floats = { constructs: [["pa", "f1"], ["pb", "f2"], ["pa", "f3"]], empty: [["bm", "mark"]] };
+  for (const pair of document.querySelectorAll(".pair")) {
+    const variant = JSON.parse(pair.dataset.v);
+    for (const theme of ["dark", "light"]) {
+      const stage = document.createElement("div");
+      stage.className = "stage";
+      Object.assign(stage.dataset, { theme, treat: "glass", ...variant });
+      stage.append(template.content.cloneNode(true));
+      for (const [symbol, place] of floats[variant.bg]) {
+        const drawing = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        drawing.setAttribute("class", `float ${place}`);
+        drawing.setAttribute("aria-hidden", "true");
+        // The symbol brings its own viewBox, so the drawing's box only needs its width and height.
+        const [, , wide, high] = document.getElementById(symbol).getAttribute("viewBox").split(" ");
+        drawing.setAttribute("viewBox", `0 0 ${wide} ${high}`);
+        drawing.innerHTML = `<use href="#${symbol}"/>`;
+        stage.prepend(drawing);
+      }
+      pair.append(stage);
+    }
+  }
+  const button = document.getElementById("motion");
+  button.addEventListener("click", () => {
+    const still = document.body.classList.toggle("still");
+    button.textContent = still ? "Start the drift" : "Stop the drift";
+  });
+</script>
+</body>
+</html>

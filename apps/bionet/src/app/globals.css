@@ -1,0 +1,55 @@
+/* Every colour here is one of @biolibs/bionet-theme's, which has a value for a light theme and a
+   dark one and follows the reader's setting. Nothing is written down twice. */
+:root {
+  --bg: var(--bionet-ground);
+  --surface: var(--bionet-surface);
+  --ink: var(--bionet-ink);
+  --muted: var(--bionet-dim);
+  --line: var(--bionet-rule);
+  --accent: var(--bionet-yours);
+  --grid: color-mix(in srgb, var(--bionet-dim) 10%, transparent);
+}
+
+* { box-sizing: border-box; }
+
+html { height: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg);
+  /* The grid both sites are drawn on. */
+  background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 34px 34px;
+  color: var(--ink);
+  font: 16px/1.6 var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); }
+
+.wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 16px; }
+
+.top { border-bottom: 1px solid var(--line); background: var(--bg); }
+.top .wrap { display: flex; align-items: center; gap: 20px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+.logo { display: flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 200; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+.logo svg { height: 34px; width: auto; }
+.logo .tld { color: var(--muted); }
+.top nav { margin-left: auto; display: flex; gap: 18px; font-size: 14px; flex-wrap: wrap; }
+
+main { flex: 1; padding: 56px 0 40px; }
+main h1 { margin: 0 0 14px; font-size: clamp(28px, 5vw, 38px); line-height: 1.2; font-weight: 600; letter-spacing: -0.015em; text-wrap: balance; }
+main p { margin: 0 0 14px; max-width: 62ch; }
+.lede { font-size: 18px; color: var(--muted); }
+
+.card { margin-top: 32px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.card h2 { margin: 0 0 8px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+.card ul { margin: 0; padding-left: 20px; }
+.card li { margin: 4px 0; }
+
+.status { display: inline-block; margin-bottom: 18px; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 99px; border: 1px solid var(--bionet-held); color: var(--bionet-held); }
+
+footer { border-top: 1px solid var(--line); background: var(--bg); color: var(--muted); font-size: 13px; }
+footer .wrap { padding-top: 16px; padding-bottom: 22px; }

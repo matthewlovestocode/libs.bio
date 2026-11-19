@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mark concepts</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: #16181d; color: #d7dce4;
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .lede { margin: 0 0 24px; color: #9aa3b2; max-width: 72ch; }
+  h2 { font-size: 15px; font-weight: 600; margin: 28px 0 2px; }
+  .note { margin: 0 0 10px; color: #9aa3b2; font-size: 13px; max-width: 80ch; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+  /* The Bionet theme's values, so the candidates sit in the same palette. */
+  .tile[data-theme="dark"]  { --ground: #05070d; --ink: #e8fbff; --dim: #8aa0b8; --a: #22d3ee; --b: #34d399; --theirs: #a78bfa; }
+  .tile[data-theme="light"] { --ground: #f6f7f9; --ink: #0b1020; --dim: #5b6472; --a: #0891b2; --b: #059669; --theirs: #7c3aed; }
+  .tile { background: var(--ground); color: var(--ink); border-radius: 14px; padding: 22px 24px;
+          border: 1px solid rgba(128,128,128,.25); display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .big { width: 132px; height: 132px; flex: none; }
+  .small { width: 28px; height: 28px; flex: none; }
+  .word { display: flex; align-items: center; gap: 2px; font-size: 40px; font-weight: 200; letter-spacing: -.01em; white-space: nowrap; }
+  .word svg { width: 46px; height: 46px; margin-right: 2px; }
+  .word .tld { color: var(--dim); }
+  .sizes { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--dim); }
+  .mk * { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 13; }
+  .mk .a { stroke: var(--a); } .mk .b { stroke: var(--b); } .mk .v { stroke: var(--theirs); }
+</style>
+</head>
+<body>
+<main>
+  <h1>A mark for libs.bio: four concepts</h1>
+  <p class="lede">Each is drawn in the same language as the Bionet mark: one thin line weight, round ends, cyan with a
+    single accent. The accent here is the theme's green, which already means "good", for libraries whose claim is
+    that they are verified. Each tile shows the mark large, at favicon size, and beside the name.</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bionet" viewBox="0 0 713 881">
+      <g transform="translate(-3.5 0)" fill="none" stroke-linecap="round" stroke-width="53">
+        <path style="stroke:var(--a)" d="M109.5 106L109.5 763M349.93 774.8A250.5 250.5 0 1 1 436.14 285.85M515.27 327.92A250.5 250.5 0 0 1 610.3 514.43"/>
+        <path style="stroke:var(--theirs)" d="M597.83 603.17A250.5 250.5 0 0 1 438.67 762.33"/>
+      </g>
+    </symbol>
+    <symbol id="m1" viewBox="0 0 200 200" class="mk">
+      <path class="a" d="M70 28V172"/>
+      <circle class="a" cx="128" cy="150" r="22" pathLength="100" stroke-dasharray="58 42" stroke-dashoffset="-8"/>
+      <circle class="b" cx="128" cy="150" r="22" pathLength="100" stroke-dasharray="20 80" stroke-dashoffset="-76"/>
+    </symbol>
+    <symbol id="m2" viewBox="0 0 200 200" class="mk">
+      <path class="a" d="M58 28V172"/>
+      <path class="a" d="M92 44H152M92 122H152M92 164H152"/>
+      <path class="b" d="M92 78H152"/>
+    </symbol>
+    <symbol id="m3" viewBox="0 0 200 200" class="mk">
+      <path class="a" d="M82 28V172M118 28V172"/>
+      <path class="a" d="M82 56H118M82 144H118"/>
+      <path class="b" d="M82 100H118"/>
+    </symbol>
+    <symbol id="m4" viewBox="0 0 200 200" class="mk">
+      <path class="a" d="M62 34A96 96 0 0 0 62 166M138 34A96 96 0 0 1 138 166"/>
+      <circle class="a" cx="100" cy="100" r="26" pathLength="100" stroke-dasharray="58 42" stroke-dashoffset="-8"/>
+      <circle class="b" cx="100" cy="100" r="26" pathLength="100" stroke-dasharray="20 80" stroke-dashoffset="-76"/>
+    </symbol>
+  </svg>
+
+  <h2>For reference: the Bionet mark</h2>
+  <p class="note">A lower-case b whose bowl is a plasmid in three arcs. Cyan is yours, violet is another lab's.</p>
+  <div class="pair" data-mark="bionet" data-name="bionet" data-tld=""></div>
+
+  <h2>1. The dot is a plasmid</h2>
+  <p class="note">A lower-case l and the dot from the name, drawn as a small plasmid. It is Bionet's b taken apart: the same stem, the same ring, set side by side.</p>
+  <div class="pair" data-mark="m1"></div>
+
+  <h2>2. The ladder</h2>
+  <p class="note">An l with the bands of a DNA ladder beside it, spaced unevenly as they are on a real gel. One band is the verified one.</p>
+  <div class="pair" data-mark="m2"></div>
+
+  <h2>3. The strand</h2>
+  <p class="note">An l drawn as a short stretch of double-stranded DNA: two strands and three rungs. Linear, where Bionet's is circular.</p>
+  <div class="pair" data-mark="m3"></div>
+
+  <h2>4. A call on a plasmid</h2>
+  <p class="note">A plasmid between brackets, as it would sit in a line of code. The most "library" of the four, and the least like a letter.</p>
+  <div class="pair" data-mark="m4"></div>
+</main>
+
+<script>
+  for (const pair of document.querySelectorAll(".pair")) {
+    const mark = pair.dataset.mark;
+    const box = document.getElementById(mark).getAttribute("viewBox").split(" ");
+    const draw = (cls) => `<svg class="${cls}" viewBox="0 0 ${box[2]} ${box[3]}" aria-hidden="true"><use href="#${mark}"/></svg>`;
+    const name = pair.dataset.name ?? "libs";
+    const tld = pair.dataset.tld ?? ".bio";
+    for (const theme of ["dark", "light"]) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.dataset.theme = theme;
+      tile.innerHTML = `${draw("big")}<div class="sizes">${draw("small")}28px</div>` +
+        `<div class="word">${draw("")}<span>${name}</span><span class="tld">${tld}</span></div>`;
+      pair.append(tile);
+    }
+  }
+</script>
+</body>
+</html>

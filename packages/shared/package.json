@@ -1,0 +1,11 @@
+{
+  "name": "@libsbio/shared",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "What libs.bio and bionet.libs.bio have in common: behaviour and content, not appearance.",
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": { "typecheck": "tsc --noEmit" },
+  "devDependencies": { "typescript": "^5" }
+}

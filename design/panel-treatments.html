@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel treatments</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: #16181d; color: #d7dce4;
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .lede { margin: 0 0 24px; color: #9aa3b2; max-width: 70ch; }
+  h2 { font-size: 15px; font-weight: 600; margin: 28px 0 2px; }
+  .note { margin: 0 0 10px; color: #9aa3b2; font-size: 13px; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+
+  /* The Bionet theme's own values, from @biolibs/bionet-theme. */
+  .stage[data-theme="dark"] {
+    --ground: #05070d; --surface: #0b1020; --field: #070b16; --ink: #e8fbff; --dim: #8aa0b8;
+    --rule: #1e293b; --yours: #22d3ee; --theirs: #a78bfa; --held: #fbbf24; --on-action: #05070d;
+    --grid: rgba(138,160,184,.10); --glow-a: rgba(34,211,238,.30); --glow-b: rgba(167,139,250,.26);
+  }
+  .stage[data-theme="light"] {
+    --ground: #f6f7f9; --surface: #ffffff; --field: #ffffff; --ink: #0b1020; --dim: #5b6472;
+    --rule: #dde1e7; --yours: #0891b2; --theirs: #7c3aed; --held: #b45309; --on-action: #ffffff;
+    --grid: rgba(11,16,32,.07); --glow-a: rgba(8,145,178,.26); --glow-b: rgba(124,58,237,.20);
+  }
+
+  /* Treatment 1: what the apps do today. Opaque fill, plain rule. */
+  .stage[data-treat="solid"] { --panel: var(--surface); --edge: var(--rule); --blur: none;
+    --inner: var(--field); --shine: none; --lift: none; --glow: 0; }
+
+  /* Treatment 2: a subtle frost. Mostly opaque, a light blur. */
+  .stage[data-theme="dark"][data-treat="frost"]  { --panel: rgba(11,16,32,.72); --edge: rgba(255,255,255,.09);
+    --inner: rgba(7,11,22,.55); }
+  .stage[data-theme="light"][data-treat="frost"] { --panel: rgba(255,255,255,.74); --edge: rgba(11,16,32,.09);
+    --inner: rgba(255,255,255,.6); }
+  .stage[data-treat="frost"] { --blur: blur(12px); --shine: none; --lift: 0 6px 24px rgba(0,0,0,.12); --glow: .55; }
+
+  /* Treatment 3: pronounced glass. The background clearly shows through. */
+  .stage[data-theme="dark"][data-treat="glass"]  { --panel: rgba(150,180,230,.09); --edge: rgba(255,255,255,.20);
+    --inner: rgba(5,7,13,.30); --shine: inset 0 1px 0 rgba(255,255,255,.22); --lift: 0 10px 40px rgba(0,0,0,.45); }
+  .stage[data-theme="light"][data-treat="glass"] { --panel: rgba(255,255,255,.36); --edge: rgba(255,255,255,.85);
+    --inner: rgba(255,255,255,.45); --shine: inset 0 1px 0 rgba(255,255,255,.9); --lift: 0 10px 36px rgba(11,16,32,.14); }
+  .stage[data-treat="glass"] { --blur: blur(22px) saturate(170%); --glow: 1; }
+
+  .stage { position: relative; overflow: hidden; border-radius: 14px; background: var(--ground); color: var(--ink);
+           padding: 18px; min-height: 470px; border: 1px solid rgba(128,128,128,.25); }
+  /* What sits behind the panels: the scene's grid, and a soft glow the solid treatment does not have. */
+  .stage::before { content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(420px 300px at 22% 34%, var(--glow-a), transparent 70%),
+      radial-gradient(380px 300px at 82% 70%, var(--glow-b), transparent 70%);
+    opacity: var(--glow); }
+  .stage::after { content: ""; position: absolute; inset: 0;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 34px 34px; }
+  .scene { position: absolute; left: 4%; top: 70px; width: 92%; height: 330px; z-index: 1; }
+  /* The drawing is one symbol, used six times. A rule has to match the symbol's own paths; the
+     colours still differ per stage because custom properties are inherited through <use>. */
+  #lab .y { stroke: var(--yours); } #lab .t { stroke: var(--theirs); } #lab .h { stroke: var(--held); }
+  #lab .r { stroke: var(--dim); opacity: .6; }
+  #lab path { fill: none; stroke-width: 1.4; }
+  .stage[data-theme="dark"] .scene { filter: drop-shadow(0 0 6px rgba(34,211,238,.55)); }
+
+  .top, .card { position: relative; z-index: 2; }
+  .top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 150px; }
+  .panel { background: var(--panel); border: 1px solid var(--edge); border-radius: 12px;
+           -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); box-shadow: var(--shine), var(--lift); }
+  .chip { padding: 8px 14px; font-weight: 600; }
+  .find { padding: 8px 14px; width: 46%; color: var(--dim); }
+  .card { padding: 16px 18px; }
+  .card h3 { margin: 0; font-size: 17px; font-weight: 700; display: flex; justify-content: space-between; gap: 8px; }
+  .offer { font-size: 13px; font-weight: 400; white-space: nowrap; }
+  .offer i { display: inline-block; width: 13px; height: 13px; border-radius: 3px; background: var(--yours);
+             vertical-align: -2px; margin-right: 6px; }
+  .meta { margin: 2px 0 12px; color: var(--dim); font-size: 13px; }
+  .meta code, .id { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+  .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; padding-top: 12px; border-top: 1px solid var(--edge); }
+  .amount { font-weight: 700; margin-right: auto; padding-left: 10px; }
+  .btn, .in { border: 1px solid var(--edge); background: var(--inner); border-radius: 8px; padding: 6px 12px; font-size: 14px; }
+  .in { color: var(--dim); min-width: 84px; }
+  .go { background: var(--yours); color: var(--on-action); border-color: transparent; font-weight: 600; }
+  .where { flex-basis: 100%; font-size: 13px; color: var(--dim); }
+  .where b { color: var(--theirs); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Bionet panels: three treatments</h1>
+  <p class="lede">One Freezer card and the Lab tab's floating controls, drawn over the lab scene. Colours are the
+    Bionet theme's own. Only the panel fill, edge and blur change between rows.</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="lab" viewBox="0 0 560 330">
+      <path class="r" d="M40 110 250 20 540 60 500 250 300 320 70 230Z M40 110 70 230 M250 20 262 150 M262 150 70 230 M262 150 500 250"/>
+      <path class="y" d="M250 70 300 62 300 180 250 190Z M300 62 322 72 322 186 300 180 M250 70 272 80 322 72 M272 80 272 196 250 190 M272 196 322 186"/>
+      <path class="y" d="M335 92 380 86 380 190 335 198Z M380 86 398 94 398 196 380 190 M335 92 353 100 398 94 M353 100 353 204 335 198 M353 204 398 196"/>
+      <path class="t" d="M410 150 500 164 500 226 410 208Z M410 150 428 138 518 152 500 164 M518 152 518 212 500 226"/>
+      <path class="h" d="M262 100 276 98 276 110 262 112Z M262 100 268 96 282 94 276 98 M282 94 282 106 276 110"/>
+      <path class="y" d="M110 190 170 176 200 196 140 212Z M110 190 110 214 140 236 140 212 M140 236 200 220 200 196"/>
+    </symbol>
+  </svg>
+
+  <h2>1. Solid, as today</h2>
+  <p class="note">Opaque fill and a plain border. Nothing behind the panel is visible.</p>
+  <div class="pair" id="solid"></div>
+
+  <h2>2. Subtle frost</h2>
+  <p class="note">About 72% opaque with a 12px blur. The scene reads as soft colour behind the panel.</p>
+  <div class="pair" id="frost"></div>
+
+  <h2>3. Pronounced glass</h2>
+  <p class="note">About 10% tint in dark and 36% in light, a 22px blur, a bright edge and a top highlight.</p>
+  <div class="pair" id="glass"></div>
+</main>
+
+<template id="stage">
+  <svg class="scene" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><use href="#lab"/></svg>
+  <div class="top">
+    <div class="panel chip">The Wren Lab</div>
+    <div class="panel find">Find a part</div>
+  </div>
+  <div class="panel card">
+    <h3>pWren-402 <span class="offer"><i></i>On offer to other labs</span></h3>
+    <p class="meta">5048 bp · circular · <code>cdseguid=C6N5_xiFoaRCL8XsH…</code></p>
+    <div class="row">
+      <span class="id">1ee11019e5…</span><span class="amount">18 µL</span>
+      <span class="btn">−1</span><span class="btn">+1</span><span class="in">±</span><span class="btn go">Apply</span>
+      <span class="where">Main lab › −80 freezer › Shelf 1 › Plasmids · A1 · also held by <b>The Thistle Lab</b></span>
+    </div>
+  </div>
+</template>
+
+<script>
+  const template = document.getElementById("stage");
+  for (const treat of ["solid", "frost", "glass"]) {
+    for (const theme of ["dark", "light"]) {
+      const stage = document.createElement("div");
+      stage.className = "stage";
+      stage.dataset.theme = theme;
+      stage.dataset.treat = treat;
+      stage.append(template.content.cloneNode(true));
+      document.getElementById(treat).append(stage);
+    }
+  }
+</script>
+</body>
+</html>

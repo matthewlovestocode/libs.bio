@@ -1,0 +1,17 @@
+{
+  "name": "libs.bio",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "description": "The web presence for biolibs and Bionet: libs.bio and bionet.libs.bio.",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev:libs": "npm run dev --workspace @libsbio/libs",
+    "dev:bionet": "npm run dev --workspace @libsbio/bionet",
+    "build": "npm run build --workspaces --if-present",
+    "build:libs": "npm run build --workspace @libsbio/libs",
+    "build:bionet": "npm run build --workspace @libsbio/bionet",
+    "typecheck": "npm run typecheck --workspaces --if-present"
+  },
+  "engines": { "node": ">=20" }
+}

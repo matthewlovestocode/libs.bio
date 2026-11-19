@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topic page mock-up</title>
+<style>
+  * { box-sizing: border-box; }
+  /* The Bionet theme's values, shared by both sites. */
+  .page[data-theme="dark"] {
+    --ground: #05070d; --surface: #0b1020; --field: #070b16; --ink: #e8fbff; --dim: #8aa0b8; --rule: #1e293b;
+    --a: #22d3ee; --good: #34d399; --held: #fbbf24; --action: #22d3ee; --on-action: #05070d;
+    --grid: rgba(138,160,184,.09); --code: #070b16;
+    --glass: rgba(20,28,52,.42); --glass-edge: rgba(255,255,255,.20); --glass-inner: rgba(5,7,13,.30);
+    --shine: inset 0 1px 0 rgba(255,255,255,.22); --lift: 0 10px 40px rgba(0,0,0,.45); --gel-ink: #a9bbd0;
+    --lane: rgba(5,7,13,.55); --band: #e8fbff; --bands: .22;
+  }
+  .page[data-theme="light"] {
+    --ground: #f6f7f9; --surface: #ffffff; --field: #ffffff; --ink: #0b1020; --dim: #5b6472; --rule: #dde1e7;
+    --a: #0891b2; --good: #059669; --held: #b45309; --action: #0e7490; --on-action: #ffffff;
+    --grid: rgba(11,16,32,.06); --code: #f1f3f6;
+    --glass: rgba(255,255,255,.58); --glass-edge: rgba(255,255,255,.85); --glass-inner: rgba(255,255,255,.45);
+    --shine: inset 0 1px 0 rgba(255,255,255,.9); --lift: 0 10px 36px rgba(11,16,32,.14); --gel-ink: #4a5361;
+    --lane: rgba(11,16,32,.82); --band: #e8fbff; --bands: .24;
+  }
+  body { margin: 0; }
+  .page { background: var(--ground); color: var(--ink); min-height: 100vh;
+          font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+  a { color: var(--a); }
+
+  header { border-bottom: 1px solid var(--rule); }
+  header .wrap { display: flex; align-items: center; gap: 22px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+  .logo { display: flex; align-items: center; gap: 4px; font-size: 26px; font-weight: 200; letter-spacing: -.01em; }
+  .logo svg { width: 34px; height: 34px; }
+  .logo .tld { color: var(--dim); }
+  nav { display: flex; gap: 18px; font-size: 14px; color: var(--dim); flex-wrap: wrap; }
+  nav b { color: var(--ink); font-weight: 600; }
+  .theme { margin-left: auto; font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 8px;
+           border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .mk * { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 12; }
+  .mk .a { stroke: var(--a); } .mk .b { stroke: var(--good); } .mk .f { stroke: var(--a); opacity: .28; }
+
+  .title { padding: 30px 0 14px; }
+  .title h1 { margin: 0 0 6px; font-size: 30px; font-weight: 600; letter-spacing: -.01em; }
+  .title p { margin: 0; color: var(--dim); max-width: 62ch; }
+  .pill { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 99px;
+          border: 1px solid var(--good); color: var(--good); vertical-align: 5px; margin-left: 10px; }
+  .views { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); margin-bottom: 22px; flex-wrap: wrap; }
+  .views a { padding: 9px 16px; text-decoration: none; color: var(--dim); font-weight: 600; border-bottom: 2px solid transparent; }
+  .views a.on { color: var(--ink); border-color: var(--a); }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--dim); margin: 34px 0 10px; font-weight: 600; }
+  .view[hidden] { display: none; }
+  h2 span { text-transform: none; letter-spacing: 0; font-weight: 400; margin-left: 8px; }
+
+  /* Do: the one place with glass, over the grid and drifting gel bands. */
+  .stage { position: relative; overflow: hidden; border-radius: 16px; border: 1px solid var(--rule); padding: 44px 38px 52px; }
+  .stage::after { content: ""; position: absolute; inset: 0; z-index: 1;
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 34px 34px; }
+  .bands { position: absolute; z-index: 0; left: -6%; top: -30%; width: 112%; height: 160%; opacity: var(--bands);
+           animation: run 150s linear infinite alternate; }
+  .bands rect { fill: var(--a); } .bands .g { fill: var(--good); }
+  @keyframes run { from { transform: translateY(-60px); } to { transform: translateY(90px); } }
+  @media (prefers-reduced-motion: reduce) { .bands { animation: none; } }
+  .tool { position: relative; z-index: 2; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .glass { background: var(--glass); border: 1px solid var(--glass-edge); border-radius: 14px; padding: 16px 18px;
+           -webkit-backdrop-filter: blur(22px) saturate(170%); backdrop-filter: blur(22px) saturate(170%);
+           box-shadow: var(--shine), var(--lift); }
+  .glass h3 { margin: 0 0 10px; font-size: 15px; font-weight: 600; }
+  .lab { font-size: 12px; color: var(--gel-ink); margin: 12px 0 5px; }
+  .in, .chip, .btn { border: 1px solid var(--glass-edge); background: var(--glass-inner); border-radius: 8px; }
+  .in { padding: 8px 11px; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--gel-ink); word-break: break-all; }
+  .chips { display: flex; gap: 7px; flex-wrap: wrap; }
+  .chip { padding: 4px 11px; font-size: 13px; }
+  .chip.on { border-color: var(--a); color: var(--a); }
+  .row { display: flex; gap: 9px; align-items: center; flex-wrap: wrap; margin-top: 16px; }
+  .btn { padding: 7px 14px; font-size: 14px; }
+  .go { background: var(--action); color: var(--on-action); border-color: transparent; font-weight: 600; }
+  .quiet { font-size: 12px; color: var(--gel-ink); margin: 12px 0 0; }
+  .result { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .gel { flex: none; width: 150px; height: 230px; border-radius: 8px; background: var(--lane); padding: 14px 16px; display: flex; gap: 18px; }
+  .lane { position: relative; flex: 1; }
+  .lane i { position: absolute; left: 0; right: 0; height: 4px; border-radius: 2px; background: var(--band); }
+  .lane.ladder i { opacity: .5; height: 3px; }
+  table { border-collapse: collapse; font-size: 13px; }
+  th { text-align: left; font-weight: 600; color: var(--gel-ink); padding: 0 14px 5px 0; font-size: 12px; }
+  td { padding: 4px 14px 4px 0; border-top: 1px solid var(--glass-edge); }
+  td.n { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+  /* Code, Understand, Read: flat. Nothing moves behind them. */
+  .flat { background: var(--surface); border: 1px solid var(--rule); border-radius: 12px; padding: 18px 20px; }
+  pre { margin: 0; background: var(--code); border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; overflow-x: auto;
+        font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  pre .k { color: var(--a); } pre .c { color: var(--dim); }
+  .after { margin: 12px 0 0; font-size: 14px; color: var(--dim); }
+  .prose { max-width: 66ch; } .prose p { margin: 0 0 12px; }
+  .term { border-bottom: 1px dashed var(--a); cursor: help; }
+  .paper { display: flex; gap: 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--rule); flex-wrap: wrap; }
+  .paper:first-child { border-top: 0; padding-top: 0; }
+  .paper .t { font-weight: 600; } .paper .m { color: var(--dim); font-size: 14px; flex-basis: 100%; }
+  .tag { font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 99px; border: 1px solid currentColor; white-space: nowrap; }
+  .open { color: var(--good); } .closed { color: var(--held); }
+  footer { color: var(--dim); font-size: 13px; padding: 34px 0 44px; }
+</style>
+</head>
+<body>
+<div class="page" data-theme="dark" id="page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="mark" viewBox="0 0 200 200" class="mk">
+      <path class="f" d="M124 28V102M76 44H124M76 73H124"/>
+      <path class="b" d="M76 131H124"/>
+      <path class="a" d="M76 28V160H124V102H76"/>
+    </symbol>
+  </svg>
+
+  <header><div class="wrap">
+    <div class="logo"><svg viewBox="0 0 200 200" aria-hidden="true"><use href="#mark"/></svg><span>libs</span><span class="tld">.bio</span></div>
+    <nav><b>Topics</b><span>Glossary</span><span>API reference</span><span>Parity</span><span>Bionet ↗</span></nav>
+    <button class="theme" id="theme" type="button">Light theme</button>
+  </div></header>
+
+  <div class="wrap">
+    <div class="title">
+      <h1>Restriction digests and gels <span class="pill">Stable</span></h1>
+      <p>Cut a sequence with restriction enzymes and see the pieces on a gel. Runs in your browser; nothing is uploaded.</p>
+    </div>
+    <div class="views"><a class="on" href="#do" data-view="do">Do</a><a href="#code" data-view="code">Code</a><a href="#understand" data-view="understand">Understand</a><a href="#read" data-view="read">Read</a></div>
+
+    <section class="view" id="do">
+    <div class="stage">
+      <svg class="bands" viewBox="0 0 1200 800" preserveAspectRatio="none" aria-hidden="true">
+        <rect x="40" y="60" width="250" height="26" rx="13"/><rect x="40" y="210" width="250" height="18" rx="9"/>
+        <rect x="40" y="330" width="250" height="34" rx="17"/><rect x="40" y="560" width="250" height="16" rx="8"/>
+        <rect x="340" y="130" width="250" height="30" rx="15"/><rect class="g" x="340" y="420" width="250" height="22" rx="11"/>
+        <rect x="340" y="650" width="250" height="18" rx="9"/>
+        <rect x="640" y="40" width="250" height="18" rx="9"/><rect x="640" y="260" width="250" height="36" rx="18"/>
+        <rect x="640" y="500" width="250" height="20" rx="10"/><rect x="640" y="720" width="250" height="26" rx="13"/>
+        <rect x="940" y="170" width="250" height="24" rx="12"/><rect x="940" y="380" width="250" height="16" rx="8"/>
+        <rect x="940" y="600" width="250" height="32" rx="16"/>
+      </svg>
+      <div class="tool">
+        <div class="glass">
+          <h3>Sequence and enzymes</h3>
+          <div class="lab">Sequence · sample plasmid loaded, 5,048 bp, circular</div>
+          <div class="in">GAATTCGAGCTCGGTACCCGGGGATCCTCTAGAGTCGACCTGCAGGCATGCAAGCTTGGC…</div>
+          <div class="lab">Enzymes</div>
+          <div class="chips"><span class="chip on">EcoRI</span><span class="chip on">BamHI</span><span class="chip">HindIII</span><span class="chip">XbaI</span><span class="chip">+ 1,084 more</span></div>
+          <div class="row"><span class="btn go">Digest</span><span class="btn">Open a file</span><span class="btn">Copy link</span></div>
+          <p class="quiet">A link carries your sequence. It is made only when you ask for one.</p>
+        </div>
+        <div class="glass">
+          <h3>Three fragments</h3>
+          <div class="result">
+            <div class="gel" aria-label="A gel with a ladder lane and a digest lane">
+              <div class="lane ladder"><i style="top:4%"></i><i style="top:14%"></i><i style="top:25%"></i><i style="top:37%"></i><i style="top:50%"></i><i style="top:64%"></i><i style="top:79%"></i><i style="top:94%"></i></div>
+              <div class="lane"><i style="top:22%"></i><i style="top:46%"></i><i style="top:74%"></i></div>
+            </div>
+            <table>
+              <tr><th>Length</th><th>Ends</th></tr>
+              <tr><td class="n">3,120 bp</td><td>EcoRI · BamHI</td></tr>
+              <tr><td class="n">1,410 bp</td><td>BamHI · EcoRI</td></tr>
+              <tr><td class="n">518 bp</td><td>EcoRI · EcoRI</td></tr>
+            </table>
+          </div>
+          <p class="quiet">1% agarose, 1 kb ladder. Sample numbers, made up for this drawing.</p>
+        </div>
+      </div>
+    </div>
+
+    </section>
+
+    <section class="view" id="code">
+    <div class="flat">
+<pre><span class="k">import</span> { EcoRI, BamHI, RestrictionBatch } <span class="k">from</span> "@biolibs/restriction";
+<span class="k">import</span> { bandPosition, gelById } <span class="k">from</span> "@biolibs/gel";
+
+<span class="c">// The calls the tool in the Do view just made, with your sequence in place of `plasmid`.</span>
+<span class="k">const</span> fragments = <span class="k">new</span> RestrictionBatch([EcoRI, BamHI]).catalyse(plasmid, { linear: <span class="k">false</span> });
+<span class="k">const</span> gel = gelById("1.0");
+fragments.map((piece) => bandPosition(piece.length, gel));</pre>
+      <p class="after">A sketch for this drawing, not checked against the packages. <a href="#code">API reference for @biolibs/restriction →</a> · 491 of 491 items verified against Biopython</p>
+    </div>
+
+    </section>
+
+    <section class="view" id="understand">
+    <div class="flat prose">
+      <p>A <span class="term">restriction enzyme</span> is a protein that cuts DNA wherever it finds one short pattern of letters. EcoRI looks for GAATTC and cuts between the G and the first A, on both strands, leaving a short single-stranded <span class="term">overhang</span>.</p>
+      <p>On a <span class="term">gel</span>, the pieces are pulled through a mesh by a current. Short pieces slip through faster, so they travel further. A <span class="term">ladder</span> of known lengths runs beside them, and you read a piece's length by seeing which rungs it sits between.</p>
+    </div>
+
+    </section>
+
+    <section class="view" id="read">
+    <div class="flat">
+      <div class="paper"><span class="t">The original method paper for this topic</span><span class="tag open">Open access</span><span class="m">Authors · Journal · Year · chosen by hand, details fetched from Europe PMC</span></div>
+      <div class="paper"><span class="t">A good review for newcomers</span><span class="tag open">Open access</span><span class="m">Authors · Journal · Year</span></div>
+      <div class="paper"><span class="t">A paper that is behind a paywall</span><span class="tag closed">Paywalled</span><span class="m">Authors · Journal · Year · marked, so nobody clicks through to a locked page</span></div>
+    </div>
+
+    </section>
+
+    <footer>Code MIT · Content CC BY 4.0 · No accounts, no tracking · Mock-up: the papers and numbers are placeholders</footer>
+  </div>
+</div>
+<script>
+  const page = document.getElementById("page");
+  const button = document.getElementById("theme");
+  const set = (theme) => { page.dataset.theme = theme; button.textContent = theme === "dark" ? "Light theme" : "Dark theme"; };
+  // One view at a time, behind the tabs.
+  const tabs = [...document.querySelectorAll(".views a")];
+  const show = (name) => {
+    for (const view of document.querySelectorAll(".view")) view.hidden = view.id !== name;
+    for (const tab of tabs) tab.classList.toggle("on", tab.dataset.view === name);
+  };
+  for (const tab of tabs) tab.addEventListener("click", (event) => { event.preventDefault(); show(tab.dataset.view); });
+  show("do");
+  button.addEventListener("click", () => set(page.dataset.theme === "dark" ? "light" : "dark"));
+</script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A b within the ladder</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 16px 48px; background: #16181d; color: #d7dce4;
+         font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 4px; }
+  .lede { margin: 0 0 24px; color: #9aa3b2; max-width: 72ch; }
+  h2 { font-size: 15px; font-weight: 600; margin: 28px 0 2px; }
+  .note { margin: 0 0 10px; color: #9aa3b2; font-size: 13px; max-width: 80ch; }
+  .pair { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+
+  /* The Bionet theme's values, so the candidates sit in the same palette. */
+  .tile[data-theme="dark"]  { --ground: #05070d; --ink: #e8fbff; --dim: #8aa0b8; --a: #22d3ee; --b: #34d399; --theirs: #a78bfa; }
+  .tile[data-theme="light"] { --ground: #f6f7f9; --ink: #0b1020; --dim: #5b6472; --a: #0891b2; --b: #059669; --theirs: #7c3aed; }
+  .tile { background: var(--ground); color: var(--ink); border-radius: 14px; padding: 22px 24px;
+          border: 1px solid rgba(128,128,128,.25); display: flex; align-items: center; gap: 22px; flex-wrap: wrap; }
+  .big { width: 132px; height: 132px; flex: none; }
+  .small { width: 28px; height: 28px; flex: none; }
+  .word { display: flex; align-items: center; gap: 2px; font-size: 40px; font-weight: 200; letter-spacing: -.01em; white-space: nowrap; }
+  .word svg { width: 46px; height: 46px; margin-right: 2px; }
+  .word .tld { color: var(--dim); }
+  .sizes { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 11px; color: var(--dim); }
+  .mk * { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-width: 12; }
+  .mk .d { stroke: var(--dim); opacity: .42; } .mk .f { stroke: var(--a); opacity: .28; }
+  .mk .a { stroke: var(--a); } .mk .b { stroke: var(--b); } .mk .v { stroke: var(--theirs); }
+</style>
+</head>
+<body>
+<main>
+  <h1>A b within the ladder</h1>
+  <p class="lede">The ladder is drawn whole, and the b is traced inside it from the ladder's own rails and rungs. Nothing is added outside the ladder.</p>
+
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="bionet" viewBox="0 0 713 881">
+      <g transform="translate(-3.5 0)" fill="none" stroke-linecap="round" stroke-width="53">
+        <path style="stroke:var(--a)" d="M109.5 106L109.5 763M349.93 774.8A250.5 250.5 0 1 1 436.14 285.85M515.27 327.92A250.5 250.5 0 0 1 610.3 514.43"/>
+        <path style="stroke:var(--theirs)" d="M597.83 603.17A250.5 250.5 0 0 1 438.67 762.33"/>
+      </g>
+    </symbol>
+    <symbol id="w1" viewBox="0 0 200 200" class="mk">
+      <path class="d" d="M130 28V88M70 52H130M70 124H130"/>
+      <path class="a" d="M70 28V160H130V88H70"/>
+    </symbol>
+    <symbol id="w2" viewBox="0 0 200 200" class="mk">
+      <path class="f" d="M130 28V88M70 52H130"/>
+      <path class="b" d="M70 124H130"/>
+      <path class="a" d="M70 28V160H130V88H70"/>
+    </symbol>
+    <symbol id="w3" viewBox="0 0 200 200" class="mk">
+      <path class="d" d="M130 28V106M70 52H130M70 124H130"/>
+      <path class="a" d="M70 28V160H110A20 20 0 0 0 130 140V108A20 20 0 0 0 110 88H70"/>
+    </symbol>
+    <symbol id="w4" viewBox="0 0 200 200" class="mk">
+      <path class="f" d="M124 28V102M76 44H124M76 73H124"/>
+      <path class="b" d="M76 131H124"/>
+      <path class="a" d="M76 28V160H124V102H76"/>
+    </symbol>
+    <symbol id="w5" viewBox="0 0 200 200" class="mk">
+      <path class="a" d="M70 28V160H130V88H70"/>
+      <path class="b" d="M70 124H130"/>
+    </symbol>
+  </svg>
+
+  <h2>For reference: the Bionet mark</h2>
+  <p class="note">A lower-case b whose bowl is a plasmid in three arcs. Cyan is yours, violet is another lab's.</p>
+  <div class="pair" data-mark="bionet" data-name="bionet" data-tld=""></div>
+
+  <h2>A. The b in cyan, the rest of the ladder in grey</h2>
+  <p class="note">A ladder of two rails and four rungs. The b is the left rail, the lower half of the right rail and the two rungs that close the bowl. Everything else stays, faintly.</p>
+  <div class="pair" data-mark="w1"></div>
+
+  <h2>B. The rest in faint cyan, and a green rung inside the bowl</h2>
+  <p class="note">The same b. The remaining ladder is the same cyan at about a quarter strength, and the rung inside the bowl is the verified one.</p>
+  <div class="pair" data-mark="w2"></div>
+
+  <h2>C. A rounded bowl</h2>
+  <p class="note">As A, with the bowl's two right-hand corners rounded so it reads more as a letter and less as a display digit.</p>
+  <div class="pair" data-mark="w3"></div>
+
+  <h2>D. A taller ladder</h2>
+  <p class="note">Narrower, with five rungs, so more ladder shows above the bowl. Faint cyan and a green rung, as B.</p>
+  <div class="pair" data-mark="w4"></div>
+
+  <h2>E. Only the b, with its one inner rung</h2>
+  <p class="note">The rest of the ladder is left out. What remains is still built only from rails and rungs.</p>
+  <div class="pair" data-mark="w5"></div>
+</main>
+
+<script>
+  for (const pair of document.querySelectorAll(".pair")) {
+    const mark = pair.dataset.mark;
+    const box = document.getElementById(mark).getAttribute("viewBox").split(" ");
+    const draw = (cls) => `<svg class="${cls}" viewBox="0 0 ${box[2]} ${box[3]}" aria-hidden="true"><use href="#${mark}"/></svg>`;
+    const name = pair.dataset.name ?? "libs";
+    const tld = pair.dataset.tld ?? ".bio";
+    for (const theme of ["dark", "light"]) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.dataset.theme = theme;
+      tile.innerHTML = `${draw("big")}<div class="sizes">${draw("small")}28px</div>` +
+        `<div class="word">${draw("")}<span>${name}</span><span class="tld">${tld}</span></div>`;
+      pair.append(tile);
+    }
+  }
+</script>
+</body>
+</html>

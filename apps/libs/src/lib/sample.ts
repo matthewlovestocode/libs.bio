@@ -196,3 +196,27 @@ export function sampleReads(): string {
   }
   return `${lines.join("\n")}\n`;
 }
+
+/**
+ * Two versions of the same short stretch, as two isolates of the same organism might give: the
+ * sample plasmid's bases 401 to 700, and a copy with a few bases changed and three taken out.
+ *
+ * It is made up, but it is the shape of the real thing: mostly identical, with scattered
+ * substitutions and one small deletion, which is what an alignment is for.
+ *
+ * @returns The two sequences and what to call them.
+ */
+export function sampleRelatives(): { name: string; dna: string }[] {
+  const original = samplePlasmid().slice(400, 700);
+  const next = seeded(123);
+  let changed = [...original];
+  // A dozen single-base changes, scattered.
+  for (let made = 0; made < 12; made += 1) {
+    const at = Math.floor(next() * changed.length);
+    const others = ["A", "C", "G", "T"].filter((base) => base !== changed[at]);
+    changed[at] = others[Math.floor(next() * 3)];
+  }
+  // And one short deletion, a third of the way along.
+  changed = [...changed.slice(0, 96), ...changed.slice(99)];
+  return [{ name: "isolate A", dna: original }, { name: "isolate B", dna: changed.join("") }];
+}

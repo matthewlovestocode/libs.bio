@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@biolibs/align": "^1.0.0",
     "@biolibs/bionet-theme": "^0.1.0",
     "@biolibs/cloning": "^1.0.1",
     "@biolibs/core": "^1.2.0",

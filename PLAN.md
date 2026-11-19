@@ -289,6 +289,26 @@ each topic is built.
     checked on Europe PMC that day. One of the five is paywalled;
   - an open reading frame is a candidate, not a gene: nothing here looks for a promoter, a ribosome
     binding site or introns, and the page says so.
+- **Alignment**, the seventh topic, is built on the `alignment` branch and **not yet live**. It does
+  the two halves of the subject separately:
+  - **two sequences**: a pairwise alignment with the scoring in the visitor's hands — end to end or
+    best stretch, a match and mismatch score or any of the 30 substitution matrices, and separate
+    costs for opening a gap and extending one. The result is written in blocks of 50 columns with a
+    bar, a dot or a space between the two lines, and positions that stop agreeing after a gap,
+    which is the point made visible;
+  - **an alignment file**: Clustal, Stockholm, NEXUS, PHYLIP, MSF or aligned FASTA, read with the
+    gaps kept, with a star under every column all the sequences agree on. Nothing is aligned here,
+    and the page says so: multiple alignment is a heuristic that needs Clustal or MUSCLE, and a
+    browser tab cannot run one;
+  - the sample is two made-up isolates of one 300 bp stretch: twelve substitutions and a three-base
+    deletion, which align at 96.0% with one optimal alignment. The deletion is visible in the
+    second block on the Code view;
+  - the counting is the library's own `counts()`, not characters counted here. Percent identity is
+    matches over aligned letter pairs, and the lesson says so, since the figure means nothing
+    without knowing what it was divided by;
+  - `align` joined the API reference, making twelve packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Three of the five are paywalled.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

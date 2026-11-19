@@ -1145,5 +1145,10 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "genetic-code": return <TermDiagram slug="genetic-code" />;
     case "strand-direction": return <TermDiagram slug="strand-direction" />;
     case "gc-content": return <TermDiagram slug="gc-content" />;
+    case "gap": return <TermDiagram slug="gap" />;
+    case "identity-and-similarity": return <TermDiagram slug="identity-and-similarity" />;
+    case "homology": return <TermDiagram slug="homology" />;
+    case "alignment": return <TermDiagram slug="alignment" />;
+    case "substitution-matrix": return <TermDiagram slug="substitution-matrix" />;
   }
 }

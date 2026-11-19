@@ -23,10 +23,21 @@ const cuts = ["EcoRI", "BamHI"]
 const sizes = fragmentSizes(plasmid.length, "circular", cuts);
 const bands = bandsOf(sizes, gelById("1.0"));    // a 1% agarose gel`;
 
+/** Reading the sequence out of a file, which is what "Open a file" does. */
+const READING = `import { parse } from "@biolibs/seqio";
+
+// A text format takes the file's text, and a binary one, like SnapGene's, takes its bytes.
+const bytes = new Uint8Array(await file.arrayBuffer());
+const [record] = parse(bytes, "snapgene");       // or parse(text, "genbank"), "embl", "fasta" ...
+
+const plasmid = record.seq.toString().toUpperCase();
+const circular = record.annotations.get("topology") === "circular";`;
+
 const PACKAGES = [
   { name: "restriction", note: text.code.restriction },
   { name: "gel", note: text.code.gel },
   { name: "seq", note: text.code.seq },
+  { name: "seqio", note: text.code.seqio },
 ] as const;
 
 /** Code: the calls the tool makes, with what they give, worked out when the page is built. */
@@ -45,6 +56,9 @@ export default function Code() {
       <pre><code>{SOURCE}</code></pre>
       <h3>{text.code.output}</h3>
       <pre><code>{output}</code></pre>
+      <h3>{text.code.reading}</h3>
+      <p>{text.code.readingIntro}</p>
+      <pre><code>{READING}</code></pre>
       <h3>{text.code.packages}</h3>
       <ul className="packages">
         {PACKAGES.map((one) => (
@@ -55,7 +69,7 @@ export default function Code() {
         ))}
       </ul>
       <h3>{text.code.install}</h3>
-      <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel</code></pre>
+      <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio</code></pre>
       <p className="quiet">{text.code.reference}</p>
     </div>
   );

@@ -13,6 +13,7 @@
     "@biolibs/gel": "^1.0.1",
     "@biolibs/restriction": "^1.0.0",
     "@biolibs/seq": "^1.0.0",
+    "@biolibs/seqio": "^1.1.2",
     "@libsbio/shared": "*",
     "next": "16.4.6",
     "react": "19.3.0",

@@ -157,7 +157,11 @@ each topic is built.
   page of its own so it can be linked to. Before it goes to `main`:
   - Matthew chose all five shortlisted papers for the *Read* view on 2026-11-19. Their details
     were checked against Europe PMC by hand that day. Fetching them at build time is not written;
-  - "Open a file" takes FASTA or plain text only. GenBank and SnapGene need `@biolibs/seqio`;
+  - "Open a file" reads 25 formats through `@biolibs/seqio`, by choosing a file or dropping one on
+    the tool: SnapGene, GenBank, EMBL, FASTA, FASTQ, Sanger traces, Gene Construction Kit, DNA
+    Strider and the alignment formats among them, with plain text as the fallback. A file that says
+    whether it is circular sets the tool's switch. It was tested with small files built from the
+    libraries' own recorded test cases, not with files exported from the real programs;
   - the mark in the header is still the sketch from the mock-up;
   - the *Code* view links to each package's README, as planned until step 4.
 

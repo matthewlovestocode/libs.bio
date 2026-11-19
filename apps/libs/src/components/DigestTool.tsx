@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GELS } from "@biolibs/gel";
 import { ALL_ENZYME_NAMES, COMMON_ENZYMES, cleanSequence, digest, notDna } from "@/lib/digest.ts";
+import { ACCEPT, MOST_RECORDS, type OpenedFile, readSequenceFile } from "@/lib/files.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { messages } from "@/messages/index.ts";
 import { Gel } from "./Gel.tsx";
@@ -37,6 +38,9 @@ export function DigestTool() {
   const [adding, setAdding] = useState("");
   const [problem, setProblem] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [opened, setOpened] = useState<OpenedFile | null>(null);
+  const [record, setRecord] = useState(0);
+  const [over, setOver] = useState(false);
   const file = useRef<HTMLInputElement>(null);
 
   // A link somebody was sent is read once, after the page is up, so the first paint is the same
@@ -63,7 +67,22 @@ export function DigestTool() {
     setProblem(null); setAdding("");
     setChosen((now) => (now.includes(name) ? now : [...now, name]));
   };
-  const open = async (picked: File | undefined) => { if (picked !== undefined) setInput(await picked.text()); };
+  /** Put one of a file's sequences into the tool, with its shape when the file says what that is. */
+  const use = (from: OpenedFile, index: number) => {
+    const one = from.records[index];
+    setRecord(index); setInput(one.sequence);
+    if (one.circular !== null) setCircular(one.circular);
+  };
+  const open = async (picked: File | undefined) => {
+    if (picked === undefined) return;
+    try {
+      const read = await readSequenceFile(picked.name, new Uint8Array(await picked.arrayBuffer()));
+      setProblem(null); setOpened(read); use(read, 0);
+    } catch (error) {
+      setOpened(null);
+      setProblem(`${text.cannotRead(picked.name)} ${error instanceof Error ? error.message : String(error)}`);
+    }
+  };
   const copy = async () => {
     if (dna.length > LONGEST_LINK) return setProblem(text.tooLong);
     const carry = new URLSearchParams({ s: dna, e: chosen.join(","), c: circular ? "1" : "0", g: gel });
@@ -73,10 +92,26 @@ export function DigestTool() {
 
   return (
     <div className="tool">
-      <section className="glass">
+      <section className={`glass${over ? " over" : ""}`}
+               onDragOver={(event) => { event.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
+               onDrop={(event) => { event.preventDefault(); setOver(false); void open(event.dataTransfer.files[0]); }}>
         <h2>{text.inputHeading}</h2>
         <label className="field" htmlFor="sequence">{text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
-        <textarea id="sequence" className="in sequence" value={input} onChange={(event) => setInput(event.target.value)} spellCheck={false} rows={4} />
+        <textarea id="sequence" className="in sequence" value={input} onChange={(event) => { setInput(event.target.value); setOpened(null); }} spellCheck={false} rows={4} />
+        {opened === null ? null : (
+          <p className="opened">
+            {text.openedAs(opened.fileName, opened.format?.label ?? text.plainText)}
+            {opened.records.length > 1 ? (
+              <>
+                {" "}<label htmlFor="record">{text.whichRecord(opened.total)}</label>{" "}
+                <select id="record" className="in" value={record} onChange={(event) => use(opened, Number(event.target.value))}>
+                  {opened.records.map((one, index) => <option key={index} value={index}>{one.name} ({number(one.sequence.length)} {text.length})</option>)}
+                </select>
+                {opened.total > opened.records.length ? <> {text.firstOnly(MOST_RECORDS)}</> : null}
+              </>
+            ) : null}
+          </p>
+        )}
         {wrong.length > 0 ? <p className="problem" role="alert">{text.notDna} {wrong.join(" ")}</p> : null}
         {dna.length === 0 ? <p className="quiet">{text.empty}</p> : null}
         <label className="check"><input type="checkbox" checked={circular} onChange={(event) => setCircular(event.target.checked)} /> {text.circular} <span className="quiet">{text.circularNote}</span></label>
@@ -96,8 +131,8 @@ export function DigestTool() {
 
         <div className="row">
           <button type="button" className="btn" onClick={() => file.current?.click()}>{text.openFile}</button>
-          <input ref={file} type="file" accept=".fa,.fasta,.fna,.txt,.seq,text/plain" hidden onChange={(event) => { void open(event.target.files?.[0]); event.target.value = ""; }} />
-          <button type="button" className="btn" onClick={() => setInput(samplePlasmid())}>{text.loadSample}</button>
+          <input ref={file} type="file" accept={ACCEPT} hidden onChange={(event) => { void open(event.target.files?.[0]); event.target.value = ""; }} />
+          <button type="button" className="btn" onClick={() => { setInput(samplePlasmid()); setOpened(null); setCircular(true); }}>{text.loadSample}</button>
           <button type="button" className="btn" onClick={() => void copy()} disabled={result === null}>{copied ? text.copied : text.copyLink}</button>
         </div>
         {problem !== null ? <p className="problem" role="alert">{problem}</p> : null}
@@ -105,7 +140,7 @@ export function DigestTool() {
       </section>
 
       <section className="glass" aria-live="polite">
-        {result === null ? <h2>{text.resultHeading(0)}</h2> : (
+        {result === null ? <><h2>{text.noResult}</h2><p className="quiet">{text.noResultNote}</p></> : (
           <>
             <h2>{text.resultHeading(result.fragments.length)}</h2>
             {result.enzymes.every((one) => one.cuts.length === 0) ? <p className="quiet">{text.noCuts}</p> : null}

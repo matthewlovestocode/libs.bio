@@ -157,6 +157,9 @@ code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 
 .in { padding: 7px 10px; font-size: 14px; max-width: 100%; }
 .in.sequence { display: block; width: 100%; resize: vertical; font: 12px/1.5 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; }
 .in.grow { flex: 1; min-width: 0; }
+.opened { margin: 8px 0 0; font-size: 13px; }
+.opened .in { padding: 3px 8px; font-size: 13px; }
+.glass.over { outline: 2px dashed var(--bionet-yours); outline-offset: -6px; }
 .check { display: block; margin-top: 10px; font-size: 14px; }
 .check .quiet { display: block; margin: 2px 0 0 22px; }
 .chips { display: flex; gap: 7px; flex-wrap: wrap; }

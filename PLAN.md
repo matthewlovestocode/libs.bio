@@ -355,8 +355,8 @@ each topic is built.
     library asks an atom for its coordinates, so it silently returned nothing. It now parses the
     file and uses the real atoms;
   - `pdb` joined the API reference, making fourteen packages;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. Three of the five are paywalled;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. Three of the five are paywalled;
   - there is **no 3D viewer**. The two plots are what a page can do honestly; a viewer is a different
     kind of program.
 - What topics share was split out while building it, so a third costs less: where a sequence comes

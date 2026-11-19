@@ -53,19 +53,27 @@ Each item is marked:
 
 - The registration stays at IONOS. **DNS is managed at Cloudflare**, by changing the nameservers at
   IONOS once.
-- **libs.bio is hosted on Cloudflare Pages**, which gives a preview of each branch before it goes
-  live. Cloudflare's optional analytics stay off, to keep the "no tracking" commitment.
-- **bionet.libs.bio is also fully static, on Cloudflare Pages.** Nothing decided for it needs a
-  server: `@biolibs/bionet-demo` opens its lab on a key held in memory and makes no network requests.
+- **Both sites are hosted on Cloudflare Workers, each as a Worker that holds only files.** The plan
+  first said Cloudflare Pages. It was changed on 2026-11-19, before anything was created there,
+  because Cloudflare's documentation now says to start new projects with Workers. Workers gives
+  what Pages was chosen for: a build on every push, a preview of each branch, and the bare domain.
+- Branch previews are public: anyone with the address can see a branch's site.
+- Cloudflare's optional analytics stay off, and its command-line tool is told not to report usage,
+  to keep the "no tracking" commitment.
+- **bionet.libs.bio is also fully static.** Nothing decided for it needs a server:
+  `@biolibs/bionet-demo` opens its lab on a key held in memory and makes no network requests.
 - `wren.bionet.libs.bio` and `thistle.bionet.libs.bio` are DNS records pointing at wherever those
   labs are hosted.
 - **No email at `libs.bio` yet.** The IONOS mail records that Cloudflare's scan copied in are removed.
   When email is wanted, mail records are added at Cloudflare for whichever provider is chosen.
 - Checked against the providers' documentation on 2026-11-19:
-  - Cloudflare Pages needs the domain to be a Cloudflare zone, with Cloudflare nameservers, to serve
-    a bare domain. A subdomain does not.
-  - A custom domain is added in the Pages project first. A DNS record added by hand without that
-    step fails to resolve.
+  - A Worker's custom domain needs the domain to be an active Cloudflare zone, which it is. A
+    custom domain cannot be made on a name that already has a CNAME record.
+  - `libs.bio` and `www.libs.bio` are separate names. Sending `www` to the bare domain is a
+    redirect rule of its own.
+  - Serving static files from a Worker is free and unlimited. The free plan allows 20,000 files a
+    site and 3,000 build minutes a month.
+  - A page written as `topics.html` is served at `/topics` by default.
   - If DNSSEC is on at the registrar, it is turned off before the nameservers are changed.
   - IONOS's help page does not say what happens to IONOS email after switching to outside
     nameservers. That is unknown.
@@ -77,7 +85,7 @@ Each item is marked:
 ### Structure
 
 - **One repository, two apps.** This directory is a single repository holding the `libs.bio` site and
-  the `bionet.libs.bio` site. Each app is its own Cloudflare Pages project.
+  the `bionet.libs.bio` site. Each app is its own Cloudflare Worker.
 - The repository is **`matthewlovestocode/libs.bio` on GitHub, public from the first commit**.
 - **Both sites are built with Next.js, as a static export.** It is what `biolibs-site` and the example
   labs already use, and the Bionet packages are React. A static export has no server features: no
@@ -133,9 +141,9 @@ each topic is built.
 
 **Progress as of 2026-11-19.** Step 1 is done: the nameservers are at Cloudflare and the zone is
 empty. Step 2 is done locally: this directory is a git repository with the two apps and the shared
-package, and both build as static exports showing a placeholder page. Still to do in step 2, in
-Matthew's accounts: create the public GitHub repository and push to it, and create the two
-Cloudflare Pages projects and attach the two addresses.
+package, and both build as static exports showing a placeholder page. The repository is public on GitHub and `main` is pushed.
+Still to do in step 2, in Matthew's Cloudflare account: create the two Workers, connect each to the
+repository, and attach the two addresses.
 
 Choices made while setting up, which were not in the plan and can be changed:
 
@@ -148,7 +156,7 @@ Choices made while setting up, which were not in the plan and can be changed:
 | Step | What | Waits on |
 |---|---|---|
 | 1 | Point the nameservers at Cloudflare, and confirm the provider details flagged as from memory | Nothing |
-| 2 | Set up this directory as the repository: two apps, the shared package, two Cloudflare Pages projects | Step 1, for the live addresses only |
+| 2 | Set up this directory as the repository: two apps, the shared package, two Cloudflare Workers | Step 1, for the live addresses only |
 | 3 | **First release of `libs.bio`**: landing page plus digests and gels | Step 2 |
 | 4 | The generated API reference, starting with the packages behind that topic | Step 3 |
 | 5 | The other three bench-work topics: PCR and primers, cloning and assembly, plasmid maps | Step 3 |

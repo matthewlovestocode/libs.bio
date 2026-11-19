@@ -1,0 +1,20 @@
+{
+  // The libs.bio site as a Cloudflare Worker that holds only files. There is no script: every
+  // request is answered from `out/`, which `next build` writes.
+  //
+  // The Worker's name here has to match its name in the Cloudflare dashboard, or its builds fail.
+  "name": "libs-bio",
+  "compatibility_date": "2026-11-19",
+  "assets": {
+    "directory": "./out",
+    // topics.html is served at /topics, and /topics/ and /topics.html are sent there. This is
+    // Cloudflare's default, written down because every link on the site relies on it.
+    "html_handling": "auto-trailing-slash",
+    // An address with no page gets the site's own 404.html, with a 404 status.
+    "not_found_handling": "404-page"
+  },
+  // Each branch gets an address of its own to be looked at before it goes live. They are public.
+  "preview_urls": true,
+  // Cloudflare's tool reports how it is used unless told not to. Nothing here tracks anybody.
+  "send_metrics": false
+}

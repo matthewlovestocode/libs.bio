@@ -4,14 +4,24 @@
   "private": true,
   "license": "MIT",
   "description": "The web presence for biolibs and Bionet: libs.bio and bionet.libs.bio.",
-  "workspaces": ["apps/*", "packages/*"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "dev:libs": "npm run dev --workspace @libsbio/libs",
     "dev:bionet": "npm run dev --workspace @libsbio/bionet",
     "build": "npm run build --workspaces --if-present",
     "build:libs": "npm run build --workspace @libsbio/libs",
     "build:bionet": "npm run build --workspace @libsbio/bionet",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "deploy:libs": "npm run build:libs && wrangler deploy --cwd apps/libs",
+    "deploy:bionet": "npm run build:bionet && wrangler deploy --cwd apps/bionet"
   },
-  "engines": { "node": ">=20" }
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.135.0"
+  }
 }

@@ -69,16 +69,33 @@ The routes for a second language are not there yet. They are added with the firs
 
 ## Deploying
 
-Each site is its own Cloudflare Pages project, built from this repository.
+Each site is a Cloudflare Worker that holds only files: there is no script, and every request is
+answered from the site's `out/` folder. Each app has a `wrangler.jsonc` saying so.
+
+Cloudflare builds and deploys a site when `main` changes, and gives every other branch a preview
+address of its own. **Previews are public.** Each Worker is connected to this repository under
+**Settings > Build**, with:
 
 | | libs.bio | bionet.libs.bio |
 |---|---|---|
-| Build command | `npm run build:libs` | `npm run build:bionet` |
-| Output directory | `apps/libs/out` | `apps/bionet/out` |
-| Root directory | the repository root | the repository root |
-| Environment | `NODE_VERSION` = `22` | `NODE_VERSION` = `22` |
+| Worker name | `libs-bio` | `bionet-libs-bio` |
+| Root directory | `apps/libs` | `apps/bionet` |
+| Build command | `npm run build` | `npm run build` |
+| Deploy command | `npx wrangler deploy` | `npx wrangler deploy` |
+| Preview command | `npx wrangler preview` | `npx wrangler preview` |
+| Build watch paths | `apps/libs/*`, `packages/shared/*`, `package-lock.json` | `apps/bionet/*`, `packages/shared/*`, `package-lock.json` |
 
-These settings have not been tried against Cloudflare yet. Check them when the projects are made.
+The Worker's name in the dashboard has to match `name` in its `wrangler.jsonc`, or its builds fail.
+
+These settings have not been tried against Cloudflare yet. `wrangler deploy --dry-run` passes for
+both sites, which checks the configuration and the files and deploys nothing.
+
+To deploy by hand, signed in with `npx wrangler login`:
+
+```bash
+npm run deploy:libs
+npm run deploy:bionet
+```
 
 ## Licences
 

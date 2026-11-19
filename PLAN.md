@@ -309,8 +309,8 @@ each topic is built.
   - `align` joined the API reference, making twelve packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled.
-- **Trees**, the eighth topic, is built on the `trees` branch and **not yet live**. It does both
-  halves: draw a tree you have, or build one from sequences.
+- **Trees**, the eighth topic, **went live on 2026-11-19**. It does both halves: draw a tree you
+  have, or build one from sequences.
   - a tree in Newick, NEXUS or phyloXML is read and drawn as a phylogram, with branch lengths to
     scale, a scale bar, support values on the forks and a switch to drop the lengths and show the
     shape alone;

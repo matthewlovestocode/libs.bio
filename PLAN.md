@@ -139,11 +139,23 @@ each topic is built.
 
 ### Sequence of work
 
-**Progress as of 2026-11-19.** Step 1 is done: the nameservers are at Cloudflare and the zone is
-empty. Step 2 is done locally: this directory is a git repository with the two apps and the shared
-package, and both build as static exports showing a placeholder page. The repository is public on GitHub and `main` is pushed.
-Still to do in step 2, in Matthew's Cloudflare account: create the two Workers, connect each to the
-repository, and attach the two addresses.
+**Progress as of 2026-11-19.** Steps 1 and 2 are done.
+
+- Step 1: the nameservers are at Cloudflare.
+- Step 2: this directory is a public repository on GitHub with the two apps and the shared package.
+  Each app is a Cloudflare Worker (`libs-bio` and `bionet-libs-bio`) connected to the repository, so
+  a push to `main` builds and deploys it and any other branch gets a preview.
+- **Both placeholder pages are live** at https://libs.bio and https://bionet.libs.bio.
+
+Left over from step 2, none of it blocking:
+
+- `www.libs.bio` does not resolve. Sending it to the bare domain is a redirect rule still to add.
+- Plain `http://` addresses are served as they are, not sent to `https://`. That is a setting on the
+  domain at Cloudflare.
+- Each Worker also answers at a `workers.dev` address, which branch previews are served from.
+- Cloudflare's GitHub app can see more of Matthew's repositories than this one. Narrowing it is a
+  setting on GitHub.
+- Build watch paths are not set, so both sites rebuild on every push.
 
 Choices made while setting up, which were not in the plan and can be changed:
 

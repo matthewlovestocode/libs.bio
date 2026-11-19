@@ -10,7 +10,7 @@ in one repository.
 
 Both are for the DIY bio community: free, with no account, no tracking, and nothing uploaded.
 
-**Both sites are placeholders at the moment.** What is being built, in what order and why is in
+**Both sites are live as placeholders at the moment.** What is being built, in what order and why is in
 [PLAN.md](PLAN.md). The drawings the look was agreed from are in [`design/`](design/).
 
 ## Run it
@@ -87,8 +87,12 @@ address of its own. **Previews are public.** Each Worker is connected to this re
 
 The Worker's name in the dashboard has to match `name` in its `wrangler.jsonc`, or its builds fail.
 
-These settings have not been tried against Cloudflare yet. `wrangler deploy --dry-run` passes for
-both sites, which checks the configuration and the files and deploys nothing.
+Both Workers are set up this way and both sites are live. Build watch paths are the one row not
+yet set in the dashboard, so for now a push rebuilds both sites.
+
+Each site's address is attached to its Worker as a custom domain, and also written in its
+`wrangler.jsonc` so a deploy from the file agrees with the dashboard. `wrangler deploy --dry-run`
+checks the configuration and the files and deploys nothing.
 
 To deploy by hand, signed in with `npx wrangler login`:
 

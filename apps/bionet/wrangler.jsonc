@@ -13,6 +13,12 @@
     // An address with no page gets the site's own 404.html, with a 404 status.
     "not_found_handling": "404-page"
   },
+  // The address the site is served at. It is also set in the Cloudflare dashboard; it is written
+  // here so that a deploy from this file agrees with it.
+  "routes": [{ "pattern": "bionet.libs.bio", "custom_domain": true }],
+  // The Worker's own workers.dev address stays on, because branch previews are served from it.
+  // Naming a route turns it off unless this says otherwise.
+  "workers_dev": true,
   // Each branch gets an address of its own to be looked at before it goes live. They are public.
   "preview_urls": true,
   // Cloudflare's tool reports how it is used unless told not to. Nothing here tracks anybody.

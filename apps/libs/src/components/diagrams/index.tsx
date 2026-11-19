@@ -34,6 +34,7 @@ import {
   TransformationDiagram,
   VectorInsertDiagram,
 } from "./more";
+import type { FigureName } from "@/lib/lesson.ts";
 import { Arrow, CELL, FeatureArrow, Figure, Letters, MONO, Note, Pill, baseColor, type FigureOptions } from "./primitives";
 
 const GENE = "ATGGCCATTGTAATGGGCCGCTGA";
@@ -1121,9 +1122,6 @@ export function PiecesDiagram() {
   );
 }
 
-/** The figures a lesson can ask for, by name. */
-export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel";
-
 /** @param props.name - Which figure. @returns The drawing. */
 export function LessonFigure({ name }: { name: FigureName }) {
   switch (name) {
@@ -1133,5 +1131,9 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "pieces": return <PiecesDiagram />;
     case "plasmid": return <PlasmidDiagram />;
     case "gel": return <GelDiagram />;
+    case "primer": return <TermDiagram slug="primer" />;
+    case "pcr": return <PcrDiagram />;
+    case "melting": return <MeltingDiagram />;
+    case "five-three": return <DuplexDiagram />;
   }
 }

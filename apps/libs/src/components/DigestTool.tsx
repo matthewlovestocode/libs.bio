@@ -3,15 +3,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GELS } from "@biolibs/gel";
 import { ALL_ENZYME_NAMES, COMMON_ENZYMES, type CutEnd, cleanSequence, digest, fragmentsFasta, notDna } from "@/lib/digest.ts";
-import { ACCEPT, MOST_RECORDS, type OpenedFile, readSequenceFile } from "@/lib/files.ts";
-import { fetchRecord } from "@/lib/ncbi.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { saveFile, saveSvgAsPng } from "@/lib/save.ts";
 import { messages } from "@/messages/index.ts";
 import { Bases } from "./Bases.tsx";
 import { CutMap } from "./CutMap.tsx";
 import { Gel } from "./Gel.tsx";
-import { SequenceInput } from "./SequenceInput.tsx";
+import { SequenceSource } from "./SequenceSource.tsx";
 
 /** The longest sequence a link is made for. Past this an address stops being something to paste. */
 const LONGEST_LINK = 20_000;
@@ -43,13 +41,8 @@ export function DigestTool() {
   const [adding, setAdding] = useState("");
   const [problem, setProblem] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [opened, setOpened] = useState<OpenedFile | null>(null);
-  const [record, setRecord] = useState(0);
-  const [over, setOver] = useState(false);
-  const [accession, setAccession] = useState("");
-  const [fetching, setFetching] = useState(false);
+  const [name, setName] = useState("sample");
   const gelSide = useRef<HTMLDivElement>(null);
-  const file = useRef<HTMLInputElement>(null);
 
   // A link somebody was sent is read once, after the page is up, so the first paint is the same
   // on the server and in the browser.
@@ -75,34 +68,6 @@ export function DigestTool() {
     setProblem(null); setAdding("");
     setChosen((now) => (now.includes(name) ? now : [...now, name]));
   };
-  /** Put one of a file's sequences into the tool, with its shape when the file says what that is. */
-  const use = (from: OpenedFile, index: number) => {
-    const one = from.records[index];
-    setRecord(index); setInput(one.sequence);
-    if (one.circular !== null) setCircular(one.circular);
-  };
-  const take = async (fileName: string, bytes: Uint8Array) => {
-    try {
-      const read = await readSequenceFile(fileName, bytes);
-      setProblem(null); setOpened(read); use(read, 0);
-    } catch (error) {
-      setOpened(null);
-      setProblem(`${text.cannotRead(fileName)} ${error instanceof Error ? error.message : String(error)}`);
-    }
-  };
-  const open = async (picked: File | undefined) => { if (picked !== undefined) await take(picked.name, new Uint8Array(await picked.arrayBuffer())); };
-  const fetchIt = async () => {
-    if (accession.trim() === "" || fetching) return;
-    setFetching(true);
-    try {
-      const got = await fetchRecord(accession);
-      await take(got.fileName, got.bytes);
-    } catch (error) {
-      setProblem(`${text.cannotFetch} ${error instanceof Error ? error.message : String(error)}`);
-    } finally {
-      setFetching(false);
-    }
-  };
   /** What a cut leaves, in a few characters: 5′ AATT, 3′ TGCA, blunt. Each distinct end is said once. */
   const leaves = (ends: CutEnd[]) => {
     const each = [...new Map(ends.map((end) => [`${end.kind} ${end.overhang}`, end])).values()];
@@ -113,7 +78,7 @@ export function DigestTool() {
       </span>
     ));
   };
-  const moleculeName = () => (opened === null ? "sample" : (opened.records[record]?.name ?? "sequence")).replace(/[^A-Za-z0-9_.-]+/g, "_");
+  const moleculeName = () => name;
   const saveGel = async () => {
     const drawing = gelSide.current?.querySelector("svg");
     if (drawing === null || drawing === undefined) return;
@@ -128,58 +93,27 @@ export function DigestTool() {
 
   return (
     <div className="tool">
-      <section className={`glass${over ? " over" : ""}`}
-               onDragOver={(event) => { event.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
-               onDrop={(event) => { event.preventDefault(); setOver(false); void open(event.dataTransfer.files[0]); }}>
+      <section className="glass">
         <h2>{text.inputHeading}</h2>
-        <label className="field" htmlFor="sequence">{text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
-        <SequenceInput id="sequence" value={input} onChange={(value) => { setInput(value); setOpened(null); }} />
-        {opened === null ? null : (
-          <p className="opened">
-            {text.openedAs(opened.fileName, opened.format?.label ?? text.plainText)}
-            {opened.records.length > 1 ? (
-              <>
-                {" "}<label htmlFor="record">{text.whichRecord(opened.total)}</label>{" "}
-                <select id="record" className="in" value={record} onChange={(event) => use(opened, Number(event.target.value))}>
-                  {opened.records.map((one, index) => <option key={index} value={index}>{one.name} ({number(one.sequence.length)} {text.length})</option>)}
-                </select>
-                {opened.total > opened.records.length ? <> {text.firstOnly(MOST_RECORDS)}</> : null}
-              </>
-            ) : null}
-          </p>
-        )}
-        {wrong.length > 0 ? <p className="problem" role="alert">{text.notDna} {wrong.join(" ")}</p> : null}
-        {dna.length === 0 ? <p className="quiet">{text.empty}</p> : null}
-        <label className="check"><input type="checkbox" checked={circular} onChange={(event) => setCircular(event.target.checked)} /> {text.circular} <span className="quiet">{text.circularNote}</span></label>
-
-        <p className="field">{text.enzymes}</p>
-        <div className="chips">
-          {offered.map((name) => (
-            <button key={name} type="button" className={`chip${chosen.includes(name) ? " on" : ""}`} aria-pressed={chosen.includes(name)} onClick={() => toggle(name)}>{name}</button>
-          ))}
-        </div>
+        <SequenceSource value={input} onChange={setInput} circular={circular} onCircular={setCircular} onName={setName}>
+          <p className="field">{text.enzymes}</p>
+          <div className="chips">
+            {offered.map((name) => (
+              <button key={name} type="button" className={`chip${chosen.includes(name) ? " on" : ""}`} aria-pressed={chosen.includes(name)} onClick={() => toggle(name)}>{name}</button>
+            ))}
+          </div>
+          <div className="row">
+            <input className="in grow" list="every-enzyme" value={adding} onChange={(event) => setAdding(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") add(); }}
+                   placeholder={text.addPlaceholder} aria-label={text.addEnzyme} />
+            <datalist id="every-enzyme">{ALL_ENZYME_NAMES.map((name) => <option key={name} value={name} />)}</datalist>
+            <button type="button" className="btn" onClick={add}>{text.add}</button>
+          </div>
+        </SequenceSource>
         <div className="row">
-          <input className="in grow" list="every-enzyme" value={adding} onChange={(event) => setAdding(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") add(); }}
-                 placeholder={text.addPlaceholder} aria-label={text.addEnzyme} />
-          <datalist id="every-enzyme">{ALL_ENZYME_NAMES.map((name) => <option key={name} value={name} />)}</datalist>
-          <button type="button" className="btn" onClick={add}>{text.add}</button>
-        </div>
-
-        <p className="field">{text.getSequence}</p>
-        <div className="row first">
-          <input className="in grow" value={accession} onChange={(event) => setAccession(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void fetchIt(); }}
-                 placeholder={text.accessionPlaceholder} aria-label={text.accession} spellCheck={false} maxLength={40} />
-          <button type="button" className="btn" onClick={() => void fetchIt()} disabled={fetching}>{fetching ? text.fetching : text.fetch}</button>
-        </div>
-        <p className="quiet">{text.fetchNote}</p>
-        <div className="row">
-          <button type="button" className="btn" onClick={() => file.current?.click()}>{text.openFile}</button>
-          <input ref={file} type="file" accept={ACCEPT} hidden onChange={(event) => { void open(event.target.files?.[0]); event.target.value = ""; }} />
-          <button type="button" className="btn" onClick={() => { setInput(samplePlasmid()); setOpened(null); setCircular(true); }}>{text.loadSample}</button>
           <button type="button" className="btn" onClick={() => void copy()} disabled={result === null}>{copied ? text.copied : text.copyLink}</button>
         </div>
         {problem !== null ? <p className="problem" role="alert">{problem}</p> : null}
-        <p className="quiet">{text.openFileNote} {text.copyNote}</p>
+        <p className="quiet">{text.copyNote}</p>
       </section>
 
       <section className="glass" aria-live="polite">

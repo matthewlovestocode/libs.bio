@@ -5,40 +5,17 @@
  * are linked to their entries the first time each appears.
  */
 
-/** The figures a lesson can place, by name. `src/components/diagrams` draws them. */
-export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel";
-
-/** One part of a lesson: a heading, some paragraphs, and perhaps a picture. */
-export interface Section {
-  heading: string;
-  paragraphs: string[];
-  figure?: FigureName;
-}
-
-/** One version of the lesson, written for one kind of reader. */
-export interface Level {
-  /** What the reader picks it by. */
-  id: "new" | "some" | "biopython";
-  /** The reader, in their own words. */
-  label: string;
-  /** What this version does for them. */
-  hint: string;
-  sections: Section[];
-  /** A comparison with something familiar, and the point at which it stops being true. */
-  analogy?: { picture: string; breaksDown: string };
-  /** The few things worth carrying away. */
-  remember?: string[];
-}
+import type { Lesson, Level } from "../../src/lib/lesson.ts";
 
 /** The question the whole lesson answers. */
-export const question = "How do you cut DNA, and how do you know it worked?";
+const question = "How do you cut DNA, and how do you know it worked?";
 
 /**
  * The lesson, three times over. The first assumes nothing at all. The second assumes school
  * biology and is the lesson carried over from biolibs-site. The third is for somebody who already
  * uses Biopython and wants to know what is the same and what is not.
  */
-export const levels: Level[] = [
+const levels: Level[] = [
   {
     id: "new",
     label: "I'm new to biology",
@@ -158,5 +135,10 @@ export const levels: Level[] = [
   },
 ];
 
-/** The glossary terms this lesson rests on, shown under it with their diagrams. */
-export const termSlugs = ["base-pair", "restriction-enzyme", "sticky-end", "blunt-end", "plasmid", "gel-electrophoresis"];
+/** The lesson, whole. */
+export const lesson: Lesson = {
+  question,
+  levels,
+  termSlugs: ["base-pair", "restriction-enzyme", "sticky-end", "blunt-end", "plasmid", "gel-electrophoresis"],
+  tryIt: "Try it: cut the sample plasmid and see the gel →",
+};

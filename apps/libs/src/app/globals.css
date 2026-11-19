@@ -176,7 +176,7 @@ select.in {
 .in.grow { flex: 1; min-width: 0; }
 .opened { margin: 8px 0 0; font-size: 13px; }
 .opened .in { padding: 3px 8px; font-size: 13px; }
-.glass.over { outline: 2px dashed var(--bionet-yours); outline-offset: -6px; }
+.source.over { outline: 2px dashed var(--bionet-yours); outline-offset: 6px; border-radius: 8px; }
 .check { display: block; margin-top: 10px; font-size: 14px; }
 .check .quiet { display: block; margin: 2px 0 0 22px; }
 .chips { display: flex; gap: 7px; flex-wrap: wrap; }
@@ -335,3 +335,21 @@ code.bases { font-weight: 600; letter-spacing: 0.02em; }
 .term-links li { margin: 4px 0; }
 .term-links .status { font-size: 11px; }
 .terms dt a { color: inherit; }
+
+/* ---------- The PCR tool ---------- */
+
+.inline { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; }
+.in.num { width: 84px; }
+.in.primer { display: block; width: 100%; font: 13px/1.5 var(--font-geist-mono), ui-monospace, monospace; }
+.btn.go { background: var(--bionet-action); color: var(--bionet-on-action); border-color: transparent; font-weight: 600; }
+.facts { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; font-size: 13px; }
+.facts b { font-weight: 600; color: var(--soft); margin-right: 3px; }
+.facts .warn { color: var(--bionet-held); }
+.primer-card { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--glass-edge); }
+.primer-name { margin: 0; font-size: 13px; font-weight: 600; }
+.primer-seq { margin: 4px 0 0; font: 13px/1.5 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; }
+.glass .primer-seq .quiet { margin: 0; }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+.dot.forward { background: var(--bionet-yours); } .dot.reverse { background: var(--bionet-theirs); }
+.warnings { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--bionet-held); }
+.fine { margin: 8px 0 0; font-size: 13px; color: var(--bionet-good); }

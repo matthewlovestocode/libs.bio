@@ -7,35 +7,9 @@
  * remembered.
  */
 
-/** How a reader with no journal subscription can get at a paper. */
-export type Access = "open" | "free" | "paywalled";
+import type { Paper, ReadingList } from "../../src/lib/papers.ts";
 
-/** One paper. */
-export interface Paper {
-  pmid: string;
-  doi: string;
-  /** Its PubMed Central id, when the full text is there to read. */
-  pmcid: string | null;
-  title: string;
-  authors: string;
-  journal: string;
-  year: number;
-  /**
-   * `open`: published open access. `free`: not open access, but free to read in PubMed Central.
-   * `paywalled`: neither.
-   */
-  access: Access;
-  /** Why it would earn its place. */
-  why: string;
-}
-
-/** Whether the list has been chosen. While it has not, the page says it is a shortlist. */
-export const chosen = true;
-
-/** The day the details were last looked up on Europe PMC. */
-export const checked = "2026-11-19";
-
-export const papers: Paper[] = [
+const papers: Paper[] = [
   {
     pmid: "5312500", doi: "10.1016/0022-2836(70)90149-x", pmcid: null,
     title: "A restriction enzyme from Hemophilus influenzae. I. Purification and general properties",
@@ -67,3 +41,6 @@ export const papers: Paper[] = [
     why: "The library these TypeScript ports are checked against, case by case.",
   },
 ];
+
+/** The list: chosen by Matthew on 2026-11-19, details checked on Europe PMC that day. */
+export const reading: ReadingList = { chosen: true, checked: "2026-11-19", papers };

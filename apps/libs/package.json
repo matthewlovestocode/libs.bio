@@ -16,6 +16,7 @@
     "@biolibs/core": "^1.2.0",
     "@biolibs/entrez": "^1.0.0",
     "@biolibs/gel": "^1.0.1",
+    "@biolibs/pcr": "^1.0.0",
     "@biolibs/restriction": "^1.0.0",
     "@biolibs/seq": "^1.0.0",
     "@biolibs/seqio": "^1.1.2",

@@ -19,7 +19,7 @@ export interface Topic {
 /** Every topic, in the order they are being built. */
 export const TOPICS: readonly Topic[] = [
   { slug: "digests", key: "digests", packages: ["restriction", "gel"], status: "stable" },
-  { slug: "pcr", key: "pcr", packages: ["pcr", "seqtools"], status: null },
+  { slug: "pcr", key: "pcr", packages: ["pcr", "gel"], status: "stable" },
   { slug: "cloning", key: "cloning", packages: ["cloning", "assembly", "assembly2", "dseq"], status: null },
   { slug: "maps", key: "maps", packages: ["seqmap", "seqfeature", "features"], status: null },
   { slug: "files", key: "files", packages: ["seqio", "align", "phylo", "pdb"], status: null },

@@ -85,7 +85,7 @@ export function Ramachandran({ torsions }: { torsions: Structure["torsions"] }) 
       ))}
       {points.map((one, at) => (
         <circle key={at} cx={x(one.phi!)} cy={y(one.psi!)} r="3" fill="var(--bionet-yours)" opacity="0.75">
-          <title>{one.name} {one.at}: φ {one.phi!.toFixed(0)}°, ψ {one.psi!.toFixed(0)}°</title>
+          <title>{`${one.name} ${one.at}: φ ${one.phi!.toFixed(0)}°, ψ ${one.psi!.toFixed(0)}°`}</title>
         </circle>
       ))}
       <text x={left + side / 2} y={top + side + 30} textAnchor="middle" className="map-note">φ {text.degrees}</text>

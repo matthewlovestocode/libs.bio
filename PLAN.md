@@ -357,8 +357,21 @@ each topic is built.
   - `pdb` joined the API reference, making fourteen packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled;
-  - there is **no 3D viewer**. The two plots are what a page can do honestly; a viewer is a different
-    kind of program.
+  - **a 3D backbone view was added on 2026-11-19**, after Matthew asked whether React Three Fiber
+    had a use here. It does: `@biolibs/bionet-scene` is already built on it, so the stack was
+    already in the family. The view is a tube through the α-carbons, coloured by what the
+    backbone's own angles say each stretch is doing, with the site's own orbit controls rather than
+    a helper package, and clicking a contact pair marks both residues in space;
+  - three.js is loaded only when the view is asked for: it is 175 KB gzipped in a chunk of its own,
+    and the structure page's initial scripts are 251 KB against the trees page's 457 KB, so nothing
+    is paid for by somebody who does not open it;
+  - it needed `transpilePackages: ["three", "@react-three/fiber"]`. Without it the canvas appeared
+    and three.js loaded, but nothing was ever drawn and the canvas stayed at its default 300 by 150:
+    React Three Fiber is a React renderer of its own and has to be compiled against the same copy of
+    React as the app. It worked in the dev server and failed in the production build, which is what
+    pointed at the cause. Checked afterwards on the built output with 1CRN: crambin's fold, its two
+    helices and its sheet, with a picked disulfide marked;
+  - it is a trace, not a structure viewer: no side chains, no surfaces, no selection language.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

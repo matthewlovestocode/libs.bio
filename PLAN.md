@@ -194,8 +194,8 @@ each topic is built.
     to topic. The diagrams are carried over from `biolibs-site`'s glossary and are drawn by the
     libraries when the site is built. **Every topic's *Understand* view follows this pattern.**
 
-- The **visual glossary** is carried over whole from `biolibs-site`, **built on the `glossary`
-  branch and not yet merged**: all 60 terms in seven subjects, each with its diagram, a page of its
+- The **visual glossary** is carried over whole from `biolibs-site` and **went live on
+  2026-11-19**: all 60 terms in seven subjects, each with its diagram, a page of its
   own, related terms, the topics that use it and the packages behind it, plus the five "easily
   confused" pairs. How it stands:
   - the words and the diagrams are `biolibs-site`'s, unchanged apart from the frame around a

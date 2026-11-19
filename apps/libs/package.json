@@ -20,6 +20,7 @@
     "@biolibs/seq": "^1.0.0",
     "@biolibs/seqio": "^1.1.2",
     "@biolibs/seqmap": "^1.0.0",
+    "@biolibs/seqtools": "^1.0.0",
     "@libsbio/shared": "*",
     "next": "16.4.6",
     "react": "19.3.0",

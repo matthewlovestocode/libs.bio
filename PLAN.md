@@ -194,6 +194,19 @@ each topic is built.
     to topic. The diagrams are carried over from `biolibs-site`'s glossary and are drawn by the
     libraries when the site is built. **Every topic's *Understand* view follows this pattern.**
 
+- The **visual glossary** is carried over whole from `biolibs-site`, **built on the `glossary`
+  branch and not yet merged**: all 60 terms in seven subjects, each with its diagram, a page of its
+  own, related terms, the topics that use it and the packages behind it, plus the five "easily
+  confused" pairs. How it stands:
+  - the words and the diagrams are `biolibs-site`'s, unchanged apart from the frame around a
+    diagram, which is drawn in this site's CSS;
+  - a lesson links the first mention of any glossary term to its page, and no longer keeps its own
+    copy of the terms it uses;
+  - an entry names the topics that use it. Most of those topics are not built, and say so;
+  - the five "Start here" lessons for complete beginners are not carried over;
+  - nothing yet records whether a biologist has reviewed a term, which the plan names as a way for
+    the community to take part.
+
 Left over from step 2, none of it blocking:
 
 - Each Worker also answers at a `workers.dev` address, which branch previews are served from.

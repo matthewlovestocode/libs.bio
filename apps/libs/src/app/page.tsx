@@ -30,6 +30,22 @@ export default function Home() {
             ))}
           </ul>
 
+          <h2 className="section">{text.glossary.homeHeading}</h2>
+          <ul className="topics">
+            <li>
+              <Link href="/glossary" className="topic live">
+                <span className="topic-title">{text.glossary.title}</span>
+                <span className="topic-summary">{text.glossary.homeCard}</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/api" className="topic live">
+                <span className="topic-title">{text.api.title}</span>
+                <span className="topic-summary">{text.api.lede}</span>
+              </Link>
+            </li>
+          </ul>
+
           <h2 className="section">{text.home.coming}</h2>
           <p className="quiet">{text.home.comingNote}</p>
           <ul className="topics">

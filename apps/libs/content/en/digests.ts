@@ -1,21 +1,9 @@
 /**
  * The Understand view of the digests and gels topic, in English.
  *
- * The paragraphs and the term entries are carried over from biolibs-site's lesson on the cloning
- * bench and its glossary, cut down to what this topic needs. A term's `match` phrases are linked to
- * its entry the first time one appears in the paragraphs.
+ * The middle version is carried over from biolibs-site's lesson on the cloning bench. Glossary terms
+ * are linked to their entries the first time each appears.
  */
-
-/** One term, explained. */
-export interface TermEntry {
-  slug: string;
-  term: string;
-  definition: string;
-  detail: string;
-  why: string;
-  /** Phrases in the paragraphs that should link here, longest first. */
-  match: string[];
-}
 
 /** The figures a lesson can place, by name. `src/components/diagrams` draws them. */
 export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel";
@@ -170,47 +158,5 @@ export const levels: Level[] = [
   },
 ];
 
-export const terms: TermEntry[] = [
-  {
-    slug: "restriction-enzyme", term: "Restriction enzyme",
-    definition: "A protein that cuts DNA wherever it finds one specific short sequence.",
-    detail: "Bacteria make these enzymes to destroy the DNA of invading viruses. Each recognises its own site, typically four to eight bases long, and cuts both strands at fixed points within or beside it. More than a thousand are known.",
-    why: "They are the scissors of molecular cloning, and predicting where they cut is the first step in planning it.",
-    match: ["restriction enzymes", "restriction enzyme"],
-  },
-  {
-    slug: "sticky-end", term: "Sticky end",
-    definition: "A short single-stranded overhang left when an enzyme cuts the two strands a few bases apart.",
-    detail: "The overhang can pair with any end carrying the complementary overhang, and with no other. Two fragments cut by the same enzyme therefore fit together, which is what makes cutting and pasting DNA predictable.",
-    why: "Whether two ends are compatible decides whether a planned ligation can work at all.",
-    match: ["sticky ends", "sticky end"],
-  },
-  {
-    slug: "blunt-end", term: "Blunt end",
-    definition: "An end with no overhang, left when an enzyme cuts both strands at the same position.",
-    detail: "Any blunt end can be joined to any other, which is flexible but less efficient and gives no control over which way round a fragment goes in.",
-    why: "Knowing which enzymes leave blunt ends tells you when orientation has to be checked afterwards.",
-    match: ["blunt ends", "blunt end"],
-  },
-  {
-    slug: "plasmid", term: "Plasmid",
-    definition: "A small circular DNA molecule, separate from the chromosome, that bacteria copy and pass on.",
-    detail: "Laboratory plasmids carry an origin of replication so the cell copies them, a resistance gene so that cells holding the plasmid can be selected, and a place to insert the DNA you care about. A circle has no ends, so where the numbering starts is only a convention.",
-    why: "Plasmids are the standard vehicle for carrying engineered DNA into cells.",
-    match: ["plasmids", "plasmid"],
-  },
-  {
-    slug: "gel-electrophoresis", term: "Gel electrophoresis",
-    definition: "Sorting DNA fragments by size by pulling them through a gel with an electric field.",
-    detail: "DNA is negatively charged, so it moves towards the positive electrode. The gel slows large fragments more than small ones, so fragments of one size gather into a band. A ladder of known sizes run alongside lets you read off how big each band is.",
-    why: "It is the everyday check that a digest or a PCR produced what was expected.",
-    match: ["gel"],
-  },
-  {
-    slug: "base-pair", term: "Base pair",
-    definition: "Two bases, one on each strand, held together by hydrogen bonds: A with T, and G with C.",
-    detail: "The length of double-stranded DNA is counted in base pairs, written bp; a thousand base pairs is a kilobase, kb.",
-    why: "It is the unit every fragment size is measured in.",
-    match: ["base pairs", "base pair"],
-  },
-];
+/** The glossary terms this lesson rests on, shown under it with their diagrams. */
+export const termSlugs = ["base-pair", "restriction-enzyme", "sticky-end", "blunt-end", "plasmid", "gel-electrophoresis"];

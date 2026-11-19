@@ -4,7 +4,7 @@ export const en = {
   tld: ".bio",
   title: "libs.bio",
   description: "Bioengineering in your browser, and the code behind it. Free, with no account, and nothing uploaded.",
-  nav: { topics: "Topics", api: "API", bionet: "Bionet", source: "Source", home: "libs.bio home" },
+  nav: { topics: "Topics", glossary: "Glossary", api: "API", bionet: "Bionet", source: "Source", home: "libs.bio home" },
   status: { stable: "Stable", moving: "Still changing", none: "Not built yet" },
   footer: {
     licences: "Code MIT · Content CC BY 4.0",
@@ -133,6 +133,21 @@ export const en = {
     returns: "Returns", throws: "Throws", deprecated: "Deprecated.",
     inReference: "In the API reference",
   },
+  glossary: {
+    title: "Visual glossary",
+    description: "The vocabulary of molecular biology and bioinformatics, one diagram per term.",
+    heading: "The vocabulary, one picture at a time",
+    lede: "Biology has a lot of words for a small number of ideas. Each term here has a one-sentence definition and a diagram. Where a diagram shows something the libraries can work out, such as a translation or a cut site, the libraries worked it out.",
+    sections: "Sections",
+    confused: "Easily confused",
+    confusedBlurb: "Pairs of ideas that sound alike, shown side by side.",
+    why: "Why it matters.",
+    related: "Related terms",
+    topics: "Topics that use it",
+    libraries: "In the libraries",
+    homeHeading: "Look something up",
+    homeCard: "Sixty terms, from cell to RMSD, each with a diagram and a one-sentence definition.",
+  },
   understand: {
     termsHeading: "Terms on this page", why: "Why it matters",
     pick: "Choose a version of this lesson",
@@ -140,6 +155,7 @@ export const en = {
     breaksDown: "Where the picture stops being true:",
     remember: "Worth remembering",
     tryIt: "Try it: cut the sample plasmid and see the gel →",
+    allTerms: "All 60 terms in the visual glossary →",
   },
   read: {
     heading: "The papers behind this",

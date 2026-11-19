@@ -10,6 +10,7 @@
   --grid: color-mix(in srgb, var(--bionet-dim) 10%, transparent);
   --sunken: color-mix(in srgb, var(--bionet-rule) 45%, var(--bionet-ground));
   --accent-soft: color-mix(in srgb, var(--bionet-yours) 14%, var(--bionet-ground));
+  --code-bg: color-mix(in srgb, var(--bionet-rule) 35%, var(--bionet-ground));
 }
 
 * { box-sizing: border-box; }
@@ -299,3 +300,38 @@ code.bases { font-weight: 600; letter-spacing: 0.02em; }
 .prose h2#terms { margin-top: 40px; }
 .term-figure .figure { margin-top: 12px; }
 .term-figure:empty { display: none; }
+
+/* ---------- The visual glossary ---------- */
+
+.wrap.narrow { max-width: 760px; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; margin: 18px 0 8px; font-size: 14px; }
+.pills a { padding: 4px 12px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
+.pills a:hover, .pills a.on { border-color: var(--accent); color: var(--accent); }
+.pills a.on { background: var(--accent-soft); }
+.glossary-section { margin-top: 44px; scroll-margin-top: 16px; }
+.glossary-section h2 { margin: 0 0 2px; font-size: clamp(22px, 3.4vw, 28px); letter-spacing: -0.01em; }
+.term-cards { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.term-card { display: flex; flex-direction: column; height: 100%; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); text-decoration: none; }
+.term-card:hover { border-color: var(--accent); }
+.term-card:focus-visible { outline: 2px solid var(--bionet-yours); outline-offset: 2px; }
+.term-thumb { display: flex; align-items: center; justify-content: center; height: 116px; padding: 12px; border-bottom: 1px solid var(--line); background: var(--bg); }
+.figure-thumb { display: block; width: 100%; height: auto; max-height: 100%; margin: 0 auto; }
+.term-words { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px 14px; }
+.confusable { margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+.confusable h3 { margin: 0 0 6px; font-size: 19px; }
+.confusable > p { max-width: 70ch; color: var(--muted); }
+.figures { display: grid; gap: 14px; margin-top: 14px; }
+.figures .figure { margin: 0; max-width: none; background: var(--surface); }
+@media (min-width: 900px) { .figures.two { grid-template-columns: 1fr 1fr; } }
+.links { margin-top: 10px; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
+.definition { font-size: 20px; line-height: 1.5; margin: 0 0 22px; }
+.wrap.narrow .figure { background: var(--surface); max-width: none; }
+.detail { font-size: 17px; line-height: 1.75; margin-top: 22px; }
+.why { margin-top: 16px; padding: 12px 16px; border-left: 3px solid var(--accent); border-radius: 0 8px 8px 0; background: var(--accent-soft); font-size: 17px; line-height: 1.65; max-width: none; }
+.term-more { margin-top: 36px; }
+.term-more h2, .term-links h2 { font-size: 17px; margin: 0 0 10px; }
+.term-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; margin-top: 36px; }
+.term-links ul { margin: 0; padding: 0; list-style: none; }
+.term-links li { margin: 4px 0; }
+.term-links .status { font-size: 11px; }
+.terms dt a { color: inherit; }

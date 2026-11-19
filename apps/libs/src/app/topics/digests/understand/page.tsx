@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { type Level, type TermEntry, levels, question, terms } from "../../../../../content/en/digests.ts";
+import { type Level, levels, question, termSlugs } from "../../../../../content/en/digests.ts";
+import { getEntry, splitByTerms } from "../../../../../content/en/glossary.ts";
 import { withBases } from "@/components/Bases.tsx";
 import { LessonFigure, TermDiagram } from "@/components/diagrams/index.tsx";
 import { Levels } from "@/components/Levels.tsx";
@@ -15,28 +16,15 @@ function plain(piece: string, key: string): React.ReactNode[] {
 }
 
 /**
- * Link the first mention of each term to its entry further down the page.
+ * Link the first mention of each glossary term to its page.
  *
  * @param paragraph - One paragraph of plain text.
  * @param seen - The terms already linked in this version of the lesson, which this adds to.
  * @returns The paragraph as text and links.
  */
 function withTerms(paragraph: string, seen: Set<string>): React.ReactNode[] {
-  let parts: (string | { entry: TermEntry; phrase: string })[] = [paragraph];
-  for (const entry of terms) {
-    if (seen.has(entry.slug)) continue;
-    for (const phrase of entry.match) {
-      const find = new RegExp(`\\b${phrase}\\b`, "i");
-      const at = parts.findIndex((part) => typeof part === "string" && find.test(part));
-      if (at === -1) continue;
-      const whole = parts[at] as string;
-      const found = find.exec(whole)!;
-      parts = [...parts.slice(0, at), whole.slice(0, found.index), { entry, phrase: found[0] }, whole.slice(found.index + found[0].length), ...parts.slice(at + 1)];
-      seen.add(entry.slug);
-      break;
-    }
-  }
-  return parts.flatMap((part, i): React.ReactNode[] => (typeof part === "string" ? plain(part, String(i)) : [<a key={i} className="term" href={`#${part.entry.slug}`} title={part.entry.definition}>{part.phrase}</a>]));
+  return splitByTerms(paragraph, seen).flatMap((part, i): React.ReactNode[] =>
+    part.slug === undefined ? plain(part.text, String(i)) : [<Link key={i} className="term" href={`/glossary/${part.slug}`} title={getEntry(part.slug)?.definition}>{part.text}</Link>]);
 }
 
 /** One version of the lesson, drawn. */
@@ -77,15 +65,16 @@ export default function Understand() {
       <Levels panels={levels.map((level) => ({ id: level.id, label: level.label, hint: level.hint, content: <Lesson level={level} /> }))} />
       <h2 id="terms">{text.understand.termsHeading}</h2>
       <dl className="terms">
-        {terms.map((entry) => (
+        {termSlugs.map(getEntry).filter((entry) => entry !== undefined).map((entry) => (
           <div key={entry.slug} id={entry.slug}>
-            <dt>{entry.term}</dt>
+            <dt><Link href={`/glossary/${entry.slug}`}>{entry.term}</Link></dt>
             <dd>{entry.definition} {entry.detail}</dd>
             <dd className="quiet"><b>{text.understand.why}:</b> {entry.why}</dd>
             <dd className="term-figure"><TermDiagram slug={entry.slug} /></dd>
           </div>
         ))}
       </dl>
+      <p className="next"><Link href="/glossary">{text.understand.allTerms}</Link></p>
     </div>
   );
 }

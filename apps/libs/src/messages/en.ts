@@ -97,6 +97,7 @@ export const en = {
     access: { open: "Open access", free: "Free to read", paywalled: "Paywalled" },
     accessNote: { open: "Anyone may read and reuse it.", free: "Not open access, but the full text is free in PubMed Central.", paywalled: "The publisher charges to read it." },
     readIt: "Read it", publisher: "At the publisher", record: "Record",
+    checked: (date: string) => `Chosen by hand. Details checked against Europe PMC on ${date}.`,
     suggest: "Suggest a paper",
   },
 } as const;

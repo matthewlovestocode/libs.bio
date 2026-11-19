@@ -36,7 +36,7 @@ export default function Read() {
           </li>
         ))}
       </ul>
-      <p className="quiet"><a href={`${LINKS.source}/issues`}>{text.read.suggest}</a></p>
+      <p className="quiet">{chosen ? `${text.read.checked(checked)} ` : null}<a href={`${LINKS.source}/issues`}>{text.read.suggest}</a></p>
     </div>
   );
 }

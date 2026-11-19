@@ -1,10 +1,10 @@
 /**
- * The papers behind the digests and gels topic.
+ * The papers behind the digests and gels topic, chosen by Matthew on 2026-11-19.
  *
- * The plan is a handful chosen by hand per topic, held as a DOI or PMID, with the rest fetched from
- * Europe PMC when the site is built. Two things are still to do: Matthew has not chosen from this
- * shortlist, and nothing is fetched yet. The details below were looked up on Europe PMC by hand on
- * the date in `checked`, so each one is what Europe PMC says and not what anybody remembered.
+ * The plan is for each paper to be held as a DOI or PMID with the rest fetched from Europe PMC when
+ * the site is built. That fetch is not written yet. The details below were looked up on Europe PMC
+ * by hand on the date in `checked`, so each one is what Europe PMC says and not what anybody
+ * remembered.
  */
 
 /** How a reader with no journal subscription can get at a paper. */
@@ -29,8 +29,8 @@ export interface Paper {
   why: string;
 }
 
-/** Set to `true` once the list has been chosen. */
-export const chosen = false;
+/** Whether the list has been chosen. While it has not, the page says it is a shortlist. */
+export const chosen = true;
 
 /** The day the details were last looked up on Europe PMC. */
 export const checked = "2026-11-19";

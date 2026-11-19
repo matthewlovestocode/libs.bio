@@ -183,6 +183,17 @@ each topic is built.
   - the parity checklists are not beside it yet, which the plan asks for;
   - the explanatory prose in `biolibs/docs/*.md` is not carried into the *Understand* views yet;
   - a package's page is one long page with a filter box. `seqio` has 235 exports.
+- Also on that branch, after Matthew reviewed the live site:
+  - **Code is highlighted**, by Shiki when the site is built, so no script colours anything in the
+    browser. **DNA is coloured base by base** wherever it appears, including in the box it is typed
+    into;
+  - **dropdowns draw their own chevron** with room around it, in place of the browser's;
+  - **the *Understand* view has three versions and the reader picks one**: new to biology, some
+    biology, and knows Biopython. The first is the default and assumes nothing. It has a diagram for
+    each idea, a comparison with something familiar and where that comparison stops being true, and
+    a short list to remember. The choice is kept in the reader's own browser and carries from topic
+    to topic. The diagrams are carried over from `biolibs-site`'s glossary and are drawn by the
+    libraries when the site is built. **Every topic's *Understand* view follows this pattern.**
 
 Left over from step 2, none of it blocking:
 

@@ -133,7 +133,14 @@ export const en = {
     returns: "Returns", throws: "Throws", deprecated: "Deprecated.",
     inReference: "In the API reference",
   },
-  understand: { termsHeading: "Terms on this page", why: "Why it matters" },
+  understand: {
+    termsHeading: "Terms on this page", why: "Why it matters",
+    pick: "Choose a version of this lesson",
+    analogy: "A way to picture it",
+    breaksDown: "Where the picture stops being true:",
+    remember: "Worth remembering",
+    tryIt: "Try it: cut the sample plasmid and see the gel →",
+  },
   read: {
     heading: "The papers behind this",
     shortlistTitle: "This list is a shortlist, not yet chosen.",

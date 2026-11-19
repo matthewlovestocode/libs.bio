@@ -415,6 +415,36 @@ each topic is built.
     service this topic asks — which Matthew has not chosen from. All five are free to read;
   - it sends a tool name and no address. NCBI asks every client for one and the field is still
     unset, so the site is an anonymous client, which works.
+- **Working safely**, the twelfth and last topic, is built on the `safety` branch and **not yet
+  live**. It is the one topic with no package behind it, so it has **three tabs, not four**: writing
+  a Code view that said there was no code would be worse than leaving the tab out. How it stands:
+  - the Do view asks six questions somebody qualified would ask and says where each answer actually
+    lives. It answers none of them, and says so at the top rather than in small print at the bottom;
+  - the four containment levels are **quoted verbatim** from BMBL 6th edition, pages 28 to 30, with
+    this site's summary kept visibly separate from the quotation;
+  - **everything describing somebody else's rules was checked against the issuing body**, as this
+    plan requires, rather than written from memory. That check changed the page:
+    - WHO's 4th edition manual (2020) moved the emphasis from fixed levels to risk assessment, and
+      BMBL says of itself that it is advisory, not a regulation, and that its core principle is
+      protocol-driven risk assessment. The page now reasons from the protocol to the level rather
+      than presenting a lookup table, which is how most people including me would have written it;
+    - **two resources this plan says to point at are gone.** `diybio.org/codes` says the programme
+      is now closed, pointing at a preserved record on DIYbiosphere; and `ask.diybio.org`, the
+      ask-a-biosafety-professional service, answers with a certificate issued for wordpress.com. The
+      page links the preserved code as a 2011 document never formally revised, and does not link the
+      service at all. **The plan's biosafety decision to "point to the DIYbio codes of ethics and
+      its service" needs revisiting by Matthew**: there is no live service to point at;
+    - the IATA page on infectious substances returned a 404, so the page names the WHO transport
+      guidance and **states no shipping categories, UN numbers or packing instructions**;
+  - the three failed checks are printed on the page itself, next to the ones that passed, under
+    "What this page could not check". A safety page that is confidently wrong is worse than one with
+    its gaps marked;
+  - its *Read* view is a shortlist of five about how this community governs itself, checked on
+    Europe PMC on 2026-11-19, which Matthew has not chosen from. Four of the five are free to read;
+  - there is **no sequence screening tool and will not be one here**: real screening is done by
+    providers against curated databases under policy frameworks, and an approximation in a browser
+    would produce false reassurance, which is the specific failure worth avoiding. The lesson says
+    so in the version written for people who build software.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

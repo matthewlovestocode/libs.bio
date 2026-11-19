@@ -29,5 +29,5 @@ export const TOPICS: readonly Topic[] = [
   { slug: "structure", key: "structure", packages: ["pdb", "svdsuperimposer"], status: "stable" },
   { slug: "motifs", key: "motifs", packages: ["motifs", "seq"], status: "stable" },
   { slug: "lookup", key: "lookup", packages: ["entrez", "uniprot", "europepmc"], status: "stable" },
-  { slug: "safety", key: "safety", packages: [], status: null },
+  { slug: "safety", key: "safety", packages: [], status: "stable" },
 ];

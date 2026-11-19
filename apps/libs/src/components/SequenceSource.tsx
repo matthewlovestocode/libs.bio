@@ -23,12 +23,16 @@ import { SequenceInput } from "./SequenceInput.tsx";
  * @param props.onRecord - Called with the whole record when a file's sequence is used, features and
  *   all, and with `null` when the sequence is typed or pasted, since typed letters carry none.
  * @param props.sample - A sample of the tool's own to load, as a file. The made-up plasmid if left out.
+ * @param props.id - What to call the sequence box, where a page has more than one.
+ * @param props.label - What to call the sequence, where "Sequence" is not enough.
+ * @param props.notes - Whether to end with the note about files and NCBI. A page with two of these
+ *   says it once.
  * @param props.children - The tool's own controls, placed under the sequence and above the ways to
  *   get one.
  */
-export function SequenceSource({ value, onChange, circular, onCircular, onName, onRecord, sample, children }:
+export function SequenceSource({ value, onChange, circular, onCircular, onName, onRecord, sample, id = "sequence", label, notes = true, children }:
   { value: string; onChange: (value: string) => void; circular: boolean; onCircular: (circular: boolean) => void; onName?: (name: string) => void;
-    onRecord?: (record: FileRecord | null) => void; sample?: () => { fileName: string; bytes: Uint8Array }; children?: React.ReactNode }) {
+    onRecord?: (record: FileRecord | null) => void; sample?: () => { fileName: string; bytes: Uint8Array }; id?: string; label?: string; notes?: boolean; children?: React.ReactNode }) {
   const text = messages().tool;
   const [opened, setOpened] = useState<OpenedFile | null>(null);
   const [record, setRecord] = useState(0);
@@ -76,15 +80,15 @@ export function SequenceSource({ value, onChange, circular, onCircular, onName, 
     <div className={`source${over ? " over" : ""}`}
          onDragOver={(event) => { event.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
          onDrop={(event) => { event.preventDefault(); setOver(false); void open(event.dataTransfer.files[0]); }}>
-      <label className="field" htmlFor="sequence">{text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
-      <SequenceInput id="sequence" value={value} onChange={(next) => { onChange(next); setOpened(null); onName?.("sequence"); onRecord?.(null); }} />
+      <label className="field" htmlFor={id}>{label ?? text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
+      <SequenceInput id={id} value={value} onChange={(next) => { onChange(next); setOpened(null); onName?.("sequence"); onRecord?.(null); }} />
       {opened === null ? null : (
         <p className="opened">
           {text.openedAs(opened.fileName, opened.format?.label ?? text.plainText)}
           {opened.records.length > 1 ? (
             <>
-              {" "}<label htmlFor="record">{text.whichRecord(opened.total)}</label>{" "}
-              <select id="record" className="in" value={record} onChange={(event) => use(opened, Number(event.target.value))}>
+              {" "}<label htmlFor={`${id}-record`}>{text.whichRecord(opened.total)}</label>{" "}
+              <select id={`${id}-record`} className="in" value={record} onChange={(event) => use(opened, Number(event.target.value))}>
                 {opened.records.map((one, index) => <option key={index} value={index}>{one.name} ({number(one.sequence.length)} {text.length})</option>)}
               </select>
               {opened.total > opened.records.length ? <> {text.firstOnly(MOST_RECORDS)}</> : null}
@@ -110,7 +114,7 @@ export function SequenceSource({ value, onChange, circular, onCircular, onName, 
         <button type="button" className="btn" onClick={() => { if (sample !== undefined) { const own = sample(); void take(own.fileName, own.bytes); return; } onChange(samplePlasmid()); setOpened(null); onCircular(true); onName?.("sample"); onRecord?.(null); }}>{text.loadSample}</button>
       </div>
       {problem !== null ? <p className="problem" role="alert">{problem}</p> : null}
-      <p className="quiet">{text.openFileNote} {text.fetchNote}</p>
+      {notes ? <p className="quiet">{text.openFileNote} {text.fetchNote}</p> : null}
     </div>
   );
 }

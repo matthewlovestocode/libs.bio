@@ -230,6 +230,29 @@ each topic is built.
   - `seqfeature` joined the API reference with it, making eight packages;
   - saving any drawing now writes each shape's real colour into the file, so a saved map or gel
     looks as it does on the page.
+- **Cloning and assembly**, the fourth topic, is built on the `cloning` branch and **not yet
+  live**. The tool does the two ways of putting DNA together, one at a time behind a switch:
+  - **cut and paste**: cut a vector and an insert with the same enzymes and list every circle their
+    pieces can be ligated into, with the product drawn as a map carrying both pieces' features, what
+    holds each junction together, and the pieces you would have on the bench. Enzymes that cut the
+    vector once and the insert too are marked, since those are the ones that can work;
+  - **overlaps**: fragments that already share their ends are searched for an arrangement that
+    closes into a circle, and fragments that do not are given the primers whose 5′ tails would
+    create the overlaps. A tailed primer is reported twice over, whole and binding part, because
+    only the binding part sets the annealing temperature;
+  - each mode has its own sample, swapped when the mode changes if the visitor has not typed over
+    it: pieces that overlap for finding, pieces that butt together for designing;
+  - the sample insert was given EcoRI and KpnI ends, because those are the two common enzymes that
+    cut the sample plasmid exactly once. BamHI, the obvious choice, cuts it twice by chance, which
+    would have contradicted the tool's own advice on the same screen;
+  - checked by re-assembling the sample plasmid from three overlapping pieces: 3,000 bp back, three
+    25 bp junctions. The ligation was checked by arithmetic that adds up: vector 2,522 + insert 844
+    = 3,366 bp, with five features carried into the product;
+  - `cloning` and `seqrecord` joined the API reference, making ten packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Two of the five are paywalled;
+  - it says whether a product **can** form, not how much of it you would get: no ligation
+    efficiency, no insert-to-vector ratio, no dephosphorylation, no methylation.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

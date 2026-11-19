@@ -372,3 +372,12 @@ table.features tbody tr:hover, table.features tbody tr.picked { background: var(
 table.features tbody tr:focus-visible { outline: 2px solid var(--bionet-yours); outline-offset: -2px; }
 .named { display: flex; align-items: baseline; gap: 7px; min-width: 120px; }
 .swatch { flex: none; width: 10px; height: 10px; border-radius: 3px; }
+
+/* Cloning: the two methods, the fragments, and a primer's tail */
+.methods { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 14px; }
+.methods .quiet { flex: 1 1 260px; margin: 0; }
+.fragment { margin: 0 0 12px; }
+.fragment .row { margin-bottom: 4px; }
+.fragment .count { white-space: nowrap; }
+.primer-seq .tail { opacity: 0.75; border-bottom: 2px solid var(--bionet-theirs); padding-bottom: 1px; }
+.chip.fits { border-color: var(--bionet-found); }

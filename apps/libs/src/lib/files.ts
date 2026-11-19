@@ -124,8 +124,12 @@ const firstOf = (values: unknown): string | undefined => (Array.isArray(values) 
  *
  * The `source` feature, which covers the whole sequence and says where it came from, is left out.
  * A feature with no usable position is skipped.
+ *
+ * @param record - Anything with a `features` list: a record from a file, or one the cloning
+ *   packages built.
+ * @returns Its features.
  */
-function featuresOf(record: { features?: Iterable<unknown> }): FeatureRecord[] {
+export function featuresOf(record: { features?: Iterable<unknown> }): FeatureRecord[] {
   const out: FeatureRecord[] = [];
   for (const one of record.features ?? []) {
     const feature = one as { type: string; location?: { strand?: number | null; parts: { start: unknown; end: unknown }[] } | null; qualifiers: Map<string, unknown> };

@@ -214,8 +214,7 @@ each topic is built.
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled;
   - it reports what a pair should copy, not how well the reaction would go.
-- **Plasmid maps and features**, the third topic, is built on the `maps` branch and **not yet
-  live**. Its tool draws a sequence as a ring or a bar with the features its file marks, each an
+- **Plasmid maps and features**, the third topic, **went live on 2026-11-19**. Its tool draws a sequence as a ring or a bar with the features its file marks, each an
   arrow for its strand and in a lane of its own where two overlap, and marks the common enzymes that
   cut once. A feature can be picked out on the map or in the table, and the map saves as a PNG. It
   was checked against pBR322 (J01749): 48 features, with EcoRI at 4,359 and BamHI at 375. How it

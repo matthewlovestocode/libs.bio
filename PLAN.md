@@ -331,9 +331,8 @@ each topic is built.
   - `phylo` joined the API reference, making thirteen packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled.
-- **Protein structure**, the ninth topic, is built on the `structure` branch and **not yet live**.
-  It opens a PDB or mmCIF file, says what is in it, and draws the two pictures that say most about a
-  fold. How it stands:
+- **Protein structure**, the ninth topic, **went live on 2026-11-19**. It opens a PDB or mmCIF file,
+  says what is in it, and draws the two pictures that say most about a fold. How it stands:
   - a **contact map**, every residue against every other, dark where their α-carbons are within 8 Å,
     and a **Ramachandran plot**, each residue placed by its two backbone angles with the helix and
     strand regions shaded;

@@ -55,6 +55,16 @@ Colours come from [`@biolibs/bionet-theme`](https://www.npmjs.com/package/@bioli
 which has a light and a dark value for each and follows the reader's setting. Neither site writes a
 colour down for itself.
 
+## Configuration
+
+| Variable | What it does |
+|---|---|
+| `NEXT_PUBLIC_NCBI_EMAIL` | A contact address sent to NCBI with each record a visitor fetches by accession number. NCBI asks every client for one, and uses it to get in touch before throttling or blocking. Optional: without it the site is an anonymous client. |
+
+It is read **when the site is built** and is **public**: it is compiled into the page and appears in
+the address of each request. Use an address you are happy to publish. On Cloudflare it is a build
+variable on the `libs-bio` Worker.
+
 ## Languages
 
 Content is in English only. The layout is ready for more:

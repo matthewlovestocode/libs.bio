@@ -14,6 +14,19 @@ export const COMMON_ENZYMES = ["EcoRI", "BamHI", "HindIII", "XbaI", "PstI", "Sal
 /** Every enzyme there is, by name, in alphabetical order. */
 export const ALL_ENZYME_NAMES: readonly string[] = Object.keys(enzymes).sort((a, b) => a.localeCompare(b));
 
+/** The end a cut leaves. */
+export interface CutEnd {
+  /** Where the top strand is cut, as a 0-based boundary: the cut is before the base at this index. */
+  at: number;
+  /**
+   * Which strand is left sticking out. `5'` and `3'` are sticky ends, `blunt` is none, and
+   * `unknown` is an enzyme REBASE gives no cut position for.
+   */
+  kind: "5'" | "3'" | "blunt" | "unknown";
+  /** The bases left single-stranded, read along the top strand. Empty for a blunt end. */
+  overhang: string;
+}
+
 /** What one enzyme does to the sequence. */
 export interface EnzymeCuts {
   name: string;
@@ -23,6 +36,8 @@ export interface EnzymeCuts {
   blunt: boolean;
   /** Where it cuts, as 0-based boundaries: the cut is before the base at this index. */
   cuts: number[];
+  /** The end each of those cuts leaves, in the same order. */
+  ends: CutEnd[];
 }
 
 /** One piece the digest leaves. */
@@ -37,6 +52,8 @@ export interface Fragment {
   left: string | null;
   /** The enzyme that made its right end, or `null` for the end of a linear molecule. */
   right: string | null;
+  /** Its bases, read along the top strand from `from` to `to`. */
+  sequence: string;
 }
 
 /** A digest, and the gel it would give. */
@@ -78,6 +95,31 @@ export function notDna(dna: string): string[] {
 }
 
 /**
+ * The bases a cut leaves single-stranded.
+ *
+ * The top strand is cut at `at`, and the bottom strand `overhang` bases away: to the right of it for
+ * a 5' overhang and to the left for a 3' one, whichever way round the enzyme's site lies. REBASE
+ * gives that distance as a negative number for 5' and a positive one for 3'.
+ *
+ * @param dna - The sequence.
+ * @param at - Where the top strand is cut, as a 0-based boundary.
+ * @param ovhg - REBASE's overhang length for the enzyme, or `null` when it gives none.
+ * @param circular - Whether the molecule is a circle, so an overhang may run over the origin.
+ * @returns The end.
+ */
+export function endAt(dna: string, at: number, ovhg: number | null, circular: boolean): CutEnd {
+  if (ovhg === null) return { at, kind: "unknown", overhang: "" };
+  if (ovhg === 0) return { at, kind: "blunt", overhang: "" };
+  const from = Math.min(at, at - ovhg), to = Math.max(at, at - ovhg);
+  let overhang = "";
+  for (let i = from; i < to; i++) {
+    if (i >= 0 && i < dna.length) overhang += dna[i];
+    else if (circular) overhang += dna[((i % dna.length) + dna.length) % dna.length];
+  }
+  return { at, kind: ovhg < 0 ? "5'" : "3'", overhang };
+}
+
+/**
  * Cut a sequence with some enzymes and run the pieces on a gel.
  *
  * @param dna - The sequence, in DNA letters.
@@ -95,24 +137,26 @@ export function digest(dna: string, names: readonly string[], options: { circula
     // `search` answers as Biopython does: 1-based, the base after the cut. Its second argument is
     // whether the molecule is linear.
     const cuts = enzyme.search(seq, !circular).map((position) => (position - 1 + length) % length);
-    return { name, pattern: enzyme.elucidate(), blunt: enzyme.isBlunt(), cuts: [...new Set(cuts)].sort((a, b) => a - b) };
+    const sorted = [...new Set(cuts)].sort((a, b) => a - b);
+    return { name, pattern: enzyme.elucidate(), blunt: enzyme.isBlunt(), cuts: sorted, ends: sorted.map((at) => endAt(dna, at, enzyme.ovhg, circular)) };
   });
 
   const marks = cutting.flatMap((one) => one.cuts.map((at) => ({ at, name: one.name }))).sort((a, b) => a.at - b.at)
     .filter((mark, i, all) => i === 0 || all[i - 1].at !== mark.at);
   const fragments: Fragment[] = [];
   if (marks.length === 0) {
-    if (length > 0) fragments.push({ size: length, from: 1, to: length, left: null, right: null });
+    if (length > 0) fragments.push({ size: length, from: 1, to: length, left: null, right: null, sequence: dna });
   } else if (circular) {
     marks.forEach((mark, i) => {
       const next = marks[(i + 1) % marks.length];
       const size = i + 1 < marks.length ? next.at - mark.at : length - mark.at + next.at;
-      fragments.push({ size, from: mark.at + 1, to: next.at === 0 ? length : next.at, left: mark.name, right: next.name });
+      const sequence = i + 1 < marks.length ? dna.slice(mark.at, next.at) : dna.slice(mark.at) + dna.slice(0, next.at);
+      fragments.push({ size, from: mark.at + 1, to: next.at === 0 ? length : next.at, left: mark.name, right: next.name, sequence });
     });
   } else {
     const edges = [{ at: 0, name: null as string | null }, ...marks.filter((mark) => mark.at > 0), { at: length, name: null as string | null }];
     for (let i = 0; i + 1 < edges.length; i++) {
-      fragments.push({ size: edges[i + 1].at - edges[i].at, from: edges[i].at + 1, to: edges[i + 1].at, left: edges[i].name, right: edges[i + 1].name });
+      fragments.push({ size: edges[i + 1].at - edges[i].at, from: edges[i].at + 1, to: edges[i + 1].at, left: edges[i].name, right: edges[i + 1].name, sequence: dna.slice(edges[i].at, edges[i + 1].at) });
     }
   }
   fragments.sort((a, b) => b.size - a.size);
@@ -121,4 +165,21 @@ export function digest(dna: string, names: readonly string[], options: { circula
   const ladder = ladderById(gel.smallest >= 250 ? "1kb" : "100bp");
   const sizes = length === 0 ? [] : fragmentSizes(length, circular ? "circular" : "linear", marks.map((mark) => mark.at));
   return { length, circular, enzymes: cutting, fragments, gel, ladder, bands: bandsOf(sizes, gel), ladderLane: ladderBands(ladder.sizes, gel) };
+}
+
+/**
+ * The pieces of a digest as a FASTA file, largest first.
+ *
+ * Each piece is its top strand from one cut to the next. A sticky end's overhang is therefore
+ * written once, on the piece to the right of the cut for a 5' overhang.
+ *
+ * @param result - A digest.
+ * @param name - What to call the molecule in each header.
+ * @returns The file's text.
+ */
+export function fragmentsFasta(result: Digest, name: string): string {
+  return result.fragments.map((piece, i) => {
+    const header = `>${name}_piece_${i + 1} ${piece.size} bp, bases ${piece.from}..${piece.to}, ${piece.left ?? "end"}/${piece.right ?? "end"}`;
+    return `${header}\n${piece.sequence.match(/.{1,70}/g)?.join("\n") ?? ""}\n`;
+  }).join("");
 }

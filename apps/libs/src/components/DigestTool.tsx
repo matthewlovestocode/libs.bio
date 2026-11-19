@@ -2,10 +2,13 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { GELS } from "@biolibs/gel";
-import { ALL_ENZYME_NAMES, COMMON_ENZYMES, cleanSequence, digest, notDna } from "@/lib/digest.ts";
+import { ALL_ENZYME_NAMES, COMMON_ENZYMES, type CutEnd, cleanSequence, digest, fragmentsFasta, notDna } from "@/lib/digest.ts";
 import { ACCEPT, MOST_RECORDS, type OpenedFile, readSequenceFile } from "@/lib/files.ts";
+import { fetchRecord } from "@/lib/ncbi.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
+import { saveFile, saveSvgAsPng } from "@/lib/save.ts";
 import { messages } from "@/messages/index.ts";
+import { CutMap } from "./CutMap.tsx";
 import { Gel } from "./Gel.tsx";
 
 /** The longest sequence a link is made for. Past this an address stops being something to paste. */
@@ -41,6 +44,9 @@ export function DigestTool() {
   const [opened, setOpened] = useState<OpenedFile | null>(null);
   const [record, setRecord] = useState(0);
   const [over, setOver] = useState(false);
+  const [accession, setAccession] = useState("");
+  const [fetching, setFetching] = useState(false);
+  const gelSide = useRef<HTMLDivElement>(null);
   const file = useRef<HTMLInputElement>(null);
 
   // A link somebody was sent is read once, after the page is up, so the first paint is the same
@@ -73,15 +79,38 @@ export function DigestTool() {
     setRecord(index); setInput(one.sequence);
     if (one.circular !== null) setCircular(one.circular);
   };
-  const open = async (picked: File | undefined) => {
-    if (picked === undefined) return;
+  const take = async (fileName: string, bytes: Uint8Array) => {
     try {
-      const read = await readSequenceFile(picked.name, new Uint8Array(await picked.arrayBuffer()));
+      const read = await readSequenceFile(fileName, bytes);
       setProblem(null); setOpened(read); use(read, 0);
     } catch (error) {
       setOpened(null);
-      setProblem(`${text.cannotRead(picked.name)} ${error instanceof Error ? error.message : String(error)}`);
+      setProblem(`${text.cannotRead(fileName)} ${error instanceof Error ? error.message : String(error)}`);
     }
+  };
+  const open = async (picked: File | undefined) => { if (picked !== undefined) await take(picked.name, new Uint8Array(await picked.arrayBuffer())); };
+  const fetchIt = async () => {
+    if (accession.trim() === "" || fetching) return;
+    setFetching(true);
+    try {
+      const got = await fetchRecord(accession);
+      await take(got.fileName, got.bytes);
+    } catch (error) {
+      setProblem(`${text.cannotFetch} ${error instanceof Error ? error.message : String(error)}`);
+    } finally {
+      setFetching(false);
+    }
+  };
+  /** What a cut leaves, in a few characters: 5′ AATT, 3′ TGCA, blunt. */
+  const leaves = (ends: CutEnd[]) => {
+    const each = ends.map((end) => (end.kind === "blunt" ? text.blunt : end.kind === "unknown" ? text.unknownEnd : `${end.kind === "5'" ? "5′" : "3′"} ${end.overhang}`));
+    return [...new Set(each)].join(", ");
+  };
+  const moleculeName = () => (opened === null ? "sample" : (opened.records[record]?.name ?? "sequence")).replace(/[^A-Za-z0-9_.-]+/g, "_");
+  const saveGel = async () => {
+    const drawing = gelSide.current?.querySelector("svg");
+    if (drawing === null || drawing === undefined) return;
+    try { await saveSvgAsPng(drawing, `${moleculeName()}_gel.png`); setProblem(null); } catch (error) { setProblem(error instanceof Error ? error.message : String(error)); }
   };
   const copy = async () => {
     if (dna.length > LONGEST_LINK) return setProblem(text.tooLong);
@@ -129,6 +158,13 @@ export function DigestTool() {
           <button type="button" className="btn" onClick={add}>{text.add}</button>
         </div>
 
+        <p className="field">{text.getSequence}</p>
+        <div className="row first">
+          <input className="in grow" value={accession} onChange={(event) => setAccession(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") void fetchIt(); }}
+                 placeholder={text.accessionPlaceholder} aria-label={text.accession} spellCheck={false} maxLength={40} />
+          <button type="button" className="btn" onClick={() => void fetchIt()} disabled={fetching}>{fetching ? text.fetching : text.fetch}</button>
+        </div>
+        <p className="quiet">{text.fetchNote}</p>
         <div className="row">
           <button type="button" className="btn" onClick={() => file.current?.click()}>{text.openFile}</button>
           <input ref={file} type="file" accept={ACCEPT} hidden onChange={(event) => { void open(event.target.files?.[0]); event.target.value = ""; }} />
@@ -145,7 +181,7 @@ export function DigestTool() {
             <h2>{text.resultHeading(result.fragments.length)}</h2>
             {result.enzymes.every((one) => one.cuts.length === 0) ? <p className="quiet">{text.noCuts}</p> : null}
             <div className="result">
-              <div className="gel-side">
+              <div className="gel-side" ref={gelSide}>
                 <Gel ladder={result.ladderLane} sample={result.bands}
                      labels={{ ladder: text.ladderLane, sample: text.digestLane, alt: text.gelAlt(result.ladder.name, result.bands.length) }} />
                 <label className="field" htmlFor="gel">{text.gel}</label>
@@ -168,20 +204,31 @@ export function DigestTool() {
                 </table>
                 <h3>{text.cutsHeading}</h3>
                 <table>
-                  <thead><tr><th>{text.enzyme}</th><th>{text.site}</th><th>{text.cutsAt}</th></tr></thead>
+                  <thead><tr><th>{text.enzyme}</th><th>{text.site}</th><th>{text.cutsAt}</th><th>{text.leaves}</th></tr></thead>
                   <tbody>
                     {result.enzymes.map((one) => (
                       <tr key={one.name}>
-                        <td>{one.name} <span className="quiet">{one.blunt ? text.blunt : text.sticky}</span></td>
+                        <td>{one.name}</td>
                         <td className="n">{one.pattern}</td>
-                        <td className="n">{one.cuts.length === 0 ? text.noSite : one.cuts.map((at) => number(at === 0 ? result.length : at)).join(", ")}</td>
+                        <td className="n wrap">{one.cuts.length === 0 ? text.noSite : one.cuts.map((at) => number(at === 0 ? result.length : at)).join(", ")}</td>
+                        <td className="n">{one.cuts.length === 0 ? "" : leaves(one.ends)}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <p className="quiet">{text.gelNote}</p>
+            {result.enzymes.some((one) => one.cuts.length > 0) ? (
+              <>
+                <h3>{text.mapHeading}</h3>
+                <CutMap result={result} alt={text.mapAlt(result.circular, result.enzymes.reduce((sum, one) => sum + one.cuts.length, 0))} />
+              </>
+            ) : null}
+            <div className="row">
+              <button type="button" className="btn" onClick={() => saveFile(`${moleculeName()}_pieces.fasta`, new Blob([fragmentsFasta(result, moleculeName())], { type: "text/plain" }))}>{text.savePieces}</button>
+              <button type="button" className="btn" onClick={() => void saveGel()}>{text.saveGel}</button>
+            </div>
+            <p className="quiet">{text.saveNote} {text.gelNote}</p>
           </>
         )}
       </section>

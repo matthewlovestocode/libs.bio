@@ -33,11 +33,32 @@ const [record] = parse(bytes, "snapgene");       // or parse(text, "genbank"), "
 const plasmid = record.seq.toString().toUpperCase();
 const circular = record.annotations.get("topology") === "circular";`;
 
+/** Fetching a record from NCBI, which is what the accession box does. */
+const FETCHING = `import { efetch } from "@biolibs/entrez";
+import { parse } from "@biolibs/seqio";
+
+const reply = await efetch("nucleotide", { id: "J01749", rettype: "gb", retmode: "text" });
+const [record] = parse(reply.readText(), "genbank");      // pBR322, 4,361 bp, circular`;
+
+/** What a cut leaves behind, which is the "Leaves" column. */
+const ENDS = `import { enzymes } from "@biolibs/restriction";
+
+enzymes.EcoRI.ovhg;       // -4: four bases, and negative means the 5' end is left sticking out
+enzymes.EcoRI.ovhgseq;    // "AATT"
+enzymes.PstI.ovhg;        //  4: positive means the 3' end is
+enzymes.SmaI.isBlunt();   // true
+
+// The top strand is cut at \`cut\`, and the bottom strand \`ovhg\` bases away, so the
+// single-stranded bases are the ones in between.
+const overhang = plasmid.slice(Math.min(cut, cut - ovhg), Math.max(cut, cut - ovhg));`;
+
 const PACKAGES = [
   { name: "restriction", note: text.code.restriction },
   { name: "gel", note: text.code.gel },
   { name: "seq", note: text.code.seq },
   { name: "seqio", note: text.code.seqio },
+  { name: "entrez", note: text.code.entrez },
+  { name: "seqmap", note: text.code.seqmap },
 ] as const;
 
 /** Code: the calls the tool makes, with what they give, worked out when the page is built. */
@@ -59,6 +80,11 @@ export default function Code() {
       <h3>{text.code.reading}</h3>
       <p>{text.code.readingIntro}</p>
       <pre><code>{READING}</code></pre>
+      <h3>{text.code.fetching}</h3>
+      <p>{text.code.fetchingIntro}</p>
+      <pre><code>{FETCHING}</code></pre>
+      <h3>{text.code.ends}</h3>
+      <pre><code>{ENDS}</code></pre>
       <h3>{text.code.packages}</h3>
       <ul className="packages">
         {PACKAGES.map((one) => (
@@ -69,7 +95,7 @@ export default function Code() {
         ))}
       </ul>
       <h3>{text.code.install}</h3>
-      <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio</code></pre>
+      <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio @biolibs/entrez @biolibs/seqmap</code></pre>
       <p className="quiet">{text.code.reference}</p>
     </div>
   );

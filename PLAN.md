@@ -162,6 +162,13 @@ each topic is built.
     Strider and the alignment formats among them, with plain text as the fallback. A file that says
     whether it is circular sets the tool's switch. It was tested with small files built from the
     libraries' own recorded test cases, not with files exported from the real programs;
+  - the tool also fetches a record from NCBI by accession number, shows the overhang each cut
+    leaves, draws a map of where the cuts fall, and saves the pieces as FASTA and the gel as a PNG.
+    Fetching was checked against pBR322 (J01749): 4,361 bp, circular, with EcoRI and BamHI cutting
+    where the published map says they do;
+  - the NCBI fetch is the one place a page contacts anybody else, and only when asked. NCBI wants a
+    contact address from every client. It is read from `NEXT_PUBLIC_NCBI_EMAIL` when the site is
+    built, and is not set, so the site is an anonymous client for now;
   - the mark in the header is still the sketch from the mock-up;
   - the *Code* view links to each package's README, as planned until step 4.
 

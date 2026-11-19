@@ -114,7 +114,10 @@ code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 
           background: color-mix(in srgb, var(--bionet-held) 8%, transparent); font-size: 14px; }
 .paper-what { font-weight: 600; margin-right: 8px; }
 .tag { font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 99px; border: 1px solid currentColor; white-space: nowrap; }
-.tag-unknown { color: var(--muted); }
+.tag-open { color: var(--bionet-good); }
+.tag-free { color: var(--bionet-yours); }
+.tag-paywalled { color: var(--bionet-held); }
+.paper-links { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; font-size: 14px; }
 
 /* ---------- The Do view: glass, over the grid and the drifting bands ---------- */
 

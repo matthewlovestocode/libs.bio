@@ -93,8 +93,10 @@ export const en = {
   read: {
     heading: "The papers behind this",
     shortlistTitle: "This list is a shortlist, not yet chosen.",
-    shortlistBody: "The papers for each topic are picked by hand. These are candidates, and their details have not been checked against Europe PMC yet.",
-    open: "Open access", paywalled: "Paywalled", unknown: "Access not checked",
+    shortlistBody: (date: string) => `The papers for each topic are picked by hand, and that has not happened yet. The details of these candidates were checked against Europe PMC on ${date}.`,
+    access: { open: "Open access", free: "Free to read", paywalled: "Paywalled" },
+    accessNote: { open: "Anyone may read and reuse it.", free: "Not open access, but the full text is free in PubMed Central.", paywalled: "The publisher charges to read it." },
+    readIt: "Read it", publisher: "At the publisher", record: "Record",
     suggest: "Suggest a paper",
   },
 } as const;

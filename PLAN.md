@@ -155,8 +155,9 @@ each topic is built.
 - Step 3, the first release of `libs.bio`, is **built on the `first-release` branch and not yet
   merged**. It has the landing page and the digests and gels topic with its four views, each view a
   page of its own so it can be linked to. Before it goes to `main`:
-  - the papers on the *Read* view are a shortlist of candidates. Matthew has not chosen, their
-    details are not checked, and nothing is fetched from Europe PMC yet;
+  - the papers on the *Read* view are a shortlist of five. Their details were checked against
+    Europe PMC by hand on 2026-11-19. Matthew has not chosen from them, and fetching the details at
+    build time is not written;
   - "Open a file" takes FASTA or plain text only. GenBank and SnapGene need `@biolibs/seqio`;
   - the mark in the header is still the sketch from the mock-up;
   - the *Code* view links to each package's README, as planned until step 4.
@@ -167,6 +168,8 @@ Left over from step 2, none of it blocking:
 - Cloudflare's GitHub app can see more of Matthew's repositories than this one. Narrowing it is a
   setting on GitHub.
 - Build watch paths are not set, so both sites rebuild on every push.
+- A branch other than `main` gets a public preview at
+  `https://<branch>-libs-bio.mattcodenow.workers.dev`, and the same for Bionet.
 
 Choices made while setting up, which were not in the plan and can be changed:
 

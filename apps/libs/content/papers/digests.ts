@@ -1,25 +1,69 @@
 /**
  * The papers behind the digests and gels topic.
  *
- * The plan is a handful chosen by hand per topic, held as a DOI or PMID, with titles, authors and
- * open-access status fetched from Europe PMC when the site is built. Neither half is done yet:
- * nobody has chosen, and nothing is fetched. What is here is a shortlist of candidates, described
- * and not cited, so that no detail is stated that has not been checked.
+ * The plan is a handful chosen by hand per topic, held as a DOI or PMID, with the rest fetched from
+ * Europe PMC when the site is built. Two things are still to do: Matthew has not chosen from this
+ * shortlist, and nothing is fetched yet. The details below were looked up on Europe PMC by hand on
+ * the date in `checked`, so each one is what Europe PMC says and not what anybody remembered.
  */
 
-/** A candidate, described by what it is and why it would earn its place. */
-export interface Candidate {
-  what: string;
+/** How a reader with no journal subscription can get at a paper. */
+export type Access = "open" | "free" | "paywalled";
+
+/** One paper. */
+export interface Paper {
+  pmid: string;
+  doi: string;
+  /** Its PubMed Central id, when the full text is there to read. */
+  pmcid: string | null;
+  title: string;
+  authors: string;
+  journal: string;
+  year: number;
+  /**
+   * `open`: published open access. `free`: not open access, but free to read in PubMed Central.
+   * `paywalled`: neither.
+   */
+  access: Access;
+  /** Why it would earn its place. */
   why: string;
 }
 
-/** Set to `true` once the list has been chosen and its details checked. */
+/** Set to `true` once the list has been chosen. */
 export const chosen = false;
 
-export const candidates: Candidate[] = [
-  { what: "The first report of a restriction enzyme that cuts at a specific sequence (Smith and Wilcox, 1970).", why: "The discovery the whole method rests on." },
-  { what: "The first use of a restriction enzyme to cut a genome into defined pieces and separate them on a gel (Danna and Nathans, 1971).", why: "The experiment this page's tool predicts, done for the first time." },
-  { what: "The paper that introduced agarose gels stained with ethidium bromide for sizing DNA (Sharp, Sugden and Sambrook, 1973).", why: "Where the everyday gel comes from." },
-  { what: "A current description of REBASE, the database of restriction enzymes (Roberts and colleagues).", why: "The source of the 1,088 enzymes in the tool." },
-  { what: "The paper describing Biopython (Cock and colleagues, 2009).", why: "The library these TypeScript ports are checked against." },
+/** The day the details were last looked up on Europe PMC. */
+export const checked = "2026-11-19";
+
+export const papers: Paper[] = [
+  {
+    pmid: "5312500", doi: "10.1016/0022-2836(70)90149-x", pmcid: null,
+    title: "A restriction enzyme from Hemophilus influenzae. I. Purification and general properties",
+    authors: "Smith HO, Wilcox KW", journal: "J Mol Biol", year: 1970, access: "paywalled",
+    why: "The first enzyme found to cut DNA at a specific sequence. The whole method rests on it.",
+  },
+  {
+    pmid: "4332003", doi: "10.1073/pnas.68.12.2913", pmcid: "PMC389558",
+    title: "Specific cleavage of simian virus 40 DNA by restriction endonuclease of Hemophilus influenzae",
+    authors: "Danna K, Nathans D", journal: "Proc Natl Acad Sci U S A", year: 1971, access: "free",
+    why: "A genome cut into defined pieces and separated on a gel: the experiment this page's tool predicts, done for the first time.",
+  },
+  {
+    pmid: "4354250", doi: "10.1021/bi00740a018", pmcid: null,
+    title: "Detection of two restriction endonuclease activities in Haemophilus parainfluenzae using analytical agarose-ethidium bromide electrophoresis",
+    authors: "Sharp PA, Sugden B, Sambrook J", journal: "Biochemistry", year: 1973, access: "paywalled",
+    why: "Where the everyday agarose gel, stained so the bands can be seen, comes from.",
+  },
+  {
+    pmid: "36318248", doi: "10.1093/nar/gkac975", pmcid: "PMC9825431",
+    title: "REBASE: a database for DNA restriction and modification: enzymes, genes and genomes",
+    authors: "Roberts RJ, Vincze T, Posfai J, Macelis D", journal: "Nucleic Acids Res", year: 2023, access: "open",
+    why: "The database the 1,088 enzymes in the tool come from.",
+  },
+  {
+    pmid: "19304878", doi: "10.1093/bioinformatics/btp163", pmcid: "PMC2682512",
+    title: "Biopython: freely available Python tools for computational molecular biology and bioinformatics",
+    authors: "Cock PJ, Antao T, Chang JT, Chapman BA, Cox CJ, Dalke A, and others", journal: "Bioinformatics", year: 2009, access: "open",
+    why: "The library these TypeScript ports are checked against, case by case.",
+  },
 ];

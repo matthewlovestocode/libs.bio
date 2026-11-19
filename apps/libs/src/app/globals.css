@@ -155,6 +155,20 @@ code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 
 .count { font-weight: 400; margin-left: 6px; }
 .in, .chip, .btn { font: inherit; color: var(--ink); border: 1px solid var(--glass-edge); background: var(--glass-inner); border-radius: 8px; }
 .in { padding: 7px 10px; font-size: 14px; max-width: 100%; }
+/* A dropdown draws its own chevron. The browser's sits hard against the right edge and cannot be
+   moved, so it is turned off and one is drawn with room on both sides of it. */
+select.in {
+  -webkit-appearance: none; appearance: none; cursor: pointer;
+  padding-right: 38px; text-overflow: ellipsis;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%235b6472' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 16px 16px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bionet-theme="light"]) select.in {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23a9bbd0' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  }
+}
+.opened select.in { padding-right: 34px; background-position: right 10px center; }
 .in.sequence { display: block; width: 100%; resize: vertical; font: 12px/1.5 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; }
 .in.grow { flex: 1; min-width: 0; }
 .opened { margin: 8px 0 0; font-size: 13px; }
@@ -171,7 +185,7 @@ code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 
 .chip:focus-visible, .btn:focus-visible, .in:focus-visible, .views a:focus-visible, .topic:focus-visible { outline: 2px solid var(--bionet-yours); outline-offset: 2px; }
 .problem { margin: 8px 0 0; font-size: 13px; color: var(--bionet-attention); }
 .result { display: flex; gap: 18px; flex-wrap: wrap; align-items: flex-start; }
-.gel-side { flex: 0 0 230px; max-width: 100%; }
+.gel-side { flex: 0 0 250px; max-width: 100%; }
 .gel-side .in { width: 100%; }
 .gel { width: 100%; height: auto; display: block; border-radius: 8px; }
 .tables { flex: 1 1 240px; min-width: 0; overflow-x: auto; }

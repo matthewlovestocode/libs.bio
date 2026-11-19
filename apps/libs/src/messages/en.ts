@@ -90,7 +90,7 @@ export const en = {
     saveGel: "Save the gel (PNG)",
     saveNote: "Saved files are made in your browser. Each piece is written as its top strand, from one cut to the next.",
     gel: "Gel",
-    gelOption: (percent: number, smallest: string, largest: string) => `${percent}% agarose (${smallest} to ${largest} bp)`,
+    gelOption: (percent: number, smallest: string, largest: string) => `${percent}% agarose · ${smallest}–${largest} bp`,
     gelAlt: (ladder: string, bands: number) => `A drawing of a gel: the ${ladder} beside a lane with ${bands} ${bands === 1 ? "band" : "bands"}.`,
     ladderLane: "Ladder", digestLane: "Digest",
     gelNote: "A model of which pieces a gel would tell apart, not a measurement. Pieces within 3% of each other share a band.",

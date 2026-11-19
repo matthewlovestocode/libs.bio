@@ -146,12 +146,14 @@ each topic is built.
   Each app is a Cloudflare Worker (`libs-bio` and `bionet-libs-bio`) connected to the repository, so
   a push to `main` builds and deploys it and any other branch gets a preview.
 - **Both placeholder pages are live** at https://libs.bio and https://bionet.libs.bio.
+- `www.libs.bio` is sent to `libs.bio`, keeping the path and the query string. It is a redirect rule
+  at Cloudflare, with a placeholder DNS record for `www` so the rule has something to act on.
+- "Always Use HTTPS" is on for the whole domain, so a plain `http://` address is sent to `https://`.
+  It applies to every name under `libs.bio`. When Wren and Thistle move under the domain, their
+  hosts must not also force the redirect, or the two will loop.
 
 Left over from step 2, none of it blocking:
 
-- `www.libs.bio` does not resolve. Sending it to the bare domain is a redirect rule still to add.
-- Plain `http://` addresses are served as they are, not sent to `https://`. That is a setting on the
-  domain at Cloudflare.
 - Each Worker also answers at a `workers.dev` address, which branch previews are served from.
 - Cloudflare's GitHub app can see more of Matthew's repositories than this one. Narrowing it is a
   setting on GitHub.

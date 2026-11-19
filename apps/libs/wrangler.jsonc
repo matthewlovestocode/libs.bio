@@ -21,6 +21,9 @@
   "workers_dev": true,
   // Each branch gets an address of its own to be looked at before it goes live. They are public.
   "preview_urls": true,
+  // `wrangler preview`, which Cloudflare runs for every branch but main, refuses to run without
+  // this block. It is empty because a preview needs nothing the site itself does not.
+  "previews": {},
   // Cloudflare's tool reports how it is used unless told not to. Nothing here tracks anybody.
   "send_metrics": false
 }

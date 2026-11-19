@@ -230,8 +230,7 @@ each topic is built.
   - `seqfeature` joined the API reference with it, making eight packages;
   - saving any drawing now writes each shape's real colour into the file, so a saved map or gel
     looks as it does on the page.
-- **Cloning and assembly**, the fourth topic, is built on the `cloning` branch and **not yet
-  live**. The tool does the two ways of putting DNA together, one at a time behind a switch:
+- **Cloning and assembly**, the fourth topic, **went live on 2026-11-19**. The tool does the two ways of putting DNA together, one at a time behind a switch:
   - **cut and paste**: cut a vector and an insert with the same enzymes and list every circle their
     pieces can be ligated into, with the product drawn as a map carrying both pieces' features, what
     holds each junction together, and the pieces you would have on the bench. Enzymes that cut the

@@ -527,6 +527,13 @@ Choices made while setting up, which were not in the plan and can be changed:
   material, vets a lab or checks what a sequence is; and with no central party, nothing is enforced.
 - **Adopt the community's code.** Point to the DIYbio codes of ethics and its service for asking a
   biosafety professional, and state an expectation of work at the lowest containment level.
+  - **Revised 2026-11-19, after checking.** The codes are linked, as the 2011 document they are:
+    `diybio.org/codes` says the programme is closed and points at a preserved record on
+    DIYbiosphere, which is what the safety topic links. There is no service left to point at:
+    `ask.diybio.org` answers with a certificate issued for wordpress.com. Matthew decided to leave
+    the page as it stands — the service is not linked, and the failed check is printed on the page
+    itself rather than the absence being passed over. If the service comes back, or another is
+    chosen, the page gains a link and this note goes.
 - **Teach it.** "Working safely" is a twelfth topic on `libs.bio`: containment levels, what not to
   work with, disposal, and how sending material works (transfer agreements, shipping rules).
 - Guidance for labs on what to list: publishing an inventory is a public act, and "held but not

@@ -353,3 +353,22 @@ code.bases { font-weight: 600; letter-spacing: 0.02em; }
 .dot.forward { background: var(--bionet-yours); } .dot.reverse { background: var(--bionet-theirs); }
 .warnings { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--bionet-held); }
 .fine { margin: 8px 0 0; font-size: 13px; color: var(--bionet-good); }
+
+/* The feature map */
+.map-tool { grid-template-columns: 1fr; }
+@media (min-width: 980px) { .map-tool { grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); } }
+.feature-map { display: block; width: 100%; height: auto; max-width: 720px; margin: 4px auto 10px; }
+.feature-map .map-tick { font: 9px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.feature-map .map-name { font-size: 12.5px; font-weight: 500; }
+.feature-map .map-title { font-size: 15px; font-weight: 600; fill: var(--ink); }
+.feature-map .feature, .feature-map .label { cursor: pointer; }
+.feature-map .feature path { opacity: 0.82; stroke: var(--ink); stroke-width: 0; transition: opacity 120ms; }
+.feature-map .feature:hover path { opacity: 1; }
+.feature-map .feature.picked path { opacity: 1; stroke-width: 1.5; }
+.feature-map .label.picked text, .feature-map .feature.picked text { font-weight: 700; text-decoration: underline; }
+table.features tbody tr { cursor: pointer; }
+table.features td:nth-child(n+3) { white-space: nowrap; }
+table.features tbody tr:hover, table.features tbody tr.picked { background: var(--glass-inner); }
+table.features tbody tr:focus-visible { outline: 2px solid var(--bionet-yours); outline-offset: -2px; }
+.named { display: flex; align-items: baseline; gap: 7px; min-width: 120px; }
+.swatch { flex: none; width: 10px; height: 10px; border-radius: 3px; }

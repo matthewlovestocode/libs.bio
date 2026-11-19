@@ -2,7 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 import { cleanSequence, notDna } from "@/lib/digest.ts";
-import { ACCEPT, MOST_RECORDS, type OpenedFile, readSequenceFile } from "@/lib/files.ts";
+import { ACCEPT, type FileRecord, MOST_RECORDS, type OpenedFile, readSequenceFile } from "@/lib/files.ts";
 import { fetchRecord } from "@/lib/ncbi.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { messages } from "@/messages/index.ts";
@@ -20,11 +20,15 @@ import { SequenceInput } from "./SequenceInput.tsx";
  * @param props.circular - Whether the molecule is a circle.
  * @param props.onCircular - Called when that changes, by hand or because a file said so.
  * @param props.onName - Called with what to call the molecule, for naming saved files.
+ * @param props.onRecord - Called with the whole record when a file's sequence is used, features and
+ *   all, and with `null` when the sequence is typed or pasted, since typed letters carry none.
+ * @param props.sample - A sample of the tool's own to load, as a file. The made-up plasmid if left out.
  * @param props.children - The tool's own controls, placed under the sequence and above the ways to
  *   get one.
  */
-export function SequenceSource({ value, onChange, circular, onCircular, onName, children }:
-  { value: string; onChange: (value: string) => void; circular: boolean; onCircular: (circular: boolean) => void; onName?: (name: string) => void; children?: React.ReactNode }) {
+export function SequenceSource({ value, onChange, circular, onCircular, onName, onRecord, sample, children }:
+  { value: string; onChange: (value: string) => void; circular: boolean; onCircular: (circular: boolean) => void; onName?: (name: string) => void;
+    onRecord?: (record: FileRecord | null) => void; sample?: () => { fileName: string; bytes: Uint8Array }; children?: React.ReactNode }) {
   const text = messages().tool;
   const [opened, setOpened] = useState<OpenedFile | null>(null);
   const [record, setRecord] = useState(0);
@@ -42,7 +46,7 @@ export function SequenceSource({ value, onChange, circular, onCircular, onName, 
   /** Put one of a file's sequences into the tool, with its shape when the file says what that is. */
   const use = (from: OpenedFile, index: number) => {
     const one = from.records[index];
-    setRecord(index); onChange(one.sequence); onName?.(tidy(one.name));
+    setRecord(index); onChange(one.sequence); onName?.(tidy(one.name)); onRecord?.(one);
     if (one.circular !== null) onCircular(one.circular);
   };
   const take = async (fileName: string, bytes: Uint8Array) => {
@@ -73,7 +77,7 @@ export function SequenceSource({ value, onChange, circular, onCircular, onName, 
          onDragOver={(event) => { event.preventDefault(); setOver(true); }} onDragLeave={() => setOver(false)}
          onDrop={(event) => { event.preventDefault(); setOver(false); void open(event.dataTransfer.files[0]); }}>
       <label className="field" htmlFor="sequence">{text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
-      <SequenceInput id="sequence" value={value} onChange={(next) => { onChange(next); setOpened(null); onName?.("sequence"); }} />
+      <SequenceInput id="sequence" value={value} onChange={(next) => { onChange(next); setOpened(null); onName?.("sequence"); onRecord?.(null); }} />
       {opened === null ? null : (
         <p className="opened">
           {text.openedAs(opened.fileName, opened.format?.label ?? text.plainText)}
@@ -103,7 +107,7 @@ export function SequenceSource({ value, onChange, circular, onCircular, onName, 
       <div className="row">
         <button type="button" className="btn" onClick={() => file.current?.click()}>{text.openFile}</button>
         <input ref={file} type="file" accept={ACCEPT} hidden onChange={(event) => { void open(event.target.files?.[0]); event.target.value = ""; }} />
-        <button type="button" className="btn" onClick={() => { onChange(samplePlasmid()); setOpened(null); onCircular(true); onName?.("sample"); }}>{text.loadSample}</button>
+        <button type="button" className="btn" onClick={() => { if (sample !== undefined) { const own = sample(); void take(own.fileName, own.bytes); return; } onChange(samplePlasmid()); setOpened(null); onCircular(true); onName?.("sample"); onRecord?.(null); }}>{text.loadSample}</button>
       </div>
       {problem !== null ? <p className="problem" role="alert">{problem}</p> : null}
       <p className="quiet">{text.openFileNote} {text.fetchNote}</p>

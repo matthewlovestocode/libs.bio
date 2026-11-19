@@ -1135,5 +1135,7 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "pcr": return <PcrDiagram />;
     case "melting": return <MeltingDiagram />;
     case "five-three": return <DuplexDiagram />;
+    case "feature": return <TermDiagram slug="feature" />;
+    case "coordinates": return <TermDiagram slug="coordinates" />;
   }
 }

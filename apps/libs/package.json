@@ -19,6 +19,7 @@
     "@biolibs/pcr": "^1.0.0",
     "@biolibs/restriction": "^1.0.0",
     "@biolibs/seq": "^1.0.0",
+    "@biolibs/seqfeature": "^1.1.0",
     "@biolibs/seqio": "^1.1.2",
     "@biolibs/seqmap": "^1.0.0",
     "@biolibs/seqtools": "^1.0.0",

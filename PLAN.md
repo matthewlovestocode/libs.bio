@@ -214,6 +214,23 @@ each topic is built.
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled;
   - it reports what a pair should copy, not how well the reaction would go.
+- **Plasmid maps and features**, the third topic, is built on the `maps` branch and **not yet
+  live**. Its tool draws a sequence as a ring or a bar with the features its file marks, each an
+  arrow for its strand and in a lane of its own where two overlap, and marks the common enzymes that
+  cut once. A feature can be picked out on the map or in the table, and the map saves as a PNG. It
+  was checked against pBR322 (J01749): 48 features, with EcoRI at 4,359 and BamHI at 375. How it
+  stands:
+  - **features come only from the file.** `@biolibs/features` ships no library of known parts, so a
+    sequence that is typed, or a file with nothing marked, gets a bare map and a note saying why.
+    pUC19's NCBI record (L09137) is one such: it marks nothing but its source;
+  - the map has room for 22 names. Past that it names the largest features and the table has all;
+  - it does not edit features or write an annotated file, and it has no link to copy, since a link
+    cannot carry features;
+  - its *Read* view is a shortlist of six, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Two of the six are paywalled;
+  - `seqfeature` joined the API reference with it, making eight packages;
+  - saving any drawing now writes each shape's real colour into the file, so a saved map or gel
+    looks as it does on the page.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

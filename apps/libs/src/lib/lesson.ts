@@ -4,7 +4,7 @@
  */
 
 /** The figures a lesson can place, by name. `src/components/diagrams` draws them. */
-export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel" | "primer" | "pcr" | "melting" | "five-three";
+export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel" | "primer" | "pcr" | "melting" | "five-three" | "feature" | "coordinates";
 
 /** One part of a lesson: a heading, some paragraphs, and perhaps a picture. */
 export interface Section {

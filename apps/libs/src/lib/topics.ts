@@ -20,8 +20,8 @@ export interface Topic {
 export const TOPICS: readonly Topic[] = [
   { slug: "digests", key: "digests", packages: ["restriction", "gel"], status: "stable" },
   { slug: "pcr", key: "pcr", packages: ["pcr", "gel"], status: "stable" },
+  { slug: "maps", key: "maps", packages: ["seqmap", "seqio", "seqfeature", "restriction"], status: "stable" },
   { slug: "cloning", key: "cloning", packages: ["cloning", "assembly", "assembly2", "dseq"], status: null },
-  { slug: "maps", key: "maps", packages: ["seqmap", "seqfeature", "features"], status: null },
   { slug: "files", key: "files", packages: ["seqio", "align", "phylo", "pdb"], status: null },
   { slug: "sequences", key: "sequences", packages: ["seq", "seqtools"], status: null },
   { slug: "alignment", key: "alignment", packages: ["align"], status: null },

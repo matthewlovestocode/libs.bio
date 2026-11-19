@@ -57,6 +57,18 @@ export const SEQUENCE_FORMATS: readonly SequenceFormat[] = [
 /** What a file picker should offer: every extension above, and plain text. */
 export const ACCEPT = [...SEQUENCE_FORMATS.flatMap((format) => format.extensions.map((extension) => `.${extension}`)), ".txt", "text/plain"].join(",");
 
+/** Something marked on a sequence: a gene, a promoter, an origin of replication. */
+export interface FeatureRecord {
+  /** What kind of thing it is, as the file says: `CDS`, `promoter`, `rep_origin` and so on. */
+  type: string;
+  /** What to call it: its label, gene name or product, whichever the file gives. */
+  label: string;
+  /** Which strand it lies on: 1 for the top strand, -1 for the bottom, 0 when the file does not say. */
+  strand: number;
+  /** Where it is, as 0-based pieces with the end left out, in the order the file gives them. */
+  parts: { start: number; end: number }[];
+}
+
 /** One sequence read out of a file. */
 export interface FileRecord {
   /** What the file calls it. */
@@ -65,6 +77,10 @@ export interface FileRecord {
   sequence: string;
   /** Whether the file says it is a circle. `null` when the file does not say. */
   circular: boolean | null;
+  /** What the file marks on it. Empty for a format that carries no features. */
+  features: FeatureRecord[];
+  /** The file's own description of it, if it has one. */
+  description: string;
 }
 
 /** A file, read. */
@@ -97,6 +113,31 @@ export function detectFormat(fileName: string, bytes: Uint8Array): SequenceForma
     ?? (bytes[0] === 0x09 && new TextDecoder().decode(bytes.slice(5, 13)) === "SnapGene" ? SEQUENCE_FORMATS[0] : null);
 }
 
+/** A position as a plain number, whichever of the shapes a file's reader gives it in. */
+const numberOf = (position: unknown): number => Number((position as { position?: number }).position ?? position);
+
+/** The first of a qualifier's values, as text. */
+const firstOf = (values: unknown): string | undefined => (Array.isArray(values) && values.length > 0 ? String(values[0]) : undefined);
+
+/**
+ * What a record marks on its sequence, in the plain shape a map needs.
+ *
+ * The `source` feature, which covers the whole sequence and says where it came from, is left out.
+ * A feature with no usable position is skipped.
+ */
+function featuresOf(record: { features?: Iterable<unknown> }): FeatureRecord[] {
+  const out: FeatureRecord[] = [];
+  for (const one of record.features ?? []) {
+    const feature = one as { type: string; location?: { strand?: number | null; parts: { start: unknown; end: unknown }[] } | null; qualifiers: Map<string, unknown> };
+    if (feature.location === null || feature.location === undefined || feature.type === "source") continue;
+    const qualifier = (key: string) => firstOf(feature.qualifiers.get(key));
+    const parts = feature.location.parts.map((part) => ({ start: numberOf(part.start), end: numberOf(part.end) })).filter((part) => Number.isFinite(part.start) && Number.isFinite(part.end) && part.end > part.start);
+    if (parts.length === 0) continue;
+    out.push({ type: feature.type, label: qualifier("label") ?? qualifier("gene") ?? qualifier("product") ?? qualifier("note") ?? feature.type, strand: feature.location.strand ?? 0, parts });
+  }
+  return out;
+}
+
 /**
  * Read the sequences out of a file.
  *
@@ -112,7 +153,7 @@ export async function readSequenceFile(fileName: string, bytes: Uint8Array): Pro
   if (format === null) {
     const sequence = new TextDecoder().decode(bytes).split(/\r?\n/).join("").replace(/[\s\d]/g, "").toUpperCase();
     if (sequence === "") throw new Error("The file is empty.");
-    return { fileName, format: null, records: [{ name: fileName, sequence, circular: null }], total: 1 };
+    return { fileName, format: null, records: [{ name: fileName, sequence, circular: null, features: [], description: "" }], total: 1 };
   }
   const { parse } = await import("@biolibs/seqio");
   // Binary formats take bytes and text formats take a string, as in Biopython.
@@ -134,6 +175,8 @@ export async function readSequenceFile(fileName: string, bytes: Uint8Array): Pro
       name: [record.name, record.id].find((one) => one !== null && one !== "" && !one.startsWith("<unknown")) ?? fileName,
       sequence,
       circular: topology === "circular" ? true : topology === "linear" ? false : null,
+      features: featuresOf(record),
+      description: typeof record.description === "string" && !record.description.startsWith("<unknown") ? record.description : "",
     });
   }
   if (records.length === 0) throw new Error("The file holds no sequence.");

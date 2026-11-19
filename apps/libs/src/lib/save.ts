@@ -23,14 +23,28 @@ export function saveFile(name: string, content: Blob): void {
  * @param svg - The drawing.
  * @param name - The file's name.
  * @param scale - How many pixels to draw for each unit of the drawing. More is sharper.
+ * @param background - A colour to paint behind the drawing. Left out, the image is see-through there.
  */
-export async function saveSvgAsPng(svg: SVGSVGElement, name: string, scale = 3): Promise<void> {
+export async function saveSvgAsPng(svg: SVGSVGElement, name: string, scale = 3, background?: string): Promise<void> {
   const box = svg.viewBox.baseVal;
   const copy = svg.cloneNode(true) as SVGSVGElement;
   copy.setAttribute("xmlns", "http://www.w3.org/2000/svg");
   copy.setAttribute("width", String(box.width)); copy.setAttribute("height", String(box.height));
-  // A drawing saved alone has no page to take its font from.
+  // A drawing saved alone has no page to take its colours or its font from. Its colours are the
+  // site's variables, which mean nothing outside the page, so each shape is given the colour it
+  // actually has here.
   copy.setAttribute("font-family", "ui-monospace, Menlo, Consolas, monospace");
+  const here = [svg, ...svg.querySelectorAll<SVGElement>("*")], there = [copy, ...copy.querySelectorAll<SVGElement>("*")];
+  here.forEach((shape, i) => {
+    const drawn = getComputedStyle(shape);
+    for (const property of ["fill", "stroke", "stroke-width", "opacity", "font-size", "font-weight"]) there[i].setAttribute(property, drawn.getPropertyValue(property));
+  });
+  if (background !== undefined) {
+    const ground = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    ground.setAttribute("x", String(box.x)); ground.setAttribute("y", String(box.y));
+    ground.setAttribute("width", String(box.width)); ground.setAttribute("height", String(box.height)); ground.setAttribute("fill", background);
+    copy.insertBefore(ground, copy.firstChild);
+  }
   const picture = new Image();
   const address = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(copy)], { type: "image/svg+xml" }));
   try {

@@ -331,6 +331,35 @@ each topic is built.
   - `phylo` joined the API reference, making thirteen packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled.
+- **Protein structure**, the ninth topic, is built on the `structure` branch and **not yet live**.
+  It opens a PDB or mmCIF file, says what is in it, and draws the two pictures that say most about a
+  fold. How it stands:
+  - a **contact map**, every residue against every other, dark where their α-carbons are within 8 Å,
+    and a **Ramachandran plot**, each residue placed by its two backbone angles with the helix and
+    strand regions shaded;
+  - per chain it separates residues, waters and everything else, since mistaking 300 waters for 300
+    residues is an easy way to misread a file, and shows the sequence in one-letter code;
+  - solvent-accessible surface area on a button, because it takes a moment and is not wanted for
+    every file;
+  - **the sample is built, not copied**: a 24-residue peptide assembled from standard bond geometry
+    and chosen torsions, so nothing here is anybody else's data. Measuring the torsions back gives
+    exactly what it was built with, helix φ −57 ψ −47 and strand φ −139 ψ 135, which is a real check
+    that the building and the reading agree;
+  - the sample has **no long-range contacts**, and the page says so rather than pretending: a single
+    extended peptide never folds back on itself. Idealised turn geometry was tried and gave strands
+    2.9 Å apart, which is unphysical, so it was dropped rather than shipped;
+  - **a PDB id fetches the real thing** from RCSB, the browser asking it directly as it asks NCBI
+    elsewhere. Checked with 1CRN: 46 residues, the right crambin sequence, 2,976 Å² of surface, and
+    the closest long-range contact CYS 4 · CYS 32 at 4.1 Å, which is one of crambin's three real
+    disulfide bonds;
+  - a bug found while testing: the contact search was given plain points rather than atoms, and the
+    library asks an atom for its coordinates, so it silently returned nothing. It now parses the
+    file and uses the real atoms;
+  - `pdb` joined the API reference, making fourteen packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Three of the five are paywalled;
+  - there is **no 3D viewer**. The two plots are what a page can do honestly; a viewer is a different
+    kind of program.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

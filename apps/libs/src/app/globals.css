@@ -427,3 +427,11 @@ table tbody tr.picked { background: var(--glass-inner); }
   font: 11px/1.5 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }
 table.distances th[scope="row"] { text-align: left; font-weight: 500; }
 table.distances td, table.distances th { padding: 3px 8px; }
+
+/* A contact map and a Ramachandran plot */
+.contact-map, .rama { display: block; width: 100%; height: auto; max-width: 480px; margin: 6px auto 4px; }
+.contact-map .map-tick, .rama .map-tick { font: 9px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.contact-map .map-note, .rama .map-note { font-size: 11px; fill: var(--soft); }
+.chain-seq { margin: 8px 0 0; font-size: 13px; }
+.chain-seq code { display: block; margin-top: 3px; padding: 7px 9px; border: 1px solid var(--glass-edge); border-radius: 7px; background: var(--glass-inner);
+  font: 11px/1.6 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }

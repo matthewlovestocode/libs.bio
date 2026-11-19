@@ -26,7 +26,7 @@ export const TOPICS: readonly Topic[] = [
   { slug: "sequences", key: "sequences", packages: ["seq", "seqtools"], status: "stable" },
   { slug: "alignment", key: "alignment", packages: ["align", "seqio"], status: "stable" },
   { slug: "trees", key: "trees", packages: ["phylo", "align", "seqio"], status: "stable" },
-  { slug: "structure", key: "structure", packages: ["pdb", "svdsuperimposer"], status: null },
+  { slug: "structure", key: "structure", packages: ["pdb", "svdsuperimposer"], status: "stable" },
   { slug: "motifs", key: "motifs", packages: ["motifs"], status: null },
   { slug: "lookup", key: "lookup", packages: ["entrez", "uniprot", "europepmc"], status: null },
   { slug: "safety", key: "safety", packages: [], status: null },

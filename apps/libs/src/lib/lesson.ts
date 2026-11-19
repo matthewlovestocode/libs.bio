@@ -7,7 +7,8 @@
 export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel" | "primer" | "pcr" | "melting" | "five-three" | "feature" | "coordinates" | "fasta" | "fastq"
   | "codon" | "reading-frame" | "open-reading-frame" | "genetic-code" | "strand-direction" | "gc-content"
   | "gap" | "identity-and-similarity" | "homology" | "alignment" | "substitution-matrix"
-  | "phylogenetic-tree" | "clade" | "bootstrap" | "newick";
+  | "phylogenetic-tree" | "clade" | "bootstrap" | "newick"
+  | "protein-fold" | "backbone-and-side-chain" | "secondary-structure" | "protein" | "residue" | "rmsd";
 
 /** One part of a lesson: a heading, some paragraphs, and perhaps a picture. */
 export interface Section {

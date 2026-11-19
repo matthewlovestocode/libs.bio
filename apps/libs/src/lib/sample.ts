@@ -258,3 +258,82 @@ export function sampleFamily(): { name: string; letters: string }[] {
 /** A tree to start from, in Newick, with branch lengths and support values on the forks. */
 export const SAMPLE_NEWICK =
   "(((north-1:0.014,north-2:0.015)98:0.037,north-3:0.020)86:0.046,(south-1:0.017,south-2:0.017)99:0.040,outgroup:0.102);";
+
+/** Standard backbone geometry, in ångströms and degrees, which every protein shares. */
+const BACKBONE = { nCa: 1.458, caC: 1.525, cN: 1.329, nCaC: 111.2, caCN: 116.2, cNCa: 121.7, omega: 180 };
+
+/** The torsion angles of the two shapes a backbone most often takes. */
+const SHAPES = { helix: { phi: -57, psi: -47 }, strand: { phi: -139, psi: 135 }, turn: { phi: -60, psi: -30 } };
+
+/**
+ * Place an atom from the three before it, given the bond length, angle and torsion it should make.
+ *
+ * This is the standard way of turning internal coordinates into Cartesian ones, used here to build a
+ * backbone whose torsions are known in advance, so that measuring them back is a real check.
+ *
+ * @param a - The first of the three atoms already placed.
+ * @param b - The second.
+ * @param c - The third, which the new atom bonds to.
+ * @param length - The bond length to `c`.
+ * @param angleDeg - The angle b-c-new.
+ * @param torsionDeg - The torsion a-b-c-new.
+ * @returns The new atom's position.
+ */
+function placeAtom(a: number[], b: number[], c: number[], length: number, angleDeg: number, torsionDeg: number): number[] {
+  const angle = (angleDeg * Math.PI) / 180, torsion = (torsionDeg * Math.PI) / 180;
+  const minus = (p: number[], q: number[]) => [p[0] - q[0], p[1] - q[1], p[2] - q[2]];
+  const unit = (p: number[]) => { const size = Math.hypot(p[0], p[1], p[2]); return [p[0] / size, p[1] / size, p[2] / size]; };
+  const cross = (p: number[], q: number[]) => [p[1] * q[2] - p[2] * q[1], p[2] * q[0] - p[0] * q[2], p[0] * q[1] - p[1] * q[0]];
+  const along = unit(minus(c, b));
+  const normal = unit(cross(minus(b, a), along));
+  const third = cross(normal, along);
+  const step = [-length * Math.cos(angle), length * Math.sin(angle) * Math.cos(torsion), length * Math.sin(angle) * Math.sin(torsion)];
+  return [0, 1, 2].map((axis) => c[axis] + step[0] * along[axis] + step[1] * third[axis] + step[2] * normal[axis]);
+}
+
+/**
+ * A made-up 24-residue peptide as a PDB file: ten residues of helix, a four-residue turn, then ten of
+ * strand.
+ *
+ * It is built from torsion angles rather than copied from anywhere, so nothing here is somebody
+ * else's data, and the angles it was built with are known: measuring them back out of the file is a
+ * check that the reading and the geometry agree.
+ *
+ * @returns The file's text.
+ */
+export function sampleStructure(): string {
+  const shapes = [...Array(10).fill(SHAPES.helix), ...Array(4).fill(SHAPES.turn), ...Array(10).fill(SHAPES.strand)];
+  // The first residue is placed by hand; the rest follow from the torsions.
+  let backbone = [[0, 0, 0], [BACKBONE.nCa, 0, 0], [2.009, 1.420, 0]];
+  const residues: { name: string; atoms: { name: string; xyz: number[] }[] }[] = [];
+  const named = (atoms: number[][]) => [{ name: "N", xyz: atoms[0] }, { name: "CA", xyz: atoms[1] }, { name: "C", xyz: atoms[2] }];
+  residues.push({ name: "ALA", atoms: named(backbone) });
+  for (let at = 1; at < shapes.length; at += 1) {
+    const [n, ca, c] = backbone;
+    const nextN = placeAtom(n, ca, c, BACKBONE.cN, BACKBONE.caCN, shapes[at - 1].psi);
+    const nextCa = placeAtom(ca, c, nextN, BACKBONE.nCa, BACKBONE.cNCa, BACKBONE.omega);
+    const nextC = placeAtom(c, nextN, nextCa, BACKBONE.caC, BACKBONE.nCaC, shapes[at].phi);
+    backbone = [nextN, nextCa, nextC];
+    residues.push({ name: at < 10 ? "ALA" : at < 14 ? "GLY" : "VAL", atoms: named(backbone) });
+  }
+  const lines: string[] = [
+    "HEADER    DE NOVO PROTEIN                         01-JAN-00   0DEM",
+    "TITLE     SYNTHETIC DEMONSTRATION PEPTIDE: HELIX, TURN AND STRAND",
+    "COMPND    MOL_ID: 1; MOLECULE: DEMONSTRATION PEPTIDE; CHAIN: A",
+    "EXPDTA    THEORETICAL MODEL",
+  ];
+  let serial = 0;
+  for (const [at, residue] of residues.entries()) {
+    for (const atom of residue.atoms) {
+      serial += 1;
+      lines.push(
+        `ATOM  ${String(serial).padStart(5)} ${atom.name.padEnd(4)} ${residue.name} A${String(at + 1).padStart(4)}    ` +
+        `${atom.xyz.map((value) => value.toFixed(3).padStart(8)).join("")}  1.00 20.00           ${atom.name[0]}`);
+    }
+  }
+  lines.push("TER", "END", "");
+  return lines.join("\n");
+}
+
+/** What the sample peptide is called, and the torsions each part was built with. */
+export const SAMPLE_STRUCTURE = { id: "0DEM", helix: SHAPES.helix, strand: SHAPES.strand, turn: SHAPES.turn };

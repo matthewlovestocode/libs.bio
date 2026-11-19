@@ -1154,5 +1154,11 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "clade": return <TermDiagram slug="clade" />;
     case "bootstrap": return <TermDiagram slug="bootstrap" />;
     case "newick": return <TermDiagram slug="newick" />;
+    case "protein-fold": return <TermDiagram slug="protein-fold" />;
+    case "backbone-and-side-chain": return <TermDiagram slug="backbone-and-side-chain" />;
+    case "secondary-structure": return <TermDiagram slug="secondary-structure" />;
+    case "protein": return <TermDiagram slug="protein" />;
+    case "residue": return <TermDiagram slug="residue" />;
+    case "rmsd": return <TermDiagram slug="rmsd" />;
   }
 }

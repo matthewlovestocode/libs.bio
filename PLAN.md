@@ -439,8 +439,9 @@ each topic is built.
   - the three failed checks are printed on the page itself, next to the ones that passed, under
     "What this page could not check". A safety page that is confidently wrong is worse than one with
     its gaps marked;
-  - its *Read* view is a shortlist of five about how this community governs itself, checked on
-    Europe PMC on 2026-11-19, which Matthew has not chosen from. Four of the five are free to read;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, about how this
+    community governs itself, with details checked on Europe PMC that day. Four of the five are
+    free to read;
   - there is **no sequence screening tool and will not be one here**: real screening is done by
     providers against curated databases under policy frameworks, and an approximation in a browser
     would produce false reassurance, which is the specific failure worth avoiding. The lesson says

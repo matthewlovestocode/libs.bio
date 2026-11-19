@@ -1,5 +1,5 @@
 /**
- * Candidate papers for the working safely topic. A shortlist: Matthew has not chosen from it yet.
+ * The papers behind the working safely topic, chosen by Matthew on 2026-11-19.
  *
  * These are about how this community governs itself, since the containment rules themselves live in
  * the documents the Do view links rather than in papers. The details were looked up on Europe PMC
@@ -40,5 +40,5 @@ const papers: Paper[] = [
   },
 ];
 
-/** The list: a shortlist, with details checked on Europe PMC on the date given. */
-export const reading: ReadingList = { chosen: false, checked: "2026-11-19", papers };
+/** The list: chosen, with details checked on Europe PMC on the date given. */
+export const reading: ReadingList = { chosen: true, checked: "2026-11-19", papers };

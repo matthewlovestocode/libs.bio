@@ -392,8 +392,8 @@ each topic is built.
     not chosen from. Three of the five are paywalled;
   - it takes the instances as given: finding a motif nobody has described is motif discovery, which
     this does not attempt, and the lesson says so. Nothing is posted to the WebLogo server.
-- **Looking things up**, the eleventh topic, is built on the `lookup` branch and **not yet live**.
-  One question to one of three public services, asked by the visitor's own browser. How it stands:
+- **Looking things up**, the eleventh topic, **went live on 2026-11-19**. One question to one of
+  three public services, asked by the visitor's own browser. How it stands:
   - **NCBI**: search nucleotide or protein records and get accessions back with what each one is,
     which is how you find the accession the other tools take;
   - **UniProt**: a protein by accession, with the thing most worth knowing shown first — whether a

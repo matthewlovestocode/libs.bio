@@ -207,8 +207,7 @@ each topic is built.
   - nothing yet records whether a biologist has reviewed a term, which the plan names as a way for
     the community to take part.
 
-- Step 5 has begun. **PCR and primers**, the second topic, is **built on the `pcr` branch and not yet
-  merged**. Its tool designs a pair of primers for a stretch, or takes typed ones, and shows where
+- Step 5 has begun. **PCR and primers**, the second topic, **went live on 2026-11-19**. Its tool designs a pair of primers for a stretch, or takes typed ones, and shows where
   each binds, every product the pair would make, each primer's melting temperature and warnings, a
   map and a gel. It was checked against pUC19 (L09137) with the M13 primers: 2,686 bp, each primer
   binding once, and one 103 bp product spanning the cloning site. How it stands:

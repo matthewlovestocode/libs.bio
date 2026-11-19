@@ -248,8 +248,8 @@ each topic is built.
     25 bp junctions. The ligation was checked by arithmetic that adds up: vector 2,522 + insert 844
     = 3,366 bp, with five features carried into the product;
   - `cloning` and `seqrecord` joined the API reference, making ten packages;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. Two of the five are paywalled;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. Two of the five are paywalled;
   - it says whether a product **can** form, not how much of it you would get: no ligation
     efficiency, no insert-to-vector ratio, no dephosphorylation, no methylation.
 - What topics share was split out while building it, so a third costs less: where a sequence comes

@@ -381,3 +381,9 @@ table.features tbody tr:focus-visible { outline: 2px solid var(--bionet-yours); 
 .fragment .count { white-space: nowrap; }
 .primer-seq .tail { opacity: 0.75; border-bottom: 2px solid var(--bionet-theirs); padding-bottom: 1px; }
 .chip.fits { border-color: var(--bionet-found); }
+
+/* The converted file */
+.file-out { max-height: 420px; overflow: auto; margin: 12px 0 0; padding: 12px 14px; border: 1px solid var(--glass-edge); border-radius: 10px;
+  background: var(--glass-inner); font: 12px/1.5 var(--font-geist-mono), ui-monospace, monospace; white-space: pre; }
+.file-out code { font: inherit; }
+.file-name { display: block; max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

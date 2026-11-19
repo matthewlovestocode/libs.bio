@@ -178,3 +178,21 @@ export function sampleFragments(overlapping = true): { name: string; dna: string
     dna: plasmid.slice(cuts[piece], cuts[piece + 1]) + (piece === 2 ? plasmid.slice(0, overlap) : plasmid.slice(cuts[piece + 1], cuts[piece + 1] + overlap)),
   }));
 }
+
+/**
+ * A handful of made-up sequencing reads as a FASTQ file, so the tool has something with a quality
+ * score for every base. Quality is the thing most formats cannot hold, which is the point of it.
+ *
+ * @returns The file's text: four reads of 60 bases.
+ */
+export function sampleReads(): string {
+  const plasmid = samplePlasmid(), next = seeded(99);
+  const lines: string[] = [];
+  for (let read = 0; read < 4; read += 1) {
+    const from = read * 400 + 120, bases = plasmid.slice(from, from + 60);
+    // Quality falls off towards the end of a read, as it does on a real sequencer.
+    const scores = [...bases].map((_, at) => Math.max(12, Math.round(40 - at * 0.35 - next() * 6)));
+    lines.push(`@read${read + 1} from base ${from + 1}`, bases, "+", scores.map((score) => String.fromCharCode(33 + score)).join(""));
+  }
+  return `${lines.join("\n")}\n`;
+}

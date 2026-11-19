@@ -252,6 +252,24 @@ each topic is built.
     checked on Europe PMC that day. Two of the five are paywalled;
   - it says whether a product **can** form, not how much of it you would get: no ligation
     efficiency, no insert-to-vector ratio, no dephosphorylation, no methylation.
+- **Reading and converting files**, the fifth topic, is built on the `files` branch and **not yet
+  live**. The tool opens a file in any of the 25 formats the site offers, shows what each record in
+  it holds, and writes it out again in any of 23 formats. How it stands:
+  - **what a conversion costs is measured, not looked up.** The file is written, read straight back
+    in, and the two are compared, so the answer is what *this* file loses. The sample plasmid as
+    FASTA loses its features and its topology; the sample reads as FASTA lose their quality scores;
+    as XDNA the plasmid loses nothing at all;
+  - two samples, a GenBank plasmid and four FASTQ reads with a quality score for every base, since
+    quality is the thing most formats cannot hold;
+  - a format that cannot hold what the file carries refuses, and the library's own message is shown
+    rather than a guess. Asking for FASTQ from a record with no quality names the record;
+  - the three binary outputs are written with a byte handle and offered as a download. SeqXML turns
+    out to be readable text, so it is shown; nib and XDNA are not;
+  - SFF is left out of the 26 writable formats: its writer needs the flow readings only an SFF file
+    carries, so nothing else can become one;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. All five are free to read;
+  - it converts whole files, not parts of them: no filtering, no trimming, no renaming.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

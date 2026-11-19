@@ -234,3 +234,36 @@ h2.section span { font-weight: 400; margin-left: 6px; }
 .members summary { cursor: pointer; font-size: 14px; color: var(--accent); }
 .member { margin-top: 14px; padding-left: 14px; border-left: 2px solid var(--line); }
 @media (max-width: 560px) { .api-list { padding: 0 14px; } .params > div { grid-template-columns: 1fr; gap: 0; } }
+
+/* ---------- Code, coloured ---------- */
+
+/* Shiki sends each token with a colour for both themes, as variables. This picks one. */
+.code-block { margin: 0 0 14px; }
+.code-block pre.code { margin: 0; }
+.code-block pre.code span { color: var(--shiki-light); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bionet-theme="light"]) .code-block pre.code span { color: var(--shiki-dark); }
+}
+[data-bionet-theme="dark"] .code-block pre.code span { color: var(--shiki-dark); }
+.code-block pre.signature { margin-bottom: 0; white-space: pre-wrap; word-break: break-word; }
+.api-item > .code-block, .member > .code-block { margin-bottom: 10px; }
+
+/* ---------- DNA, coloured ---------- */
+
+/* The four bases, as on a sequencing trace. Each has a value that reads on a pale ground and one
+   that reads on a dark one. */
+:root { --base-a: #15803d; --base-t: #c8394b; --base-g: #a16207; --base-c: #1d4ed8; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-bionet-theme="light"]) { --base-a: #4ade80; --base-t: #fb7185; --base-g: #fbbf24; --base-c: #60a5fa; }
+}
+[data-bionet-theme="dark"] { --base-a: #4ade80; --base-t: #fb7185; --base-g: #fbbf24; --base-c: #60a5fa; }
+.b-a { color: var(--base-a); } .b-t { color: var(--base-t); } .b-g { color: var(--base-g); } .b-c { color: var(--base-c); }
+code.bases { font-weight: 600; letter-spacing: 0.02em; }
+
+/* The sequence box: the coloured drawing underneath, and the box itself on top with see-through
+   letters. Both use the same font, padding and wrapping, or they would drift apart. */
+.sequence-box { position: relative; }
+.sequence-box .in.sequence { margin: 0; white-space: pre-wrap; word-break: break-all; overflow-wrap: anywhere; tab-size: 1; }
+.sequence-box .under { position: absolute; inset: 0; overflow: hidden; pointer-events: none; resize: none; color: var(--soft); }
+.sequence-box.coloured textarea { position: relative; background: transparent; color: transparent; caret-color: var(--ink); }
+.sequence-box.coloured textarea::selection { background: color-mix(in srgb, var(--bionet-yours) 35%, transparent); color: transparent; }

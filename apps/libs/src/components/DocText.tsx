@@ -1,4 +1,5 @@
 import { Fragment } from "react";
+import { Code } from "./Code.tsx";
 
 /**
  * A doc comment's words, drawn. Doc comments are written in a small part of Markdown: paragraphs,
@@ -25,7 +26,7 @@ export function DocText({ text, brief = false }: { text: string; brief?: boolean
   const parts = text.split(/(```[\s\S]*?```)/g);
   parts.forEach((part, at) => {
     if (part.startsWith("```")) {
-      blocks.push(<pre key={at}><code>{part.replace(/^```\w*\n?/, "").replace(/\n?```$/, "")}</code></pre>);
+      blocks.push(<Code key={at} code={part.replace(/^```\w*\n?/, "").replace(/\n?```$/, "")} language={/^```(bash|sh|shell)/.test(part) ? "bash" : "ts"} />);
       return;
     }
     part.split(/\n\s*\n/).forEach((block, i) => {

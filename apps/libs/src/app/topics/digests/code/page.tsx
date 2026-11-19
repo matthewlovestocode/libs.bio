@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Code as Highlighted } from "@/components/Code.tsx";
 import { digest } from "@/lib/digest.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { messages } from "@/messages/index.ts";
@@ -75,17 +76,17 @@ export default function Code() {
     <div className="flat">
       <h2>{text.code.heading}</h2>
       <p>{text.code.intro}</p>
-      <pre><code>{SOURCE}</code></pre>
+      <Highlighted code={SOURCE} />
       <h3>{text.code.output}</h3>
-      <pre><code>{output}</code></pre>
+      <Highlighted code={output} />
       <h3>{text.code.reading}</h3>
       <p>{text.code.readingIntro}</p>
-      <pre><code>{READING}</code></pre>
+      <Highlighted code={READING} />
       <h3>{text.code.fetching}</h3>
       <p>{text.code.fetchingIntro}</p>
-      <pre><code>{FETCHING}</code></pre>
+      <Highlighted code={FETCHING} />
       <h3>{text.code.ends}</h3>
-      <pre><code>{ENDS}</code></pre>
+      <Highlighted code={ENDS} />
       <h3>{text.code.packages}</h3>
       <ul className="packages">
         {PACKAGES.map((one) => (
@@ -96,7 +97,7 @@ export default function Code() {
         ))}
       </ul>
       <h3>{text.code.install}</h3>
-      <pre><code>npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio @biolibs/entrez @biolibs/seqmap</code></pre>
+      <Highlighted language="bash" code="npm install @biolibs/seq @biolibs/restriction @biolibs/gel @biolibs/seqio @biolibs/entrez @biolibs/seqmap" />
       <p className="quiet">{text.code.reference} <Link href="/api">{text.api.title}</Link></p>
     </div>
   );

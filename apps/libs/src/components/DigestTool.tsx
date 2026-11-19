@@ -8,8 +8,10 @@ import { fetchRecord } from "@/lib/ncbi.ts";
 import { samplePlasmid } from "@/lib/sample.ts";
 import { saveFile, saveSvgAsPng } from "@/lib/save.ts";
 import { messages } from "@/messages/index.ts";
+import { Bases } from "./Bases.tsx";
 import { CutMap } from "./CutMap.tsx";
 import { Gel } from "./Gel.tsx";
+import { SequenceInput } from "./SequenceInput.tsx";
 
 /** The longest sequence a link is made for. Past this an address stops being something to paste. */
 const LONGEST_LINK = 20_000;
@@ -101,10 +103,15 @@ export function DigestTool() {
       setFetching(false);
     }
   };
-  /** What a cut leaves, in a few characters: 5′ AATT, 3′ TGCA, blunt. */
+  /** What a cut leaves, in a few characters: 5′ AATT, 3′ TGCA, blunt. Each distinct end is said once. */
   const leaves = (ends: CutEnd[]) => {
-    const each = ends.map((end) => (end.kind === "blunt" ? text.blunt : end.kind === "unknown" ? text.unknownEnd : `${end.kind === "5'" ? "5′" : "3′"} ${end.overhang}`));
-    return [...new Set(each)].join(", ");
+    const each = [...new Map(ends.map((end) => [`${end.kind} ${end.overhang}`, end])).values()];
+    return each.map((end, i) => (
+      <span key={`${end.kind}-${end.overhang}`}>
+        {i > 0 ? ", " : null}
+        {end.kind === "blunt" ? text.blunt : end.kind === "unknown" ? text.unknownEnd : <>{end.kind === "5'" ? "5′" : "3′"} <Bases text={end.overhang} /></>}
+      </span>
+    ));
   };
   const moleculeName = () => (opened === null ? "sample" : (opened.records[record]?.name ?? "sequence")).replace(/[^A-Za-z0-9_.-]+/g, "_");
   const saveGel = async () => {
@@ -126,7 +133,7 @@ export function DigestTool() {
                onDrop={(event) => { event.preventDefault(); setOver(false); void open(event.dataTransfer.files[0]); }}>
         <h2>{text.inputHeading}</h2>
         <label className="field" htmlFor="sequence">{text.sequence} <span className="count">{number(dna.length)} {text.length}</span></label>
-        <textarea id="sequence" className="in sequence" value={input} onChange={(event) => { setInput(event.target.value); setOpened(null); }} spellCheck={false} rows={4} />
+        <SequenceInput id="sequence" value={input} onChange={(value) => { setInput(value); setOpened(null); }} />
         {opened === null ? null : (
           <p className="opened">
             {text.openedAs(opened.fileName, opened.format?.label ?? text.plainText)}
@@ -209,9 +216,9 @@ export function DigestTool() {
                     {result.enzymes.map((one) => (
                       <tr key={one.name}>
                         <td>{one.name}</td>
-                        <td className="n">{one.pattern}</td>
+                        <td className="n"><Bases text={one.pattern} /></td>
                         <td className="n wrap">{one.cuts.length === 0 ? text.noSite : one.cuts.map((at) => number(at === 0 ? result.length : at)).join(", ")}</td>
-                        <td className="n">{one.cuts.length === 0 ? "" : leaves(one.ends)}</td>
+                        <td className="n">{one.cuts.length === 0 ? null : leaves(one.ends)}</td>
                       </tr>
                     ))}
                   </tbody>

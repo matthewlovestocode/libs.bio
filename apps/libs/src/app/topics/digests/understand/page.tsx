@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { paragraphs, terms, type TermEntry } from "../../../../../content/en/digests.ts";
+import { withBases } from "@/components/Bases.tsx";
 import { messages } from "@/messages/index.ts";
 
 const text = messages();
@@ -26,7 +27,7 @@ function withTerms(paragraph: string, seen: Set<string>): React.ReactNode[] {
       break;
     }
   }
-  return parts.map((part, i) => (typeof part === "string" ? part : <a key={i} className="term" href={`#${part.entry.slug}`} title={part.entry.definition}>{part.phrase}</a>));
+  return parts.flatMap((part, i) => (typeof part === "string" ? withBases(part, String(i)) : [<a key={i} className="term" href={`#${part.entry.slug}`} title={part.entry.definition}>{part.phrase}</a>]));
 }
 
 /** Understand: the idea in plain language, with each term explained underneath. */

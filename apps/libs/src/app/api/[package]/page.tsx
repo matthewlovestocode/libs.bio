@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { LINKS } from "@libsbio/shared";
 import { ApiFilter } from "@/components/ApiFilter.tsx";
+import { Code } from "@/components/Code.tsx";
 import { Footer, Header } from "@/components/Chrome.tsx";
 import { DocText } from "@/components/DocText.tsx";
 import { type Described, type Item, KINDS, packageNamed, packages } from "@/lib/api.ts";
@@ -32,7 +33,7 @@ function Details({ item }: { item: Described }) {
       )}
       {item.returns === "" ? null : <p className="doc-line"><b>{text.api.returns}</b> <DocText text={item.returns} brief /></p>}
       {item.throws.map((thrown) => <p className="doc-line" key={thrown}><b>{text.api.throws}</b> <DocText text={thrown} brief /></p>)}
-      {item.examples.map((example) => <pre key={example}><code>{example}</code></pre>)}
+      {item.examples.map((example) => <Code key={example} code={example} />)}
     </>
   );
 }
@@ -42,14 +43,14 @@ function Entry({ item }: { item: Item }) {
   return (
     <article className="api-item" id={item.name} data-api-item={item.name}>
       <h3><a href={`#${item.name}`}>{item.name}</a></h3>
-      <pre className="signature"><code>{item.signature}</code></pre>
+      <Code code={item.signature} className="signature" />
       <Details item={item} />
       {item.members.length === 0 ? null : (
         <details className="members">
           <summary>{text.api.members(item.members.length)}</summary>
           {item.members.map((member, i) => (
             <div className="member" key={`${member.name}-${i}`}>
-              <pre className="signature"><code>{member.signature}</code></pre>
+              <Code code={member.signature} className="signature" />
               <Details item={member} />
             </div>
           ))}
@@ -73,7 +74,7 @@ export default async function PackagePage({ params }: { params: Promise<{ packag
             <p className="lede">{pack.description}</p>
           </div>
           <div className="flat">
-            <pre><code>npm install @biolibs/{pack.name}</code></pre>
+            <Code language="bash" code={`npm install @biolibs/${pack.name}`} />
             <p className="quiet">
               {text.api.version} {pack.version} · <a href={`https://www.npmjs.com/package/@biolibs/${pack.name}`}>npm</a> ·{" "}
               <a href={`${LINKS.biolibs}/tree/main/packages/${pack.name}`}>{text.api.source}</a> · {text.api.generatedFrom}

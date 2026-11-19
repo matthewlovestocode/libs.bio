@@ -416,3 +416,14 @@ table tbody tr.picked { background: var(--glass-inner); }
 .col.different { color: var(--bionet-held); font-weight: 600; }
 .col.gap { color: var(--muted); }
 .in.narrow { width: 5.5rem; }
+
+/* A tree */
+.tree { display: block; width: 100%; height: auto; max-width: 660px; margin: 6px auto 4px; }
+.tree .tree-name { font: 12px var(--font-geist-mono), ui-monospace, monospace; fill: var(--ink); }
+.tree .tree-support { font: 10px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.tree .tree-scale { font: 11px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.tree-text { width: 100%; min-height: 110px; resize: vertical; padding: 10px 12px; font: 12px/1.5 var(--font-geist-mono), ui-monospace, monospace; }
+.newick-out { margin: 10px 0 0; padding: 10px 12px; border: 1px solid var(--glass-edge); border-radius: 8px; background: var(--glass-inner);
+  font: 11px/1.5 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }
+table.distances th[scope="row"] { text-align: left; font-weight: 500; }
+table.distances td, table.distances th { padding: 3px 8px; }

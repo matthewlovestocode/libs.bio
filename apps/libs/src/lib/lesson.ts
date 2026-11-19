@@ -6,7 +6,8 @@
 /** The figures a lesson can place, by name. `src/components/diagrams` draws them. */
 export type FigureName = "dna" | "cut" | "cut-blunt" | "pieces" | "plasmid" | "gel" | "primer" | "pcr" | "melting" | "five-three" | "feature" | "coordinates" | "fasta" | "fastq"
   | "codon" | "reading-frame" | "open-reading-frame" | "genetic-code" | "strand-direction" | "gc-content"
-  | "gap" | "identity-and-similarity" | "homology" | "alignment" | "substitution-matrix";
+  | "gap" | "identity-and-similarity" | "homology" | "alignment" | "substitution-matrix"
+  | "phylogenetic-tree" | "clade" | "bootstrap" | "newick";
 
 /** One part of a lesson: a heading, some paragraphs, and perhaps a picture. */
 export interface Section {

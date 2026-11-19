@@ -220,3 +220,41 @@ export function sampleRelatives(): { name: string; dna: string }[] {
   changed = [...changed.slice(0, 96), ...changed.slice(99)];
   return [{ name: "isolate A", dna: original }, { name: "isolate B", dna: changed.join("") }];
 }
+
+/**
+ * Six made-up sequences with a family history: one ancestor, two groups that each went their own
+ * way, and one outlier that left long before either.
+ *
+ * They are all the same length and carry no gaps, so they are an alignment as they stand. The point
+ * is that the history is known, so a tree built from them can be checked against it.
+ *
+ * @returns Six aligned sequences of 240 bases.
+ */
+export function sampleFamily(): { name: string; letters: string }[] {
+  const next = seeded(2024);
+  let ancestor = "";
+  for (let i = 0; i < 240; i += 1) ancestor += "ACGT"[Math.floor(next() * 4)];
+  /** A copy with some bases changed, which is one line of descent. */
+  const mutate = (dna: string, count: number): string => {
+    const out = [...dna];
+    for (let made = 0; made < count; made += 1) {
+      const at = Math.floor(next() * out.length);
+      const others = ["A", "C", "G", "T"].filter((base) => base !== out[at]);
+      out[at] = others[Math.floor(next() * 3)];
+    }
+    return out.join("");
+  };
+  const north = mutate(ancestor, 10), south = mutate(ancestor, 10);
+  return [
+    { name: "north-1", letters: mutate(north, 3) },
+    { name: "north-2", letters: mutate(north, 4) },
+    { name: "north-3", letters: mutate(north, 6) },
+    { name: "south-1", letters: mutate(south, 3) },
+    { name: "south-2", letters: mutate(south, 5) },
+    { name: "outgroup", letters: mutate(ancestor, 40) },
+  ];
+}
+
+/** A tree to start from, in Newick, with branch lengths and support values on the forks. */
+export const SAMPLE_NEWICK =
+  "(((north-1:0.014,north-2:0.015)98:0.037,north-3:0.020)86:0.046,(south-1:0.017,south-2:0.017)99:0.040,outgroup:0.102);";

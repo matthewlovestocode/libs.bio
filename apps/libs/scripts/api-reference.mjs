@@ -15,7 +15,7 @@ import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
 /** The packages documented, in the order they are listed. More are added as their topics are built. */
-const PACKAGES = ["seq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "cloning", "seqrecord", "seqtools", "align", "entrez"];
+const PACKAGES = ["seq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "cloning", "seqrecord", "seqtools", "align", "phylo", "entrez"];
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, "..", "src", "generated", "api");

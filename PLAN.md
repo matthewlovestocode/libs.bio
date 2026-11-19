@@ -309,6 +309,28 @@ each topic is built.
   - `align` joined the API reference, making twelve packages;
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. Three of the five are paywalled.
+- **Trees**, the eighth topic, is built on the `trees` branch and **not yet live**. It does both
+  halves: draw a tree you have, or build one from sequences.
+  - a tree in Newick, NEXUS or phyloXML is read and drawn as a phylogram, with branch lengths to
+    scale, a scale bar, support values on the forks and a switch to drop the lengths and show the
+    shape alone;
+  - from an alignment it measures the distance between every pair in any of 31 models, shows the
+    matrix beside the tree, and builds by neighbour joining or UPGMA. The matrix is shown on
+    purpose: a tree built from distances can be no better than they are;
+  - the sample is a made-up family with a known history — one ancestor, two groups of three and
+    two, and an outgroup that left earlier. Both methods recover the grouping, and the distances
+    show why: about 0.03 within a group, 0.11 between them, 0.20 to the outgroup;
+  - **drawing is the site's own**, about thirty lines, because `Bio.Phylo.draw` needs matplotlib and
+    was the one part of the module not ported. The library gives the shape; the page gives pixels;
+  - a bug worth recording: the layout floored the tree's width at 1, which squashed every real tree
+    into a tenth of the panel, since branch lengths are fractions of a substitution per site. Caught
+    by reading the drawn coordinates out of the page rather than by looking at it;
+  - bootstrap values are shown when a file carries them and are never computed: the library leaves
+    out what uses Python's random number generator, and the lesson says a support value measures
+    consistency, not truth;
+  - `phylo` joined the API reference, making thirteen packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. Three of the five are paywalled.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

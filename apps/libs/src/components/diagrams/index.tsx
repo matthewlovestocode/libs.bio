@@ -1150,5 +1150,9 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "homology": return <TermDiagram slug="homology" />;
     case "alignment": return <TermDiagram slug="alignment" />;
     case "substitution-matrix": return <TermDiagram slug="substitution-matrix" />;
+    case "phylogenetic-tree": return <TermDiagram slug="phylogenetic-tree" />;
+    case "clade": return <TermDiagram slug="clade" />;
+    case "bootstrap": return <TermDiagram slug="bootstrap" />;
+    case "newick": return <TermDiagram slug="newick" />;
   }
 }

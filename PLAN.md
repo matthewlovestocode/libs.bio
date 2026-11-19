@@ -269,6 +269,27 @@ each topic is built.
   - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
     checked on Europe PMC that day. All five are free to read;
   - it converts whole files, not parts of them: no filtering, no trimming, no renaming.
+- **Sequences and translation**, the sixth topic, is built on the `sequences` branch and **not yet
+  live**. The tool measures a sequence, writes it out four ways, reads it in all six frames and
+  finds its open reading frames. How it stands:
+  - all 27 of NCBI's genetic codes are offered, and choosing one changes the start and stop codons
+    shown as well as the translation. Switching the sample to the vertebrate mitochondrial code
+    turns AGA and AGG into stops, the stop counts jump and both open frames vanish, which is the
+    lesson about picking the right table, demonstrated rather than asserted;
+  - the codon view shows each amino acid under the three bases that make it, with start codons and
+    stops marked. Clicking a frame in the table switches the view to it;
+  - open reading frames are scanned from each start codon to the next stop, longest first, and on a
+    circle the frames are followed past the origin. The sample's longest is 181 amino acids on
+    frame −1 at bases 1,189–1,731, which was checked by hand: that region's reverse complement
+    translates to exactly that protein with no internal stop, and the next codon along is TGA;
+  - the frame arithmetic and the ORF scan are the site's own, about forty lines in
+    `src/lib/sequence.ts`. Biopython's `sixFrameTranslations` returns a report meant for printing,
+    not values to compute with;
+  - `seqtools` joined the API reference, making eleven packages;
+  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
+    not chosen from. One of the five is paywalled;
+  - an open reading frame is a candidate, not a gene: nothing here looks for a promoter, a ribosome
+    binding site or introns, and the page says so.
 - What topics share was split out while building it, so a third costs less: where a sequence comes
   from (typed, a file, NCBI, the sample), the topic's frame and tabs, the lesson with its three
   versions, and the reading list.

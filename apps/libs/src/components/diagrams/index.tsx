@@ -1139,5 +1139,11 @@ export function LessonFigure({ name }: { name: FigureName }) {
     case "coordinates": return <TermDiagram slug="coordinates" />;
     case "fasta": return <TermDiagram slug="fasta" />;
     case "fastq": return <TermDiagram slug="fastq" />;
+    case "codon": return <TermDiagram slug="codon" />;
+    case "reading-frame": return <TermDiagram slug="reading-frame" />;
+    case "open-reading-frame": return <TermDiagram slug="open-reading-frame" />;
+    case "genetic-code": return <TermDiagram slug="genetic-code" />;
+    case "strand-direction": return <TermDiagram slug="strand-direction" />;
+    case "gc-content": return <TermDiagram slug="gc-content" />;
   }
 }

@@ -387,3 +387,14 @@ table.features tbody tr:focus-visible { outline: 2px solid var(--bionet-yours); 
   background: var(--glass-inner); font: 12px/1.5 var(--font-geist-mono), ui-monospace, monospace; white-space: pre; }
 .file-out code { font: inherit; }
 .file-name { display: block; max-width: 230px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Codons, with each amino acid under the three bases that make it */
+.codons { display: flex; flex-wrap: wrap; gap: 3px 5px; margin: 10px 0 0; }
+.codon { display: flex; flex-direction: column; align-items: center; padding: 2px 3px 1px; border-radius: 5px; border: 1px solid transparent; }
+.codon-bases { font: 12px var(--font-geist-mono), ui-monospace, monospace; letter-spacing: 0.5px; }
+.codon-acid { font: 600 12px var(--font-geist-mono), ui-monospace, monospace; color: var(--soft); margin-top: 1px; }
+.codon.start { border-color: var(--bionet-yours); }
+.codon.start .codon-acid { color: var(--bionet-yours); }
+.codon.stop { border-color: var(--bionet-held); }
+.codon.stop .codon-acid { color: var(--bionet-held); }
+table tbody tr.picked { background: var(--glass-inner); }

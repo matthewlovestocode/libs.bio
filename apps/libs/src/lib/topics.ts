@@ -23,7 +23,7 @@ export const TOPICS: readonly Topic[] = [
   { slug: "maps", key: "maps", packages: ["seqmap", "seqio", "seqfeature", "restriction"], status: "stable" },
   { slug: "cloning", key: "cloning", packages: ["cloning", "pcr", "restriction", "seqrecord"], status: "stable" },
   { slug: "files", key: "files", packages: ["seqio", "seqrecord", "entrez"], status: "stable" },
-  { slug: "sequences", key: "sequences", packages: ["seq", "seqtools"], status: null },
+  { slug: "sequences", key: "sequences", packages: ["seq", "seqtools"], status: "stable" },
   { slug: "alignment", key: "alignment", packages: ["align"], status: null },
   { slug: "trees", key: "trees", packages: ["phylo", "nexus"], status: null },
   { slug: "structure", key: "structure", packages: ["pdb", "svdsuperimposer"], status: null },

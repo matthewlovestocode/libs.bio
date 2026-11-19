@@ -435,3 +435,16 @@ table.distances td, table.distances th { padding: 3px 8px; }
 .chain-seq { margin: 8px 0 0; font-size: 13px; }
 .chain-seq code { display: block; margin-top: 3px; padding: 7px 9px; border: 1px solid var(--glass-edge); border-radius: 7px; background: var(--glass-inner);
   font: 11px/1.6 var(--font-geist-mono), ui-monospace, monospace; word-break: break-all; color: var(--soft); }
+
+/* The backbone in three dimensions */
+/* A definite height, not an aspect ratio: the canvas is sized from this box the moment it mounts,
+   and a box whose height is still being worked out leaves it at its default 300 by 150. */
+.backbone { position: relative; width: 100%; height: clamp(260px, 42vh, 420px); max-width: 520px; margin: 8px auto 0;
+  border: 1px solid var(--glass-edge); border-radius: 10px; background: var(--glass-inner); overflow: hidden; touch-action: none; cursor: grab; }
+.backbone:active { cursor: grabbing; }
+/* The renderer sets the canvas size itself, in inline styles that win over this. These are here so
+   that a canvas it has not sized yet still fills its box rather than sitting at 300 by 150. */
+.backbone canvas { display: block; width: 100%; height: 100%; }
+.backbone-key { display: flex; flex-wrap: wrap; gap: 6px 16px; justify-content: center; margin: 8px 0 0; font-size: 12.5px; color: var(--soft); }
+.backbone-key span { display: flex; align-items: center; gap: 6px; }
+.backbone-loading { text-align: center; padding: 28px 0; }

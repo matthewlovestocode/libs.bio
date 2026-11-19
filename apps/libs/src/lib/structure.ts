@@ -27,15 +27,40 @@ export interface ChainReport {
   other: string[];
 }
 
+/** The shapes a stretch of backbone can take, as its two angles say. */
+export type Shape = "helix" | "strand" | "other";
+
+/**
+ * Which shape a pair of backbone angles means.
+ *
+ * These are the two regions nearly every residue falls in, drawn on the Ramachandran plot as well,
+ * so the colours in the drawing and the patches on the plot say the same thing. They are a reading
+ * of the angles, not a proper secondary-structure assignment, which would look at hydrogen bonds.
+ *
+ * @param phi - The turn about the N–Cα bond, in degrees.
+ * @param psi - The turn about the Cα–C bond.
+ * @returns What the pair of angles amounts to.
+ */
+export function shapeOf(phi: number | null, psi: number | null): Shape {
+  if (phi === null || psi === null) return "other";
+  if (phi >= -100 && phi <= -30 && psi >= -70 && psi <= -5) return "helix";
+  if (phi >= -180 && phi <= -45 && psi >= 90 && psi <= 180) return "strand";
+  return "other";
+}
+
 /** One residue's place in the backbone's two turning angles. */
 export interface Torsions {
-  /** Which residue it is, counted from 1 along the chain. */
+  /** Which chain it is on. */
+  chain: string;
+  /** Its number in the file, which is what a paper would call it. */
   at: number;
   name: string;
   /** The turn about the N–Cα bond, in degrees, or `null` at the start of a chain. */
   phi: number | null;
   /** The turn about the Cα–C bond, or `null` at the end. */
   psi: number | null;
+  /** What those two angles amount to. */
+  shape: Shape;
 }
 
 /** A structure, in the plain values a page needs. */
@@ -50,7 +75,7 @@ export interface Structure {
   chains: ChainReport[];
   atoms: number;
   /** The α-carbon of every amino acid in the first model, in order, for the contact map. */
-  alphaCarbons: { chain: string; at: number; name: string; xyz: number[] }[];
+  alphaCarbons: { chain: string; at: number; name: string; xyz: number[]; shape: Shape }[];
   torsions: Torsions[];
   /** Whether the structure was cut down because it is larger than a page can draw. */
   trimmed: boolean;
@@ -110,7 +135,9 @@ export function readStructure(text: string, id: string, format: "pdb" | "cif"): 
         letters.push(letterOf(residue.resname.trim()));
         const alpha = residue.get("CA") as { coord?: Float32Array } | undefined;
         if (alpha?.coord !== undefined) {
-          if (alphaCarbons.length < MOST_RESIDUES) alphaCarbons.push({ chain: String(chain.id), at: report.residues, name: residue.resname.trim(), xyz: [...alpha.coord] });
+          // The residue's own number, as the file gives it, which is what a paper would call it.
+          const at = Number(residue.id[1]);
+          if (alphaCarbons.length < MOST_RESIDUES) alphaCarbons.push({ chain: String(chain.id), at, name: residue.resname.trim(), xyz: [...alpha.coord], shape: "other" });
           else trimmed = true;
         }
       }
@@ -122,17 +149,28 @@ export function readStructure(text: string, id: string, format: "pdb" | "cif"): 
     // connected run of residues.
     const torsions: Torsions[] = [];
     try {
+      type PeptideResidue = { resname: string; id: unknown[]; getParent: () => { id: string } };
       const peptides = new PPBuilder().buildPeptides(structure as never) as unknown as {
         getPhiPsiList: () => [unknown, unknown][];
-        [Symbol.iterator]: () => Iterator<{ resname: string }>;
+        [Symbol.iterator]: () => Iterator<PeptideResidue>;
       }[];
       for (const peptide of peptides) {
-        const residues = [...(peptide as unknown as Iterable<{ resname: string }>)];
-        peptide.getPhiPsiList().forEach(([phi, psi], at) => {
+        const residues = [...(peptide as unknown as Iterable<PeptideResidue>)];
+        peptide.getPhiPsiList().forEach(([phi, psi], index) => {
           const degrees = (value: unknown) => (typeof value === "number" ? (value * 180) / Math.PI : null);
-          torsions.push({ at: torsions.length + 1, name: residues[at]?.resname.trim() ?? "", phi: degrees(phi), psi: degrees(psi) });
+          const residue = residues[index];
+          const turns = { phi: degrees(phi), psi: degrees(psi) };
+          torsions.push({
+            chain: residue === undefined ? "" : String(residue.getParent().id),
+            at: residue === undefined ? index + 1 : Number(residue.id[1]),
+            name: residue?.resname.trim() ?? "",
+            ...turns, shape: shapeOf(turns.phi, turns.psi),
+          });
         });
       }
+      // Each α-carbon takes the shape its own angles give it.
+      const byResidue = new Map(torsions.map((one) => [`${one.chain}:${one.at}`, one.shape]));
+      for (const alpha of alphaCarbons) alpha.shape = byResidue.get(`${alpha.chain}:${alpha.at}`) ?? "other";
     } catch { /* a structure with no complete backbone simply has no torsions to show */ }
 
     const header = (structure.header ?? {}) as Record<string, unknown>;

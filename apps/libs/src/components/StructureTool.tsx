@@ -1,11 +1,21 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMemo, useRef, useState } from "react";
 import { saveFile, saveSvgAsPng } from "@/lib/save.ts";
 import { SAMPLE_STRUCTURE, sampleStructure } from "@/lib/sample.ts";
 import { CONTACT_AT, MOST_RESIDUES, contactMap, contactsIn, fetchStructure, readStructure, surfaceArea } from "@/lib/structure.ts";
 import { messages } from "@/messages/index.ts";
 import { ContactMap, Ramachandran } from "./StructureViews.tsx";
+
+/**
+ * The three-dimensional view is loaded only when this page is opened, and only in the browser: it
+ * brings three.js with it, which is heavier than the whole of the rest of the site.
+ */
+const BackboneView = dynamic(() => import("./BackboneView.tsx"), {
+  ssr: false,
+  loading: () => <p className="quiet backbone-loading">{messages().structure.loadingView}</p>,
+});
 
 /** What a structure file is normally called. */
 const ACCEPT = ".pdb,.ent,.cif,.mmcif,.txt,text/plain";
@@ -30,6 +40,8 @@ export function StructureTool() {
   const [problem, setProblem] = useState<string | null>(null);
   const [over, setOver] = useState(false);
   const [area, setArea] = useState<number | null | "working">(null);
+  const [picked, setPicked] = useState<number[]>([]);
+  const [showBackbone, setShowBackbone] = useState(false);
   const file = useRef<HTMLInputElement>(null);
   const mapSide = useRef<HTMLDivElement>(null);
   const ramaSide = useRef<HTMLDivElement>(null);
@@ -45,7 +57,7 @@ export function StructureTool() {
 
   const take = (contents: string, id: string, from: string, name: string) => {
     setSource({ text: contents, id, format: /\.(cif|mmcif)$/i.test(name) ? "cif" : "pdb", from });
-    setArea(null); setProblem(null);
+    setArea(null); setProblem(null); setPicked([]);
   };
   const open = async (picked: File | undefined) => {
     if (picked === undefined) return;
@@ -158,9 +170,43 @@ export function StructureTool() {
                 <div ref={mapSide}><ContactMap alphaCarbons={structure.alphaCarbons} distances={distances} /></div>
                 <p className="quiet">{text.contactNote(CONTACT_AT)} {structure.trimmed ? text.trimmedNote(number(MOST_RESIDUES)) : ""}</p>
                 {touching.length === 0 ? <p className="quiet">{source.id === SAMPLE_STRUCTURE.id ? text.noDistant : text.noneTouching}</p> : (
-                  <p className="facts">
-                    <span><b>{text.distantContacts}</b> {number(touching.length)}</span>
-                    <span><b>{text.closest}</b> {touching[0].from.name} {touching[0].from.at} · {touching[0].to.name} {touching[0].to.at} ({touching[0].distance.toFixed(1)} Å)</span>
+                  <>
+                    <p className="facts">
+                      <span><b>{text.distantContacts}</b> {number(touching.length)}</span>
+                      <span><b>{text.closest}</b> {touching[0].from.name} {touching[0].from.at} · {touching[0].to.name} {touching[0].to.at} ({touching[0].distance.toFixed(1)} Å)</span>
+                    </p>
+                    <div className="tables">
+                      <table className="features">
+                        <thead><tr><th>{text.residueOne}</th><th>{text.residueTwo}</th><th>{text.apart}</th></tr></thead>
+                        <tbody>
+                          {touching.slice(0, 8).map((one, at) => {
+                            const chosen = picked.length === 2 && picked[0] === one.from.at && picked[1] === one.to.at;
+                            return (
+                              <tr key={at} className={chosen ? "picked" : undefined} tabIndex={0}
+                                  onClick={() => { setPicked(chosen ? [] : [one.from.at, one.to.at]); if (!chosen) setShowBackbone(true); }}
+                                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setPicked(chosen ? [] : [one.from.at, one.to.at]); if (!chosen) setShowBackbone(true); } }}>
+                                <td>{one.from.name} {one.from.at}</td>
+                                <td>{one.to.name} {one.to.at}</td>
+                                <td className="n">{one.distance.toFixed(1)} Å</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                    <p className="quiet">{text.pickNote}</p>
+                  </>
+                )}
+                <h3>{text.inSpace}</h3>
+                {showBackbone ? (
+                  <>
+                    <BackboneView structure={structure} picked={picked} />
+                    <p className="quiet">{text.backboneNote}</p>
+                  </>
+                ) : (
+                  <p className="quiet">
+                    <button type="button" className="btn" onClick={() => setShowBackbone(true)}>{text.showBackbone}</button>{" "}
+                    {text.backboneWeight}
                   </p>
                 )}
               </>

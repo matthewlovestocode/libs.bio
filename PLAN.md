@@ -207,6 +207,43 @@ each topic is built.
   - nothing yet records whether a biologist has reviewed a term, which the plan names as a way for
     the community to take part.
 
+  **Revised 2026-11-19, once all twelve topics were live.** The glossary was still shaped around
+  `biolibs-site`'s eight lessons: entries carried a `lessons` field that a table translated into
+  topics here, and the table had holes. Nothing mapped to *looking things up* or *working safely*, so
+  neither was reachable from the glossary, and every cloning term claimed all three of digests, PCR
+  and cloning. Three terms reached no topic at all. Now:
+  - an entry names this site's topics directly, with nothing translated on the way. All 61 terms
+    reach a topic, and every topic has terms: sequences 18, cloning 12, maps 10, digests 8,
+    lookup 8, files 7, alignment 7, trees 7, structure 7, PCR 6, motifs 6, safety 6;
+  - the two directions stay separate relations, because they are not the same one. A lesson's
+    `termSlugs` is a display list, printed in full with diagrams; an entry's `topics` is an index,
+    and is usually wider. `checkGlossary` holds them to each other **when the site is built, so a
+    contradiction stops the build** rather than reaching a reader;
+  - it caught one on its first run: the structure lesson rested on `protein-fold`, a figure name and
+    not a term, which `LessonView` had been quietly dropping. **Protein fold** is the 61st term.
+
+  Still open, in the order worth doing:
+  - **about 35 terms the topics use and the glossary does not define**, which is the real expansion:
+    a new subject each for looking things up (accession, record, identifier, BLAST, E-value,
+    taxonomy, DOI) and working safely (biosafety level, risk group, containment, biosecurity,
+    dual-use research, biosafety committee), and more in structure (chain, PDB and mmCIF, α-carbon,
+    B-factor, resolution, contact map, torsion angles, disulfide bond, surface area), in comparing
+    sequences (position weight matrix, consensus, information content, pseudocount, branch length,
+    outgroup, distance matrix, topology) and in records (GenBank format, Phred score, IUPAC codes,
+    codon table, lossy conversion);
+  - **a decision first.** The glossary's promise is that a diagram is computed by the libraries, so
+    it cannot disagree with them. About a third of those terms can keep it — contact maps and
+    torsions from `pdb`, information content from `motifs`, branch lengths from `phylo`, Phred from
+    `seqio`. Biosafety levels and database accessions have nothing to compute, so either they get a
+    different visual treatment or those two subjects sit in the grid without pictures;
+  - **a filter on the index.** 61 cards is browsable, 95 is not; the API reference already has the
+    pattern;
+  - **more "easily confused" pairs**, which the newer topics supplied: accession and identifier,
+    PDB and mmCIF, score and E-value, biosafety level and risk group;
+  - `@biolibs/dseq`, `@biolibs/features` and `@biolibs/assembly` are published and twelve entries
+    send readers to them, but the API reference covers seventeen packages and not those three. The
+    gap is in the reference, not the glossary.
+
 - Step 5 has begun. **PCR and primers**, the second topic, **went live on 2026-11-19**. Its tool designs a pair of primers for a stretch, or takes typed ones, and shows where
   each binds, every product the pair would make, each primer's melting temperature and warnings, a
   map and a gel. It was checked against pUC19 (L09137) with the M13 primers: 2,686 bp, each primer

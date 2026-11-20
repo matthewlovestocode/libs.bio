@@ -15,12 +15,12 @@ import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
 /**
- * The packages documented, in the order they are listed, each next to its closest relative. Most
- * arrived with the topic that uses them; `dseq`, `features` and `assembly` are here because the
- * glossary already sends readers to them, and a term should not have to leave the site to find out
- * what the library behind it does.
+ * Every biolibs library, in the order they are listed, each next to its closest relative. The first
+ * ones arrived with the topic that used them, which left the reference describing part of the
+ * collection; these are all of it. `core` is last because it is the only one that is not biology:
+ * it is what the ports stand on. Bionet's own packages are a separate collection and are not here.
  */
-const PACKAGES = ["seq", "dseq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "features", "cloning", "assembly", "seqrecord", "seqedit", "seqtools", "align", "phylo", "pdb", "motifs", "uniprot", "europepmc", "entrez"];
+const PACKAGES = ["seq", "dseq", "dseqrecord", "seguid", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "features", "cloning", "assembly", "assembly2", "opencloning", "seqrecord", "seqedit", "seqtools", "align", "phylo", "nexus", "pdb", "pdblist", "svdsuperimposer", "motifs", "uniprot", "europepmc", "entrez", "blast", "core"];
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, "..", "src", "generated", "api");

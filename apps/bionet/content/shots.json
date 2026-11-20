@@ -1,0 +1,98 @@
+{
+  "took": "2026-11-20",
+  "app": "bionet-desktop",
+  "versions": {
+    "bionet": "1.9.5",
+    "bionet-client": "0.2.17",
+    "bionet-panels": "0.3.17",
+    "bionet-scene": "0.3.11",
+    "bionet-tools": "0.1.24",
+    "bionet-theme": "0.1.0"
+  },
+  "tools": [
+    "Sequences",
+    "Primers",
+    "Codons",
+    "Construct",
+    "Assembly",
+    "Check",
+    "PCR",
+    "Digest and gel",
+    "Ligation",
+    "Induction",
+    "Reading",
+    "Transformation",
+    "Read a gel",
+    "Spin",
+    "Grow a plate",
+    "Weigh out",
+    "Count cells"
+  ],
+  "shots": [
+    {
+      "id": "sequences",
+      "tab": "Sequences",
+      "at": null,
+      "did": "Opened the lab's own sequences, and looked at one of its plasmids.",
+      "shows": [
+        "pWren1",
+        "1,712",
+        "circular"
+      ],
+      "file": "sequences.png",
+      "web": "sequences.webp",
+      "width": 1600,
+      "height": 1019
+    },
+    {
+      "id": "pcr",
+      "tab": "PCR",
+      "at": "thermocycler",
+      "did": "Took a template and two primers off the shelf, as tubes the lab holds, and let the thermocycler work out what they would give.",
+      "shows": [
+        "Thermocycler",
+        "pWren1",
+        "wrenA-F",
+        "wrenA-R"
+      ],
+      "file": "pcr.png",
+      "web": "pcr.webp",
+      "width": 1600,
+      "height": 1019
+    },
+    {
+      "id": "digest",
+      "tab": "Digest and gel",
+      "at": "gel-station",
+      "did": "Cut a plasmid with two enzymes and ran the pieces out on a gel, from the tube the lab has.",
+      "shows": [
+        "Gel station",
+        "pWren1",
+        "EcoRI",
+        "SpeI",
+        "1,453",
+        "259"
+      ],
+      "file": "digest.png",
+      "web": "digest.webp",
+      "width": 1600,
+      "height": 1019
+    },
+    {
+      "id": "reading",
+      "tab": "Reading",
+      "at": "spectrophotometer",
+      "did": "Typed in a number read off a spectrophotometer, which is the one tool here that predicts nothing and can only say what a reading means.",
+      "shows": [
+        "Spectrophotometer",
+        "0.62",
+        "pWren1",
+        "31 ng/µL"
+      ],
+      "file": "reading.png",
+      "web": "reading.webp",
+      "width": 1600,
+      "height": 1019
+    }
+  ]
+}

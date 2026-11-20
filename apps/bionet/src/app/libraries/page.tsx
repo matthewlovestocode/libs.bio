@@ -26,6 +26,7 @@ export default function Libraries() {
           <nav>
             <a href="/what-it-is">{text.nav.whatItIs}</a>
             <a href="/safety">{text.nav.safety}</a>
+            <a href="/tools">{text.nav.tools}</a>
             <a href={SITES.libs.url}>{text.nav.libs}</a>
             <a href={LINKS.source}>{text.nav.source}</a>
           </nav>

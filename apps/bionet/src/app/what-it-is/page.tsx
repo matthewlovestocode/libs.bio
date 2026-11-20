@@ -25,6 +25,7 @@ export default function WhatItIs() {
           <nav>
             <a href="/libraries">{text.nav.libraries}</a>
             <a href="/safety">{text.nav.safety}</a>
+            <a href="/tools">{text.nav.tools}</a>
             <a href={SITES.libs.url}>{text.nav.libs}</a>
             <a href={LINKS.source}>{text.nav.source}</a>
           </nav>

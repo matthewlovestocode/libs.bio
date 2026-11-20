@@ -24,6 +24,7 @@ export default function Safety() {
           <nav>
             <a href="/what-it-is">{text.nav.whatItIs}</a>
             <a href="/libraries">{text.nav.libraries}</a>
+            <a href="/tools">{text.nav.tools}</a>
             <a href={SITES.libs.url}>{text.nav.libs}</a>
             <a href={LINKS.source}>{text.nav.source}</a>
           </nav>

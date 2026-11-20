@@ -137,3 +137,39 @@ footer .wrap { padding-top: 16px; padding-bottom: 22px; }
 .sources a { font-weight: 600; }
 .sources .issuer { display: block; font-size: 13px; color: var(--muted); margin-top: 1px; }
 .sources .what { display: block; margin-top: 5px; color: var(--muted); font-size: 14.5px; max-width: 62ch; }
+
+/* The bench tools, photographed. ------------------------------------------- */
+
+/* Every tool the app has, including the ones not yet photographed, which are plain. */
+.tools-list { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 0; padding: 0; }
+.tools-list li {
+  font-size: 13.5px; padding: 4px 11px; border: 1px solid var(--line); border-radius: 99px;
+  background: var(--surface); color: var(--muted);
+}
+.tools-list li.shot { border-color: var(--accent); }
+.tools-list a { color: var(--ink); text-decoration: none; }
+.tools-list a:hover { text-decoration: underline; }
+
+.tool { margin-top: 48px; scroll-margin-top: 20px; }
+.tool > h2 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 0 0 10px; font-size: 20px; font-weight: 600; }
+
+/* The picture is wider than the text it sits under, since it is a window and not a paragraph. */
+.tool figure { margin: 18px 0 0; }
+.tool img {
+  display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surface);
+}
+.tool figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); max-width: 72ch; }
+.tool figcaption b { color: var(--ink); font-weight: 600; }
+
+/* These two labels are prose, not code, so they are not set in the mono face the others use. */
+.tool .names dt { font-family: var(--font-geist-sans), system-ui, sans-serif; font-size: 13.5px; color: var(--muted); }
+
+/* What was read off the screen before the shutter went. */
+.tool .names dd code {
+  display: inline-block; margin: 0 6px 4px 0; padding: 1px 7px; font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 12.5px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 5px;
+}
+
+.versions { list-style: none; margin: 10px 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
+.versions code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 13px; }

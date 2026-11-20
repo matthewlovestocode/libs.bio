@@ -22,6 +22,8 @@ export const LINKS = {
   biolibs: "https://github.com/matthewlovestocode/biolibs",
   /** The published packages. */
   npm: "https://www.npmjs.com/org/biolibs",
+  /** The desktop app: the lab's freezer, kept by the people in the lab. Not released yet. */
+  desktop: "https://github.com/matthewlovestocode/bionet-desktop",
   /** The licence the sites' own writing and drawings are under. */
   contentLicence: "https://creativecommons.org/licenses/by/4.0/",
 } as const;

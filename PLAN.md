@@ -210,6 +210,30 @@ each topic is built.
     the theme's colour for something needing attention, on the same principle as the safety topic:
     an absence must never read as a judgement that something did not matter.
 
+- **The bench tools are photographed, four of them, on `bionet.libs.bio/tools`** (2026-11-20).
+  Matthew asked whether tool profiles could be made from the desktop app with screenshots. They can,
+  and the app already had most of the machinery: `scripts/try-app.mjs` drives the real window and
+  photographs each step. A new `scripts/shots.mjs` beside it does the same for the bench. How it
+  stands:
+  - **nothing is posed.** The capture loads a lab from `make-sandbox.mjs`, whose materials are
+    checked by the engines the tools use, works the window as a person would, reads the screen back,
+    and keeps a picture only if what it shows is what it was said to show. What it found is printed
+    under each picture on the page — the gel's bands are 1,453 and 259, which is pWren1's 1,712
+    bases cut in two, and the page may say so because the capture saw it;
+  - **the list of tools is read out of the window**, not written down. There are seventeen; a
+    seventeenth, *Count cells*, appeared between two runs while this was being built, which is the
+    argument for reading it. The build fails if the page profiles a tool the app has not got, shows
+    a picture nothing is said about, or names a machine that was not on the screen;
+  - **the three-dimensional room is in every picture**, which was Matthew's call on 2026-11-20 when
+    the alternative — cutting each picture to the tool's own panel — was put to him. I had told him
+    the Tools tab would photograph flat because no bench component imports `@biolibs/bionet-scene`.
+    That is true of the packages and false of the app: the desktop app passes every tool a scene
+    view, so one camera travels from one machine to the next as the tool changes;
+  - the four are Sequences, PCR, Digest and gel, and Reading. The other thirteen are named and not
+    photographed. `shots.json` is kept in this repository beside the prose, because unlike the
+    library listing it cannot be worked out again at build time;
+  - **`scripts/shots.mjs` is not committed in `bionet-desktop`.** The page says the script is in the
+    app's repository, and that is only true once it is.
 - **The demo lab is not to be brought over yet.** Matthew said on 2026-11-19 that the
   three-dimensional lab is still being refined. `@biolibs/bionet-demo` rests on
   `@biolibs/bionet-scene`, so the demo and the scene arrive together or not at all; documenting them

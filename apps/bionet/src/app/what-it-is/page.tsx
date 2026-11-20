@@ -23,6 +23,7 @@ export default function WhatItIs() {
         <div className="wrap">
           <a className="logo" href="/"><Mark /><span>{text.name}</span></a>
           <nav>
+            <a href="/install">{text.nav.install}</a>
             <a href="/libraries">{text.nav.libraries}</a>
             <a href="/safety">{text.nav.safety}</a>
             <a href="/tools">{text.nav.tools}</a>

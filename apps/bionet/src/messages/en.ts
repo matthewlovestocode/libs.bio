@@ -3,7 +3,7 @@ export const en = {
   name: "bionet",
   title: "Bionet",
   description: "A lab's freezer, kept by the people in the lab and shared with other labs, with nothing in the middle that has to be trusted.",
-  nav: { libs: "libs.bio", source: "Source", libraries: "Libraries", whatItIs: "What it is", safety: "Biosafety", tools: "The bench" },
+  nav: { libs: "libs.bio", source: "Source", libraries: "Libraries", whatItIs: "What it is", safety: "Biosafety", tools: "The bench", install: "Run it" },
   status: { stable: "Stable", moving: "Still changing" },
   home: {
     building: "No download yet",
@@ -59,6 +59,19 @@ export const en = {
     installHeading: "Using them",
     installNote: "Every package is published on npm under @biolibs, carries its own TypeScript types, and is MIT. Bionet itself is still in development, so the versions above will move.",
     plan: "The plan this site is built to",
+  },
+  install: {
+    title: "Running it from source",
+    description: "There is no installer yet. Three commands and a download get a working lab on your own machine, and every one of them was carried out before it was written down.",
+    heading: "Running it from source.",
+    lede: "There is nothing to download yet, but the source runs. These commands were carried out on a clone made fresh, in this order, before any of this was written.",
+    beforeHeading: "Before you start",
+    stepsHeading: "The commands",
+    stepsNote: "In a terminal, in whatever folder you keep such things.",
+    firstRunHeading: "What it does the first time",
+    usedHeading: "What was used",
+    usedNote: "The machine these steps were carried out on, rather than a guess at what the minimum would be. Older versions may well work; they have not been tried.",
+    source: "The app's source",
   },
   tools: {
     title: "The tools at the bench",

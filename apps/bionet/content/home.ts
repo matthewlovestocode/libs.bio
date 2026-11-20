@@ -25,6 +25,11 @@ export interface Door {
 
 export const DOORS: Door[] = [
   {
+    route: "install",
+    title: "Running it from source",
+    blurb: "There is no installer yet, but the source runs. Three commands and a download, every one of them carried out before it was written down.",
+  },
+  {
     route: "what-it-is",
     title: "What Bionet is",
     blurb: "Labs publishing what they hold, signed, at their own address, so a cloning plan can be acted on and not only read — and an exact account of what a signature does not settle.",
@@ -63,9 +68,11 @@ export const CAN_I_USE_IT = {
   heading: "Can I use it yet",
   answer: "No, not without building it yourself.",
   body: [
-    "The protocol is published and the desktop app is written and works, but it is not packaged: there is no installer and nothing to download. The source is open, so it can be built and run today by somebody willing to do that, and this site can explain it but cannot yet get anybody started.",
+    "The protocol is published and the desktop app is written and works, but it is not packaged: there is no installer and nothing to download. The source is open, and it runs — three commands and a download put a working lab on your own machine.",
     "Founding a lab needs no network, no server and no account, and never will. When there is something to download, it will be here.",
   ],
+  /** Where the three commands are, which is the point of saying "not without building it yourself". */
+  more: "How to build and run it, step by step",
 };
 
 /** What this site has reached, which the page states and `lib/home.ts` counts. */

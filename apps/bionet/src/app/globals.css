@@ -202,3 +202,30 @@ footer .wrap { padding-top: 16px; padding-bottom: 22px; }
 .door:hover { border-color: var(--accent); }
 .door b { display: block; margin-bottom: 4px; color: var(--ink); }
 .door span { color: var(--muted); font-size: 14.5px; }
+
+/* Running it from source. -------------------------------------------------- */
+
+.steps { margin: 18px 0 0; padding: 0 0 0 1.4em; }
+.steps > li { margin: 0 0 22px; }
+.steps > li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+.steps p { margin: 6px 0 0; }
+
+/* A command is meant to be copied, so it is given room and allowed to wrap. */
+.steps pre {
+  margin: 0; padding: 11px 14px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; overflow-x: auto;
+}
+.steps pre code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 13.5px; color: var(--ink);
+  white-space: pre-wrap; word-break: break-word;
+}
+
+/* A command on its own, outside the numbered list. */
+.command {
+  margin: 0 0 14px; padding: 11px 14px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 8px; overflow-x: auto;
+}
+.command code {
+  font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 13.5px; color: var(--ink);
+  white-space: pre-wrap; word-break: break-word;
+}

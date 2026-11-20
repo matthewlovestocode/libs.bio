@@ -24,6 +24,7 @@ export default function Libraries() {
         <div className="wrap">
           <a className="logo" href="/"><Mark /><span>{text.name}</span></a>
           <nav>
+            <a href="/install">{text.nav.install}</a>
             <a href="/what-it-is">{text.nav.whatItIs}</a>
             <a href="/safety">{text.nav.safety}</a>
             <a href="/tools">{text.nav.tools}</a>

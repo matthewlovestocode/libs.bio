@@ -22,6 +22,7 @@ export default function Safety() {
         <div className="wrap">
           <a className="logo" href="/"><Mark /><span>{text.name}</span></a>
           <nav>
+            <a href="/install">{text.nav.install}</a>
             <a href="/what-it-is">{text.nav.whatItIs}</a>
             <a href="/libraries">{text.nav.libraries}</a>
             <a href="/tools">{text.nav.tools}</a>

@@ -210,6 +210,25 @@ each topic is built.
     the theme's colour for something needing attention, on the same principle as the safety topic:
     an absence must never read as a judgement that something did not matter.
 
+- **`bionet.libs.bio/install` says how to run the app from source** (2026-11-20), because the front
+  page's "not without building it yourself" was a dead end without it. Every command was carried out
+  on a clone made fresh from GitHub before any of it was written down, and **the first attempt
+  failed**: `package.json` asked for `@biolibs/bionet-tools` `^0.1.22` and the lockfile pinned
+  exactly that, while `main.tsx` imports ten bench hooks that arrived after it, so a clean clone
+  stopped at `"useSpectroBench" is not exported`. Working on the app hides this completely, since
+  there the packages are linked from the `biolibs` checkout, where they are always current. How it
+  stands:
+  - **`bionet-desktop` is fixed, not worked around.** The floors now say what the source needs
+    (tools 0.1.25, scene 0.3.12, demo 0.1.10) and the lockfile is regenerated against them. A second
+    clone then built and ran with `npm install` alone. The lockfile was regenerated in a scratch
+    clone and copied in, so the working checkout's links to the local packages were never disturbed;
+  - the page says three commands, what each does, how long it takes and how big it gets: Electron is
+    **264 MB, fetched on first run rather than at install**, and the folder comes to about 540 MB;
+  - it says plainly that only macOS was tried, that there is no installer, no signing and no
+    updates, and that the app refuses to start where the system has no keychain to seal its key;
+  - *What was used* lists the machine it was done on rather than a guess at the minimum.
+  - **The site's instructions only work once `bionet-desktop` has the fix pushed.** Until then a
+    reader following them gets the error above.
 - **`bionet.libs.bio` has a front page rather than a holding page** (2026-11-20). The old one was a
   scaffold the four real pages had outgrown, and it had started contradicting itself: *What comes
   first* promised "What Bionet is" on the same screen that linked to it, and it promised the demo

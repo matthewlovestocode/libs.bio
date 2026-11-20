@@ -56,6 +56,7 @@ export default function Home() {
             <h2>{CAN_I_USE_IT.heading}</h2>
             <p className="answer">{CAN_I_USE_IT.answer}</p>
             {CAN_I_USE_IT.body.map((line) => <p key={line.slice(0, 40)}>{line}</p>)}
+            <p><a href="/install">{CAN_I_USE_IT.more}</a></p>
           </section>
 
           <section className="passage" id="what-it-does-not-do">

@@ -155,7 +155,9 @@ export function TreeTool() {
                   <h3>{text.distancesHeading(model)}</h3>
                   <div className="tables">
                     <table className="distances">
-                      <thead><tr><th /> {built.distances.names.map((name) => <th key={name}>{name.slice(0, 8)}</th>)}</tr></thead>
+                      {/* No space before the names: a space on the same line in JSX is a text node,
+                          and a text node is not allowed inside a `tr`. */}
+                      <thead><tr><th />{built.distances.names.map((name) => <th key={name}>{name.slice(0, 8)}</th>)}</tr></thead>
                       <tbody>
                         {built.distances.names.map((name, i) => (
                           <tr key={name}>

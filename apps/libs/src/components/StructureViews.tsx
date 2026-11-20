@@ -59,9 +59,20 @@ export function Ramachandran({ torsions }: { torsions: Structure["torsions"] }) 
   const text = messages().structure;
   const points = torsions.filter((one) => one.phi !== null && one.psi !== null);
   const side = 320, left = 40, top = 12;
-  const x = (phi: number) => left + ((phi + 180) / 360) * side;
+  /**
+   * Coordinates are rounded before they are written out, which is what keeps this drawing the same
+   * on the server and in the browser.
+   *
+   * A torsion angle is an `atan2`, and ECMAScript does not say what `atan2` must return to the last
+   * bit — only that it approximates. Node and the browser can differ there, so the same residue
+   * prerendered and then hydrated gave `cx="149.30239300997124"` one side and `149.3023930099712`
+   * the other, and React threw the whole scatter away and drew it again. A hundredth of a pixel is
+   * far below anything a reader could see, and it makes the two agree.
+   */
+  const px = (value: number) => Math.round(value * 100) / 100;
+  const x = (phi: number) => px(left + ((phi + 180) / 360) * side);
   // psi runs up the page, so the sign is flipped.
-  const y = (psi: number) => top + ((180 - psi) / 360) * side;
+  const y = (psi: number) => px(top + ((180 - psi) / 360) * side);
   const lines = [-180, -90, 0, 90, 180];
   /** The two regions nearly every residue falls in, drawn as a hint rather than a measurement. */
   const regions = [

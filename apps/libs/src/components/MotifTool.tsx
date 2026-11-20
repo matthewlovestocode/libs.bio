@@ -115,7 +115,10 @@ export function MotifTool() {
             <h3>{text.counts}</h3>
             <div className="tables">
               <table className="matrix">
-                <thead><tr><th /> {result.built.columns.map((_, at) => <th key={at}>{at + 1}</th>)}</tr></thead>
+                {/* No space between the corner cell and the numbers: a space on the same line in JSX
+                    is a text node, and a text node is not allowed inside a `tr`. It hydrated as an
+                    error and the browser moved it out of the table. */}
+                <thead><tr><th />{result.built.columns.map((_, at) => <th key={at}>{at + 1}</th>)}</tr></thead>
                 <tbody>
                   {LETTERS.map((letter) => (
                     <tr key={letter}>

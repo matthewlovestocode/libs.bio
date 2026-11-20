@@ -183,13 +183,25 @@ each topic is built.
   - the explanatory prose in `biolibs/docs/*.md` is not carried into the *Understand* views yet;
   - a package's page is one long page with a filter box. `seqio` has 235 exports.
 
-  **Revised 2026-11-19.** Twenty packages now. `dseq`, `features` and `assembly` joined, not with a
-  topic but because twelve glossary entries already sent readers to them and, undocumented, those
-  links went off to npm — `selection` had one library link and it left the site. They are the
-  libraries behind sticky ends and ligation, behind finding a promoter or a marker in a sequence, and
-  behind Gibson assembly. Still off-site: `seqedit`, a direct dependency of the site and a one-word
-  addition to the list, and `nexus` and `svdsuperimposer`, which arrive transitively through `phylo`
-  and `pdb`.
+  **Revised 2026-11-19. The reference now covers every biolibs library: thirty of them, 1,446
+  exports.** It had grown a package at a time, as each topic was built, which left it describing part
+  of the collection and giving no sign that the rest existed. Matthew pointed that out. All 43
+  packages published under the `@biolibs` scope are:
+  - **thirty biology libraries**, all documented. The last nine to join were `dseq`, `features` and
+    `assembly` (because twelve glossary entries already sent readers to them), `seqedit` (a direct
+    dependency that was never added), and then `assembly2`, `opencloning`, `dseqrecord`, `seguid`,
+    `nexus`, `pdblist`, `svdsuperimposer`, `blast` and `core`. `assembly2` is pydna's assembly
+    engine; `assembly` is only the substring matcher underneath it. `core` is last in the list as the
+    only one that is not biology;
+  - **eleven Bionet packages**, a separate collection, not in this reference;
+  - **`glossary` 0.1.2 and `glossary-react` 0.1.3**, which are the subject of the note under the
+    glossary below.
+
+  **No glossary entry leaves the site for a library it names.** Of 1,446 exports, one has no
+  documentation at all: `dseqrecord`'s `PydnaSeqRecord`, whose 39 members include 21 that do. The
+  eight newly installed libraries sit in `dependencies` with the rest although the site imports none
+  of them, because the generator reads their type files when the site is built, which is a real
+  dependency.
 - Released with it, after Matthew reviewed the live site:
   - **Code is highlighted**, by Shiki when the site is built, so no script colours anything in the
     browser. **DNA is coloured base by base** wherever it appears, including in the box it is typed
@@ -229,6 +241,32 @@ each topic is built.
     contradiction stops the build** rather than reaching a reader;
   - it caught one on its first run: the structure lesson rested on `protein-fold`, a figure name and
     not a term, which `LessonView` had been quietly dropping. **Protein fold** is the 61st term.
+
+  **Found 2026-11-19, while taking stock of the npm scope, and it comes before the expansion
+  below.** `@biolibs/glossary` 0.1.2 and `@biolibs/glossary-react` 0.1.3 are published. They are
+  what this site keeps by hand in `content/en/glossary.ts` and `src/components/diagrams`: "sixty
+  terms, each in a sentence, a paragraph and a reason to care, found in running text, with a record
+  of which have been reviewed by a biologist", and "a picture for every term, drawn from the real
+  engines, with a tooltip, and a sheet for a biologist to review them". So the glossary is a library,
+  and two things this plan lists as missing — a record of which terms a biologist has reviewed, named
+  here as the main way for the community to take part, and something to review them with — already
+  exist in it.
+
+  The site should take its terms and diagrams from the library, for the same reason the *Code* views
+  run real library calls: so the words on the page cannot drift from what is published. **Nothing has
+  been decided and nothing changed.** What has to be worked out first:
+  - the two have diverged in both directions. The copy here is 61 terms, with **Protein fold** added
+    and a `topics` field naming this site's topics; the package has sixty and knows nothing about
+    this site's topics. Neither is simply ahead of the other;
+  - whether `topics`, and `checkGlossary` with it, belongs here or in the library. It is a claim about
+    this site, which argues for here;
+  - whether the diagrams in `glossary-react` are the ones already on the site or a second set, since
+    these were carried over from `biolibs-site` by hand;
+  - what adopting the review record would mean for the site, which currently shows nothing about
+    whether a term has been reviewed.
+
+  Until that is settled, writing 35 new terms into the local copy would widen a divergence rather
+  than close it.
 
   Still open, in the order worth doing:
   - **about 35 terms the topics use and the glossary does not define**, which is the real expansion:

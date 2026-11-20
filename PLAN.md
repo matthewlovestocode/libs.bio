@@ -182,6 +182,14 @@ each topic is built.
   - the parity checklists are not beside it yet, which the plan asks for;
   - the explanatory prose in `biolibs/docs/*.md` is not carried into the *Understand* views yet;
   - a package's page is one long page with a filter box. `seqio` has 235 exports.
+
+  **Revised 2026-11-19.** Twenty packages now. `dseq`, `features` and `assembly` joined, not with a
+  topic but because twelve glossary entries already sent readers to them and, undocumented, those
+  links went off to npm — `selection` had one library link and it left the site. They are the
+  libraries behind sticky ends and ligation, behind finding a promoter or a marker in a sequence, and
+  behind Gibson assembly. Still off-site: `seqedit`, a direct dependency of the site and a one-word
+  addition to the list, and `nexus` and `svdsuperimposer`, which arrive transitively through `phylo`
+  and `pdb`.
 - Released with it, after Matthew reviewed the live site:
   - **Code is highlighted**, by Shiki when the site is built, so no script colours anything in the
     browser. **DNA is coloured base by base** wherever it appears, including in the box it is typed
@@ -240,9 +248,10 @@ each topic is built.
     pattern;
   - **more "easily confused" pairs**, which the newer topics supplied: accession and identifier,
     PDB and mmCIF, score and E-value, biosafety level and risk group;
-  - `@biolibs/dseq`, `@biolibs/features` and `@biolibs/assembly` are published and twelve entries
-    send readers to them, but the API reference covers seventeen packages and not those three. The
-    gap is in the reference, not the glossary.
+  - ~~`@biolibs/dseq`, `@biolibs/features` and `@biolibs/assembly` are published and twelve entries
+    send readers to them, but the API reference covers seventeen packages and not those three.~~
+    **Done 2026-11-19:** all three are documented, and ten of the twelve entries now keep every
+    library link on the site. The two that do not, `feature` and `plasmid`, point at `seqedit`.
 
 - Step 5 has begun. **PCR and primers**, the second topic, **went live on 2026-11-19**. Its tool designs a pair of primers for a stretch, or takes typed ones, and shows where
   each binds, every product the pair would make, each primer's melting temperature and warnings, a

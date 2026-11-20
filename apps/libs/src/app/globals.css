@@ -37,8 +37,12 @@ a { color: var(--accent); }
 
 .top { border-bottom: 1px solid var(--line); background: var(--bg); }
 .top .wrap { display: flex; align-items: center; gap: 20px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
-.logo { display: flex; align-items: center; gap: 6px; font-size: 26px; font-weight: 200; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
-.logo svg { height: 34px; width: auto; }
+/* The lockup is three flex children — the mark, "libs" and ".bio" — so a `gap` would space the
+   word from its suffix as well as from the mark. The one space that should exist is set on the
+   mark itself. The mark's box carries about 2.6px of its own padding at this size, so the
+   margin is the rest of what the eye wants. */
+.logo { display: flex; align-items: center; gap: 0; font-size: 26px; font-weight: 200; letter-spacing: -0.01em; color: var(--ink); text-decoration: none; }
+.logo svg { height: 34px; width: auto; margin-right: 9px; }
 .logo .tld { color: var(--muted); }
 .top nav { margin-left: auto; display: flex; gap: 18px; font-size: 14px; flex-wrap: wrap; }
 
@@ -449,11 +453,14 @@ table.distances td, table.distances th { padding: 3px 8px; }
 .backbone-key span { display: flex; align-items: center; gap: 6px; }
 .backbone-loading { text-align: center; padding: 28px 0; }
 
-/* A sequence logo, the counts matrix and the marked-up target */
-.logo { display: block; width: 100%; height: auto; max-width: 420px; margin: 8px auto 2px; }
-.logo .logo-letter { font-family: var(--font-geist-mono), ui-monospace, monospace; font-weight: 700; }
-.logo .map-tick { font: 9px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
-.logo .map-note { font-size: 11px; fill: var(--soft); }
+/* A sequence logo, the counts matrix and the marked-up target. Named `seq-logo` and not `logo`:
+   the brand lockup in the header is `.logo`, and when this rule was called that too it won on
+   source order and turned the header's flex row into a block, which silently removed the gap
+   between the mark and the word. */
+.seq-logo { display: block; width: 100%; height: auto; max-width: 420px; margin: 8px auto 2px; }
+.seq-logo .logo-letter { font-family: var(--font-geist-mono), ui-monospace, monospace; font-weight: 700; }
+.seq-logo .map-tick { font: 9px var(--font-geist-mono), ui-monospace, monospace; fill: var(--soft); }
+.seq-logo .map-note { font-size: 11px; fill: var(--soft); }
 .instances { width: 100%; min-height: 150px; resize: vertical; padding: 10px 12px;
   font: 13px/1.7 var(--font-geist-mono), ui-monospace, monospace; letter-spacing: 1px; }
 table.matrix th[scope="row"] { font: 600 13px var(--font-geist-mono), ui-monospace, monospace; }

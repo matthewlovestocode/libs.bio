@@ -28,7 +28,7 @@ export function SequenceLogo({ built }: { built: Built }) {
   const height = PER_BIT * 2, width = left + built.length * PER_COLUMN + 10;
 
   return (
-    <svg viewBox={`0 0 ${width} ${top + height + bottom}`} role="img" aria-label={text.logoAlt(built.degenerate, built.length)} className="logo">
+    <svg viewBox={`0 0 ${width} ${top + height + bottom}`} role="img" aria-label={text.logoAlt(built.degenerate, built.length)} className="seq-logo">
       {[0, 1, 2].map((bits) => (
         <g key={bits}>
           <line x1={left - 4} y1={top + height - bits * PER_BIT} x2={width - 8} y2={top + height - bits * PER_BIT}

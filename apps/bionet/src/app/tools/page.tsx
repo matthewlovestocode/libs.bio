@@ -71,8 +71,10 @@ export default function Tools() {
               <p>{one.why}</p>
               <figure>
                 {/* The optimiser is a server and there is none, so this is a plain image at the
-                    size it was written, with the room for it kept while it loads. */}
-                <img src={`/tools/${one.shot.web}`} width={one.shot.width} height={one.shot.height}
+                    size it was written, with the room for it kept while it loads. The pictures sit
+                    under /bench rather than /tools, because this page is /tools and a page for one
+                    tool would want to be /tools/pcr. */}
+                <img src={`/bench/${one.shot.web}`} width={one.shot.width} height={one.shot.height}
                      alt={`The Bionet desktop app, on the ${one.tab} tool. ${one.look}`} loading="lazy" />
                 <figcaption>
                   <b>{text.tools.lookFor}</b> {one.look}

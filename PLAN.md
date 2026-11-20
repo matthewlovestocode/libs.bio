@@ -145,8 +145,28 @@ each topic is built.
 - Step 2: this directory is a public repository on GitHub with the two apps and the shared package.
   Each app is a Cloudflare Worker (`libs-bio` and `bionet-libs-bio`) connected to the repository, so
   a push to `main` builds and deploys it and any other branch gets a preview.
-- Both sites are live at https://libs.bio and https://bionet.libs.bio. Bionet's is still its
-  placeholder page.
+- Both sites are live at https://libs.bio and https://bionet.libs.bio. Bionet's was its placeholder
+  page until 2026-11-19; see the libraries page below.
+
+- **Bionet's libraries page went live on 2026-11-19**, at https://bionet.libs.bio/libraries, before
+  step 7 rather than as part of it. It is the first real content on that site. The eleven packages in
+  seven layers — the protocol, a device and the network, where things are and how it looks, the three
+  interface layers, the bench, the agent, the demo — each with its version, its own description, and
+  a handful of its exports. How it stands:
+  - **it is an introduction, not a reference, and says so.** The eleven export 770 things between
+    them and `bionet-tools` alone has 301, so each package shows a handful and prints what it is
+    leaving out: "6 of 167", "7 of 301". 56 names in all;
+  - nothing on it is copied out by hand. `scripts/libraries.mjs` reads each installed package's own
+    type files, `content/libraries.ts` names which exports to show, and `check` **fails the build**
+    if one is not exported any more. The only words written for the site are about *why* a package
+    exists; what each name does is the library's own sentence, shown apart from this site's words;
+  - the same shape as `libs.bio`'s reference, but a separate script and a separate page: nothing is
+    shared between the two sites yet, which is a duplication worth watching if Bionet grows a full
+    reference later;
+  - prose is not checked, only the names. A sentence here can still go stale as a page's words can;
+  - eight of the eleven are now dependencies of `apps/bionet` although the site imports none of
+    them, for the same reason the libs app carries the ones it documents: the generator reads their
+    types when the site is built.
 - `www.libs.bio` is sent to `libs.bio`, keeping the path and the query string. It is a redirect rule
   at Cloudflare, with a placeholder DNS record for `www` so the rule has something to act on.
 - "Always Use HTTPS" is on for the whole domain, so a plain `http://` address is sent to `https://`.
@@ -562,7 +582,7 @@ Choices made while setting up, which were not in the plan and can be changed:
 | 4 | The generated API reference, starting with the packages behind that topic | Step 3 |
 | 5 | The other three bench-work topics: PCR and primers, cloning and assembly, plasmid maps | Step 3 |
 | 6 | Archive `biolibs-site` and delete its Render service | Step 5 |
-| 7 | **First release of `bionet.libs.bio`**: what Bionet is, the demo lab, the plain statement on biosafety | Step 2 |
+| 7 | **First release of `bionet.libs.bio`**: what Bionet is, the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 |
 | 8 | Move Wren and Thistle to their new addresses and re-sign them | Step 1 |
 | 9 | The peer starter template, then the Render and Docker guides | Step 7 |
 | 10 | The remaining eight topics, and the machine-in-the-lab guide | Steps 5 and 9 |

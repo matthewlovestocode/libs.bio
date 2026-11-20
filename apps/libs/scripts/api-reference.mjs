@@ -20,7 +20,7 @@ import ts from "typescript";
  * glossary already sends readers to them, and a term should not have to leave the site to find out
  * what the library behind it does.
  */
-const PACKAGES = ["seq", "dseq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "features", "cloning", "assembly", "seqrecord", "seqtools", "align", "phylo", "pdb", "motifs", "uniprot", "europepmc", "entrez"];
+const PACKAGES = ["seq", "dseq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "features", "cloning", "assembly", "seqrecord", "seqedit", "seqtools", "align", "phylo", "pdb", "motifs", "uniprot", "europepmc", "entrez"];
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, "..", "src", "generated", "api");

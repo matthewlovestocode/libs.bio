@@ -29,7 +29,7 @@ export default async function TermPage({ params }: { params: Promise<{ term: str
   if (entry === undefined) notFound();
   const category = CATEGORIES.find((one) => one.id === entry.category);
   const related = entry.related.map(getEntry).filter((one) => one !== undefined);
-  const topics = topicsFor(entry.lessons);
+  const topics = topicsFor(entry);
   const documented = new Set(packages().map((one) => one.name));
 
   return (

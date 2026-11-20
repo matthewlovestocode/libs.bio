@@ -28,8 +28,8 @@ export interface GlossaryEntry {
   /** Phrases in lesson text that should link here, longest first where they overlap. */
   match: string[];
   related: string[];
-  /** Lesson slugs from `learn.ts`. */
-  lessons: string[];
+  /** The topics that cover this term, by slug. `lessons.ts` checks these against what each lesson expands. */
+  topics: string[];
   /** biolibs packages that work with this concept. */
   packages: string[];
 }
@@ -46,7 +46,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Everything in molecular biology happens inside cells, and most laboratory methods borrow machinery from them.",
     match: ["cells", "cell"],
     related: ["dna", "protein", "plasmid", "genome"],
-    lessons: [],
+    topics: ["cloning", "safety"],
     packages: [],
   },
   {
@@ -59,7 +59,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Its sequence can be written as text, which is what makes biology something software can work on.",
     match: ["DNA"],
     related: ["base", "base-pair", "rna", "gene", "nucleotide"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq", "dseq"],
   },
   {
@@ -72,7 +72,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the step between a gene and its protein, and a sequence type software must handle differently from DNA.",
     match: ["RNA"],
     related: ["dna", "transcription", "translation"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -85,7 +85,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It explains why strands have a direction, and the abbreviation nt, for nucleotides, is how single-stranded lengths are counted.",
     match: ["nucleotides", "nucleotide"],
     related: ["base", "strand-direction", "dna"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -98,7 +98,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Protein sequences are written in the one-letter code, and a codon's meaning is an amino acid.",
     match: ["amino acids", "amino acid"],
     related: ["protein", "residue", "codon", "genetic-code"],
-    lessons: ["sequences", "structures"],
+    topics: ["sequences", "structure"],
     packages: ["seq", "seqtools"],
   },
   {
@@ -111,7 +111,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "The tools of genetic engineering are enzymes, so predicting an experiment means predicting what its enzymes will do.",
     match: ["enzymes", "enzyme"],
     related: ["protein", "restriction-enzyme", "ligation", "pcr"],
-    lessons: ["cloning"],
+    topics: ["digests", "cloning"],
     packages: ["restriction"],
   },
   {
@@ -124,7 +124,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Positions in a genome are given as a chromosome and a coordinate along it.",
     match: ["chromosomes", "chromosome"],
     related: ["genome", "gene", "dna", "plasmid"],
-    lessons: [],
+    topics: ["lookup"],
     packages: ["seqio"],
   },
   {
@@ -137,7 +137,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Its size is why nobody reads a genome by eye, and why searching and comparing need software.",
     match: ["genomes", "genome"],
     related: ["chromosome", "gene", "units"],
-    lessons: [],
+    topics: ["lookup", "safety"],
     packages: ["seqio"],
   },
   {
@@ -150,7 +150,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "These turn up in every result: fragment sizes on a gel, molecular weights, distances between atoms.",
     match: ["kilobases", "kilobase", "daltons", "dalton", "ångströms"],
     related: ["base-pair", "genome", "gel-electrophoresis"],
-    lessons: ["cloning", "structures"],
+    topics: ["digests", "sequences"],
     packages: ["seqtools", "gel", "pdb"],
   },
 
@@ -165,7 +165,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Every sequence file, search and alignment is built from these letters.",
     match: ["bases", "base"],
     related: ["base-pair", "strand-direction", "gc-content"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -178,7 +178,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Pairing is what lets one strand be rebuilt from the other, and it is the unit every fragment size is measured in.",
     match: ["base pairs", "base pair"],
     related: ["base", "complement", "gc-content"],
-    lessons: ["sequences", "cloning"],
+    topics: ["digests", "sequences"],
     packages: ["seq", "dseq"],
   },
   {
@@ -191,7 +191,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Direction decides which way a gene is read and which way a primer is extended.",
     match: ["opposite directions", "antiparallel"],
     related: ["complement", "reverse-complement", "primer"],
-    lessons: ["sequences", "cloning"],
+    topics: ["pcr", "maps", "sequences"],
     packages: ["seq", "dseq"],
   },
   {
@@ -204,7 +204,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the first step in working out what the other strand says.",
     match: ["complement"],
     related: ["reverse-complement", "base-pair", "strand-direction"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -217,7 +217,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "A gene can lie on either strand, so software constantly has to switch to the other strand's point of view.",
     match: ["reverse complement"],
     related: ["complement", "strand-direction", "restriction-enzyme"],
-    lessons: ["sequences"],
+    topics: ["sequences", "motifs"],
     packages: ["seq", "seqrecord"],
   },
   {
@@ -230,7 +230,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It feeds directly into melting temperature, and so into every primer you design.",
     match: ["GC content"],
     related: ["base-pair", "melting-temperature", "primer"],
-    lessons: ["sequences"],
+    topics: ["pcr", "sequences", "motifs"],
     packages: ["seqtools"],
   },
   {
@@ -243,7 +243,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "A PCR only works if both primers bind at the same temperature, so their melting temperatures have to match.",
     match: ["melting temperatures", "melting temperature"],
     related: ["gc-content", "primer", "pcr"],
-    lessons: ["sequences", "cloning"],
+    topics: ["pcr"],
     packages: ["seqtools", "pcr"],
   },
 
@@ -257,8 +257,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "A gene is more than its coding part. It has a promoter, where copying into RNA begins, and a terminator, where copying stops. Genes can lie on either strand, and in many organisms the coding part is split into pieces that are joined after copying.",
     why: "Genes are the things most features in a sequence record describe.",
     match: ["genes", "gene"],
-    related: ["feature", "transcription", "codon"],
-    lessons: ["sequences", "annotations"],
+    related: ["feature", "transcription", "codon", "promoter"],
+    topics: ["maps", "motifs", "lookup"],
     packages: ["seqfeature", "seqrecord"],
   },
   {
@@ -270,8 +270,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "RNA uses the same letters as DNA except that U takes the place of T. The copy, called messenger RNA, carries the gene's message to the machinery that builds proteins. In sequence terms transcription is simply replacing every T with U.",
     why: "It is the first of the two steps between a gene and its protein.",
     match: ["transcription", "transcribed"],
-    related: ["translation", "gene", "codon"],
-    lessons: ["sequences"],
+    related: ["translation", "gene", "codon", "exons-and-introns"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -284,7 +284,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is how software predicts the protein a piece of DNA encodes.",
     match: ["translation"],
     related: ["codon", "genetic-code", "reading-frame", "protein"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq", "seqrecord"],
   },
   {
@@ -297,7 +297,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "The codon is the unit of translation, and of most mutations that matter.",
     match: ["codons", "codon"],
     related: ["genetic-code", "reading-frame", "translation", "mutation"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -310,7 +310,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Choosing the right table is the difference between a correct protein and a truncated one.",
     match: ["genetic codes", "genetic code"],
     related: ["codon", "translation"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -323,7 +323,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Finding the right frame is how genes are located in new sequence.",
     match: ["reading frames", "reading frame"],
     related: ["codon", "translation", "mutation"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq", "seqtools"],
   },
   {
@@ -336,7 +336,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Mutations are the raw material of evolution and the cause of many diseases, and comparing sequences is largely a matter of finding them.",
     match: ["mutations", "mutation"],
     related: ["codon", "reading-frame", "alignment"],
-    lessons: ["sequences", "alignment"],
+    topics: ["alignment"],
     packages: ["seq", "align"],
   },
   {
@@ -349,7 +349,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Promoters are among the most commonly annotated features, and choosing one is a routine design decision.",
     match: ["promoters", "promoter"],
     related: ["gene", "transcription", "feature"],
-    lessons: ["annotations"],
+    topics: ["maps", "motifs"],
     packages: ["seqfeature", "features"],
   },
   {
@@ -362,7 +362,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is why a gene's location in a database is often several ranges joined together and not one.",
     match: ["exons", "introns", "exon", "intron"],
     related: ["gene", "transcription", "feature"],
-    lessons: ["annotations"],
+    topics: ["maps"],
     packages: ["seqfeature"],
   },
   {
@@ -375,7 +375,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Finding them is how the beginning and end of a protein-coding region are located.",
     match: ["start codon", "stop codons", "stop codon"],
     related: ["codon", "open-reading-frame", "reading-frame", "genetic-code"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq"],
   },
   {
@@ -388,7 +388,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Scanning for long open reading frames is the simplest way to find genes in new sequence.",
     match: ["open reading frames", "open reading frame", "ORF"],
     related: ["start-and-stop-codons", "reading-frame", "gene"],
-    lessons: ["sequences"],
+    topics: ["sequences"],
     packages: ["seq", "seqtools"],
   },
 
@@ -403,7 +403,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Features turn a string of letters into a map someone can use.",
     match: ["features", "feature"],
     related: ["gene", "coordinates", "plasmid"],
-    lessons: ["annotations"],
+    topics: ["maps", "files", "lookup"],
     packages: ["seqfeature", "seqrecord", "seqedit", "features"],
   },
   {
@@ -416,7 +416,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Plasmids are the standard vehicle for carrying engineered DNA into cells.",
     match: ["plasmids", "plasmid"],
     related: ["feature", "restriction-enzyme", "ligation"],
-    lessons: ["annotations", "cloning"],
+    topics: ["digests", "maps", "cloning", "files", "safety"],
     packages: ["seqedit", "cloning", "seqmap", "dseq"],
   },
   {
@@ -429,7 +429,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Off-by-one errors between the two conventions are the most common bug in sequence software.",
     match: ["0-based", "1-based"],
     related: ["feature", "restriction-enzyme"],
-    lessons: ["annotations", "cloning"],
+    topics: ["maps", "files", "lookup"],
     packages: ["seqfeature", "restriction"],
   },
   {
@@ -442,7 +442,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the lowest common denominator for exchanging sequences.",
     match: ["FASTA"],
     related: ["fastq", "feature"],
-    lessons: ["files"],
+    topics: ["files"],
     packages: ["seqio"],
   },
   {
@@ -455,7 +455,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Quality scores let analysis ignore the bases a machine was unsure of.",
     match: ["FASTQ", "quality scores", "quality score"],
     related: ["fasta"],
-    lessons: ["files"],
+    topics: ["files"],
     packages: ["seqio"],
   },
 
@@ -469,8 +469,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Bacteria make these enzymes to destroy the DNA of invading viruses. Each recognises its own site, typically four to eight bases long, and cuts both strands at fixed points within or beside it. More than a thousand are known.",
     why: "They are the scissors of molecular cloning, and predicting where they cut is the first step in planning it.",
     match: ["restriction enzymes", "restriction enzyme"],
-    related: ["sticky-end", "blunt-end", "ligation", "gel-electrophoresis"],
-    lessons: ["cloning"],
+    related: ["sticky-end", "blunt-end", "ligation", "gel-electrophoresis", "enzyme"],
+    topics: ["digests", "maps", "cloning", "safety"],
     packages: ["restriction", "cloning"],
   },
   {
@@ -483,7 +483,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Whether two ends are compatible decides whether a planned ligation can work at all.",
     match: ["sticky ends", "sticky end"],
     related: ["blunt-end", "restriction-enzyme", "ligation"],
-    lessons: ["cloning"],
+    topics: ["digests", "cloning"],
     packages: ["restriction", "cloning", "dseq"],
   },
   {
@@ -496,7 +496,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Knowing which enzymes leave blunt ends tells you when orientation has to be checked afterwards.",
     match: ["blunt ends", "blunt end"],
     related: ["sticky-end", "restriction-enzyme", "ligation"],
-    lessons: ["cloning"],
+    topics: ["digests", "cloning"],
     packages: ["restriction", "cloning", "dseq"],
   },
   {
@@ -508,8 +508,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Ligase seals the backbone of each strand once two compatible ends have come together. Ligation is the reverse of a restriction cut: read the picture of a cut from bottom to top.",
     why: "It is the paste in cut and paste.",
     match: ["ligation", "ligase"],
-    related: ["sticky-end", "blunt-end", "plasmid"],
-    lessons: ["cloning"],
+    related: ["sticky-end", "blunt-end", "plasmid", "enzyme"],
+    topics: ["cloning"],
     packages: ["cloning", "dseq"],
   },
   {
@@ -522,7 +522,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Primer design decides what a PCR amplifies and whether it works.",
     match: ["primers", "primer"],
     related: ["pcr", "melting-temperature", "strand-direction"],
-    lessons: ["cloning"],
+    topics: ["pcr", "cloning"],
     packages: ["pcr", "seqtools"],
   },
   {
@@ -535,7 +535,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is how the piece of DNA you want is obtained in the first place.",
     match: ["PCR"],
     related: ["primer", "melting-temperature", "gel-electrophoresis"],
-    lessons: ["cloning"],
+    topics: ["pcr"],
     packages: ["pcr"],
   },
   {
@@ -548,7 +548,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the everyday check that a digest or a PCR produced what was expected.",
     match: ["gel electrophoresis", "gel"],
     related: ["restriction-enzyme", "pcr", "base-pair"],
-    lessons: ["cloning"],
+    topics: ["digests", "pcr"],
     packages: ["gel"],
   },
   {
@@ -561,7 +561,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is where nearly all sequence data comes from, and its limits explain why files hold fragments and quality scores.",
     match: ["sequencing", "sequencers", "sequencer"],
     related: ["read", "fastq", "genome"],
-    lessons: ["files"],
+    topics: ["files", "lookup"],
     packages: ["seqio"],
   },
   {
@@ -574,7 +574,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "A read is the unit a FASTQ file stores, one record per read.",
     match: [],
     related: ["sequencing", "fastq"],
-    lessons: ["files"],
+    topics: ["files", "alignment"],
     packages: ["seqio"],
   },
   {
@@ -587,7 +587,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Every cloning plan is described as a vector plus one or more inserts.",
     match: ["vectors", "vector"],
     related: ["plasmid", "ligation", "restriction-enzyme", "gibson-assembly"],
-    lessons: ["cloning"],
+    topics: ["maps", "cloning"],
     packages: ["cloning", "dseq"],
   },
   {
@@ -600,7 +600,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the step that turns a tube of DNA into living cells that copy it.",
     match: ["transformation"],
     related: ["selection", "plasmid", "cell"],
-    lessons: ["cloning"],
+    topics: ["cloning", "safety"],
     packages: [],
   },
   {
@@ -613,7 +613,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the reason almost every laboratory plasmid has a resistance gene among its features.",
     match: ["antibiotic selection"],
     related: ["transformation", "plasmid", "feature"],
-    lessons: ["cloning"],
+    topics: ["maps", "cloning", "safety"],
     packages: ["features"],
   },
   {
@@ -626,7 +626,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It has become one of the most common ways to build plasmids, and designing the overlaps is a job for software.",
     match: ["Gibson assembly"],
     related: ["ligation", "primer", "pcr", "vector-and-insert"],
-    lessons: ["cloning"],
+    topics: ["cloning"],
     packages: ["cloning", "assembly"],
   },
 
@@ -641,7 +641,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Alignment is how similarity is measured, and almost every comparison starts from one.",
     match: ["alignments", "alignment"],
     related: ["gap", "mutation", "phylogenetic-tree", "motif"],
-    lessons: ["alignment", "phylogenetics"],
+    topics: ["alignment", "trees", "motifs"],
     packages: ["align"],
   },
   {
@@ -654,7 +654,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "How gaps are scored changes which alignment comes out best.",
     match: ["gaps", "gap"],
     related: ["alignment", "mutation"],
-    lessons: ["alignment"],
+    topics: ["alignment"],
     packages: ["align"],
   },
   {
@@ -666,8 +666,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "A motif is rarely one exact word. It is described by counting, for each position, how often each base appears among known examples. Those counts become scores, and sliding the scores along a new sequence finds likely sites.",
     why: "Motifs are how binding sites and other signals are found in sequences nobody has studied yet.",
     match: ["motifs", "motif"],
-    related: ["alignment", "feature"],
-    lessons: ["alignment"],
+    related: ["alignment", "feature", "promoter"],
+    topics: ["motifs"],
     packages: ["motifs"],
   },
   {
@@ -679,8 +679,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Branch lengths usually stand for the amount of change. Trees are built from aligned sequences, either from the distances between them or by searching for the tree that needs the fewest changes.",
     why: "Trees are how relationships are inferred, from the history of species to the spread of an outbreak.",
     match: ["phylogenetic trees", "phylogenetic tree"],
-    related: ["clade", "newick", "alignment"],
-    lessons: ["phylogenetics"],
+    related: ["clade", "newick", "alignment", "bootstrap"],
+    topics: ["trees"],
     packages: ["phylo", "nexus"],
   },
   {
@@ -692,8 +692,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Cut a tree at any branch and everything on the far side is a clade. Clades nest inside one another, and how often a clade reappears when the analysis is repeated on resampled data is a measure of how well supported it is.",
     why: "Clades are the groupings a tree actually claims.",
     match: ["clades", "clade"],
-    related: ["phylogenetic-tree", "newick"],
-    lessons: ["phylogenetics"],
+    related: ["phylogenetic-tree", "newick", "bootstrap"],
+    topics: ["trees"],
     packages: ["phylo"],
   },
   {
@@ -706,7 +706,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Nearly every tree program reads and writes it.",
     match: ["Newick"],
     related: ["phylogenetic-tree", "clade"],
-    lessons: ["phylogenetics"],
+    topics: ["trees"],
     packages: ["phylo", "nexus"],
   },
   {
@@ -719,7 +719,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "It is the reasoning behind almost every sequence search: find something similar that is already understood.",
     match: ["homology", "homologous"],
     related: ["alignment", "identity-and-similarity", "phylogenetic-tree", "mutation"],
-    lessons: ["alignment", "phylogenetics"],
+    topics: ["alignment", "trees"],
     packages: ["align", "phylo"],
   },
   {
@@ -732,7 +732,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "These are the two numbers most often quoted for how alike two sequences are, and they are easy to confuse.",
     match: ["percent identity"],
     related: ["alignment", "substitution-matrix", "homology"],
-    lessons: ["alignment"],
+    topics: ["alignment"],
     packages: ["align"],
   },
   {
@@ -745,7 +745,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "The matrix decides which alignment scores best, so choosing a different one can change the result.",
     match: ["substitution matrices", "substitution matrix", "BLOSUM62"],
     related: ["alignment", "identity-and-similarity", "amino-acid", "gap"],
-    lessons: ["alignment"],
+    topics: ["alignment", "trees"],
     packages: ["align"],
   },
   {
@@ -758,7 +758,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "A tree always comes out fully resolved, whether or not the data justifies it. Bootstrap values say which parts to believe.",
     match: ["bootstrap"],
     related: ["phylogenetic-tree", "clade", "alignment"],
-    lessons: ["phylogenetics"],
+    topics: ["trees"],
     packages: ["phylo", "nexus"],
   },
 
@@ -772,8 +772,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "Structures worked out by experiment are stored as lists of atom positions, organised as a hierarchy: a structure holds models, a model holds chains, a chain holds residues and a residue holds atoms.",
     why: "Most of what a cell does is done by proteins, and their shape explains how.",
     match: ["proteins", "protein"],
-    related: ["residue", "translation"],
-    lessons: ["sequences", "structures"],
+    related: ["residue", "translation", "protein-fold"],
+    topics: ["structure", "lookup"],
     packages: ["pdb", "seqtools"],
   },
   {
@@ -786,7 +786,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Residues are the level at which structure and sequence line up.",
     match: ["residues", "residue"],
     related: ["protein"],
-    lessons: ["structures"],
+    topics: ["structure", "lookup"],
     packages: ["pdb"],
   },
   {
@@ -799,7 +799,7 @@ export const GLOSSARY: GlossaryEntry[] = [
     why: "Structure files name every atom this way, and most measurements pick out backbone atoms.",
     match: ["side chains", "side chain"],
     related: ["residue", "amino-acid", "secondary-structure", "rmsd"],
-    lessons: ["structures"],
+    topics: ["structure"],
     packages: ["pdb"],
   },
   {
@@ -811,8 +811,8 @@ export const GLOSSARY: GlossaryEntry[] = [
       "In an alpha helix the chain coils like a spring, with about 3.6 residues to each turn. In a beta sheet, stretches of the chain called strands lie side by side. Both are held together by weak bonds between backbone atoms, and they are joined by less regular loops.",
     why: "Helices and sheets are how protein shapes are described and drawn, and where a residue sits affects what a mutation there will do.",
     match: ["secondary structure", "alpha helix", "beta sheet"],
-    related: ["protein", "residue", "backbone-and-side-chain"],
-    lessons: ["structures"],
+    related: ["protein", "residue", "backbone-and-side-chain", "protein-fold"],
+    topics: ["structure"],
     packages: ["pdb", "seqtools"],
   },
   {
@@ -824,8 +824,21 @@ export const GLOSSARY: GlossaryEntry[] = [
       "One structure is rotated and shifted to fit the other as closely as possible. The distance between each pair of matching atoms is then measured, and the RMSD is a kind of average of those distances, in ångströms. Zero means identical; for proteins, a value under about 2 Å usually means the two are very alike.",
     why: "It is the standard way to say how similar two shapes are, or how far a prediction is from the real structure.",
     match: ["RMSD"],
-    related: ["protein", "backbone-and-side-chain", "units"],
-    lessons: ["structures"],
+    related: ["protein", "protein-fold", "backbone-and-side-chain", "units"],
+    topics: ["structure"],
+    packages: ["pdb", "svdsuperimposer"],
+  },
+  {
+    slug: "protein-fold",
+    term: "Protein fold",
+    category: "structure",
+    definition: "The compact three-dimensional shape a protein chain settles into, and the arrangement of helices and strands that shape amounts to.",
+    detail:
+      "A protein is made as a straight chain and folds itself, driven largely by its side chains: the water-avoiding ones end up buried in the middle and the water-loving ones on the outside. The helices and strands of its secondary structure pack against each other, and how they are arranged is the fold. A fold outlasts the sequence that makes it, so two proteins whose sequences have drifted far apart can still fold the same way.",
+    why: "What a protein does follows from its shape, so a shared fold is evidence of a shared job even where an alignment finds little left in common.",
+    match: ["protein fold", "folding", "folds", "fold"],
+    related: ["protein", "secondary-structure", "backbone-and-side-chain", "residue", "rmsd"],
+    topics: ["structure"],
     packages: ["pdb", "svdsuperimposer"],
   },
 ];
@@ -839,18 +852,6 @@ export function findEntryByName(name: string): GlossaryEntry | undefined {
   const wanted = name.toLowerCase();
   return GLOSSARY.find((entry) => entry.term.toLowerCase() === wanted || entry.match.some((m) => m.toLowerCase() === wanted));
 }
-
-/** Diagrams shown in each lesson's student version, by glossary slug. */
-export const LESSON_FIGURES: Record<string, string[]> = {
-  sequences: ["reverse-complement", "codon", "reading-frame"],
-  annotations: ["feature", "plasmid"],
-  files: ["fasta", "fastq"],
-  alignment: ["alignment", "motif"],
-  phylogenetics: ["phylogenetic-tree"],
-  structures: ["protein"],
-  cloning: ["sticky-end", "pcr", "gel-electrophoresis"],
-  verification: [],
-};
 
 // --- Finding terms in running text --------------------------------------------------------------
 

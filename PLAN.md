@@ -388,8 +388,8 @@ each topic is built.
   - `motifs` joined the API reference, making fifteen packages;
   - `Paper.doi` is now nullable: the MEME paper has no DOI, and inventing one or faking the type
     would have been worse than the view simply not offering that link;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19, which Matthew has
-    not chosen from. Three of the five are paywalled;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, with details
+    checked on Europe PMC that day. Three of the five are paywalled;
   - it takes the instances as given: finding a motif nobody has described is motif discovery, which
     this does not attempt, and the lesson says so. Nothing is posted to the WebLogo server.
 - **Looking things up**, the eleventh topic, **went live on 2026-11-19**. One question to one of
@@ -411,8 +411,8 @@ each topic is built.
     does. That is a script to leave running, not a button on a page somebody is waiting at. The Code
     view shows the call and the lesson says why it is not there;
   - `uniprot` and `europepmc` joined the API reference, making seventeen packages;
-  - its *Read* view is a shortlist of five, checked on Europe PMC on 2026-11-19 — with the same
-    service this topic asks — which Matthew has not chosen from. All five are free to read;
+  - Matthew chose all five shortlisted papers for its *Read* view on 2026-11-19, checked on Europe
+    PMC that day with the same service this topic asks. All five are free to read;
   - it sends a tool name and no address. NCBI asks every client for one and the field is still
     unset, so the site is an anonymous client, which works.
 - **Working safely**, the twelfth and last topic, **went live on 2026-11-19**. It is the one topic

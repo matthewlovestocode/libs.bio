@@ -1,5 +1,5 @@
 /**
- * Candidate papers for the motifs topic. A shortlist: Matthew has not chosen from it yet.
+ * The papers behind the motifs topic, chosen by Matthew on 2026-11-19.
  *
  * The details were looked up on Europe PMC by hand on the date below, so each one is what Europe
  * PMC says and not what anybody remembered. Fetching them when the site is built is not written
@@ -40,5 +40,5 @@ const papers: Paper[] = [
   },
 ];
 
-/** The list: a shortlist, with details checked on Europe PMC on the date given. */
-export const reading: ReadingList = { chosen: false, checked: "2026-11-19", papers };
+/** The list: chosen, with details checked on Europe PMC on the date given. */
+export const reading: ReadingList = { chosen: true, checked: "2026-11-19", papers };

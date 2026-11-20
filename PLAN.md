@@ -168,6 +168,29 @@ each topic is built.
     them, for the same reason the libs app carries the ones it documents: the generator reads their
     types when the site is built.
 
+- **"What Bionet is, and what it does not do" went live on 2026-11-19**, at
+  https://bionet.libs.bio/what-it-is. The second half of that title is the page's reason for
+  existing: the protocol has no authority in it, so fetching a lab's inventory settles three things —
+  that it is an inventory, that the signatures hold, that it came from the address it claims — and
+  **none of them is "this lab is who it says it is"**. The page gives as much room to that as to the
+  promise: a key binds to an address and not to a person, it is https or nothing, first sight is a
+  leap, and what the network offers instead is only that a key which changes afterwards gets noticed.
+  Then what is inside a lab, why the peer holds no key, and the hosting tiers from this plan. How it
+  stands:
+  - almost none of the argument is written for the site. It is the protocol's own, restated, and
+    where a package says it better its words are shown as the package's. `settled`'s documentation
+    makes the central distinction better than a paraphrase did, so it is quoted — **and not copied**:
+    `quoteExport` reads it from the installed package when the site is built;
+  - the nine exports the page rests on are checked the way the libraries page's are, so a claim about
+    what the protocol settles cannot outlive the function that settles it;
+  - **a correction to this plan.** The hosting tiers table named `exportLab`, which **no published
+    package exports**; it must be in `bionet-desktop`. The row now names `BackUpLab` and
+    `RestoreLab`, which do exist. Worth knowing that a name in this plan is not evidence a name
+    exists;
+  - a generator fault found and fixed while writing it: summaries were cut at whatever line the doc
+    comment happened to wrap on, so `settled` had been reading "at least one signature holds, and the
+    document". Both Bionet pages now close the comment up and show its first sentence.
+
 - **The demo lab is not to be brought over yet.** Matthew said on 2026-11-19 that the
   three-dimensional lab is still being refined. `@biolibs/bionet-demo` rests on
   `@biolibs/bionet-scene`, so the demo and the scene arrive together or not at all; documenting them
@@ -589,7 +612,7 @@ Choices made while setting up, which were not in the plan and can be changed:
 | 4 | The generated API reference, starting with the packages behind that topic | Step 3 |
 | 5 | The other three bench-work topics: PCR and primers, cloning and assembly, plasmid maps | Step 3 |
 | 6 | Archive `biolibs-site` and delete its Render service | Step 5 |
-| 7 | **First release of `bionet.libs.bio`**: what Bionet is, the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 · **the demo lab waits on the three-dimensional lab**, below |
+| 7 | **First release of `bionet.libs.bio`**: ~~what Bionet is~~ (live 2026-11-19), the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 · **the demo lab waits on the three-dimensional lab**, below |
 | 8 | Move Wren and Thistle to their new addresses and re-sign them | Step 1 |
 | 9 | The peer starter template, then the Render and Docker guides | Step 7 |
 | 10 | The remaining eight topics, and the machine-in-the-lab guide | Steps 5 and 9 |
@@ -744,7 +767,7 @@ guides.
 | Tier | What you get | Cost to the lab | State today |
 |---|---|---|---|
 | Desktop app only | A full lab on one computer; founding a lab needs no peer | Nothing | Works |
-| Moving a lab by file | `exportLab` writes every signed entry to one file, checked on import | Nothing | Works, but built as backup, not as a sync routine |
+| Moving a lab by file | Everything a device holds written to one file and checked on the way back in, through `BackUpLab` and `RestoreLab` | Nothing | Works, but built as backup, not as a sync routine |
 | A peer on a free host | Members never online together still sync | Nothing; sleeps when idle | Works (`lab-wren` on Render free) |
 | An always-on peer | The same, with no wake-up delay or data loss | The lab's hosting bill | Same code on a paid plan or own machine |
 

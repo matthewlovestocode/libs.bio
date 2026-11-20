@@ -167,6 +167,13 @@ each topic is built.
   - eight of the eleven are now dependencies of `apps/bionet` although the site imports none of
     them, for the same reason the libs app carries the ones it documents: the generator reads their
     types when the site is built.
+
+- **The demo lab is not to be brought over yet.** Matthew said on 2026-11-19 that the
+  three-dimensional lab is still being refined. `@biolibs/bionet-demo` rests on
+  `@biolibs/bionet-scene`, so the demo and the scene arrive together or not at all; documenting them
+  on the libraries page is fine, since that describes the packages rather than running them.
+  **Nothing was installed or started.** Of the three things step 7 names, the two that do not touch
+  the scene — what Bionet is, and the plain statement on biosafety — can be built meanwhile.
 - `www.libs.bio` is sent to `libs.bio`, keeping the path and the query string. It is a redirect rule
   at Cloudflare, with a placeholder DNS record for `www` so the rule has something to act on.
 - "Always Use HTTPS" is on for the whole domain, so a plain `http://` address is sent to `https://`.
@@ -582,7 +589,7 @@ Choices made while setting up, which were not in the plan and can be changed:
 | 4 | The generated API reference, starting with the packages behind that topic | Step 3 |
 | 5 | The other three bench-work topics: PCR and primers, cloning and assembly, plasmid maps | Step 3 |
 | 6 | Archive `biolibs-site` and delete its Render service | Step 5 |
-| 7 | **First release of `bionet.libs.bio`**: what Bionet is, the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 |
+| 7 | **First release of `bionet.libs.bio`**: what Bionet is, the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 · **the demo lab waits on the three-dimensional lab**, below |
 | 8 | Move Wren and Thistle to their new addresses and re-sign them | Step 1 |
 | 9 | The peer starter template, then the Render and Docker guides | Step 7 |
 | 10 | The remaining eight topics, and the machine-in-the-lab guide | Steps 5 and 9 |

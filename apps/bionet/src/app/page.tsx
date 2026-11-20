@@ -30,6 +30,7 @@ export default function Home() {
             <h2>{text.home.nowHeading}</h2>
             <ul>
               <li><a href="/what-it-is">{text.home.whatItIs}</a></li>
+              <li><a href="/safety">{text.home.safety}</a></li>
               <li><a href="/libraries">{text.home.libraries}</a></li>
               <li><a href={`${LINKS.biolibs}#bionet`}>{text.home.protocol}</a></li>
               <li><a href={`${LINKS.source}/blob/main/PLAN.md`}>{text.home.plan}</a></li>

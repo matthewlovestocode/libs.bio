@@ -9,21 +9,7 @@
  * packages when the site is built, so a claim that rests on a function cannot outlive the function.
  */
 
-/** A passage of the page: a heading and its paragraphs, with an optional quotation under them. */
-export interface Passage {
-  id: string;
-  heading: string;
-  paragraphs: string[];
-  /** A list under the paragraphs, where the point is a set of separate things. */
-  points?: { term: string; text: string }[];
-  /** Words taken from a package's prose, shown as the package's own. */
-  quote?: { from: string; file: string; text: string };
-  /**
-   * An export whose own documentation says the thing better than a restatement would. Unlike
-   * `quote`, nothing is copied here: the words are read from the package when the site is built.
-   */
-  quoteExport?: { pack: string; name: string };
-}
+import type { Cite, Passage } from "./passage.ts";
 
 /** One way a lab can run, and what it costs. From the hosting tiers in PLAN.md. */
 export interface Tier {
@@ -34,7 +20,7 @@ export interface Tier {
 }
 
 /** Exports the page's claims rest on, checked when the site is built. */
-export const CITES: { pack: string; name: string }[] = [
+export const CITES: Cite[] = [
   { pack: "bionet", name: "readInventory" },
   { pack: "bionet", name: "verifyInventory" },
   { pack: "bionet", name: "originMatches" },

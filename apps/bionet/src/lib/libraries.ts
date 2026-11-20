@@ -9,7 +9,8 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LAYERS, type Layer } from "../../content/libraries.ts";
-import { CITES } from "../../content/what-it-is.ts";
+import { CITES as SAFETY_CITES } from "../../content/safety.ts";
+import { CITES as WHAT_CITES } from "../../content/what-it-is.ts";
 
 /** What a package says about one of its exports. */
 export interface Export {
@@ -78,12 +79,14 @@ export function check(): string[] {
     if (!introduced.has(pack.name)) problems.push(`@biolibs/${pack.name} is read but no layer introduces it.`);
   }
 
-  // What Bionet is rests on these: a claim about what the protocol settles should not outlive the
-  // function that settles it.
-  for (const cite of CITES) {
-    const pack = byName.get(cite.pack);
-    if (pack === undefined) problems.push(`What Bionet is cites @biolibs/${cite.pack}, which is not among the packages read.`);
-    else if (!(cite.name in pack.exports)) problems.push(`@biolibs/${cite.pack} does not export ${cite.name}, which What Bionet is rests on.`);
+  // The written pages rest on these. A claim about what the protocol does should not outlive the
+  // function that does it, and on the safety page that matters more than anywhere else.
+  for (const [page, cites] of [["What Bionet is", WHAT_CITES], ["Bionet and biosafety", SAFETY_CITES]] as const) {
+    for (const cite of cites) {
+      const pack = byName.get(cite.pack);
+      if (pack === undefined) problems.push(`${page} cites @biolibs/${cite.pack}, which is not among the packages read.`);
+      else if (!(cite.name in pack.exports)) problems.push(`@biolibs/${cite.pack} does not export ${cite.name}, which ${page} rests on.`);
+    }
   }
   return problems;
 }

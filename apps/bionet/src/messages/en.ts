@@ -3,7 +3,7 @@ export const en = {
   name: "bionet",
   title: "Bionet",
   description: "A lab's freezer, kept by the people in the lab and shared with other labs, with nothing in the middle that has to be trusted.",
-  nav: { libs: "libs.bio", source: "Source", libraries: "Libraries", whatItIs: "What it is" },
+  nav: { libs: "libs.bio", source: "Source", libraries: "Libraries", whatItIs: "What it is", safety: "Biosafety" },
   status: { stable: "Stable", moving: "Still changing" },
   home: {
     building: "Being built",
@@ -20,6 +20,7 @@ export const en = {
     protocol: "The protocol and its packages",
     libraries: "The libraries Bionet is built from",
     whatItIs: "What Bionet is, and what it does not do",
+    safety: "Bionet and biosafety",
     plan: "The plan this site is built to",
   },
   whatItIs: {
@@ -57,6 +58,18 @@ export const en = {
     installHeading: "Using them",
     installNote: "Every package is published on npm under @biolibs, carries its own TypeScript types, and is MIT. Bionet itself is still in development, so the versions above will move.",
     plan: "The plan this site is built to",
+  },
+  safety: {
+    title: "Bionet and biosafety",
+    description: "What Bionet does about the safety of biological material, what it does not do, and where that leaves the lab using it.",
+    heading: "Bionet and biosafety.",
+    lede: "A tool that records what a lab holds sits close enough to this that saying nothing would itself be a claim. So: what it does, what it does not do, and what is left to the people using it.",
+    doesNotHeading: "What Bionet does not do",
+    doesNotNote: "First, because it is the part a reader is owed first and the part that would do harm if it were left vague.",
+    readingHeading: "Where to read further",
+    gapsHeading: "What was checked and did not come out well",
+    gapsNote: "Printed here rather than passed over, so that an absence on this page is never mistaken for a judgement that something did not matter.",
+    codeNote: "The description of what an inventory carries is read from the protocol, not remembered. These are the exports it rests on, and if one is renamed or withdrawn this site stops building rather than going on describing something that has changed.",
   },
   footer: "Code MIT · Content CC BY 4.0 · No accounts, no tracking",
 } as const;

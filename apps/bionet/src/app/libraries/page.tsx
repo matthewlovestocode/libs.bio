@@ -25,6 +25,7 @@ export default function Libraries() {
           <a className="logo" href="/"><Mark /><span>{text.name}</span></a>
           <nav>
             <a href="/what-it-is">{text.nav.whatItIs}</a>
+            <a href="/safety">{text.nav.safety}</a>
             <a href={SITES.libs.url}>{text.nav.libs}</a>
             <a href={LINKS.source}>{text.nav.source}</a>
           </nav>

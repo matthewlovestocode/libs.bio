@@ -124,3 +124,16 @@ footer .wrap { padding-top: 16px; padding-bottom: 22px; }
   .names > div { grid-template-columns: 1fr; gap: 3px; }
   .kind { display: inline; margin-left: 8px; }
 }
+
+/* --- Bionet and biosafety ----------------------------------------------------------------------- */
+
+/* Checks that did not come out well. Amber, which in the theme means something needing attention. */
+.gaps > div { border-left-color: var(--bionet-held, var(--muted)); }
+
+/* Where to read further: a name, who issued it, and what it is. */
+.sources { list-style: none; margin: 16px 0 0; padding: 0; }
+.sources li { padding: 12px 0; border-top: 1px solid var(--line); }
+.sources li:last-child { border-bottom: 1px solid var(--line); }
+.sources a { font-weight: 600; }
+.sources .issuer { display: block; font-size: 13px; color: var(--muted); margin-top: 1px; }
+.sources .what { display: block; margin-top: 5px; color: var(--muted); font-size: 14.5px; max-width: 62ch; }

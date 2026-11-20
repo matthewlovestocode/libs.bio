@@ -46,18 +46,23 @@ export default function Home() {
             </li>
           </ul>
 
-          <h2 className="section">{text.home.coming}</h2>
-          <p className="quiet">{text.home.comingNote}</p>
-          <ul className="topics">
-            {coming.map((topic) => (
-              <li key={topic.slug}>
-                <div className="topic">
-                  <span className="topic-title">{text.topics[topic.key].title} <StatusLabel status={null} /></span>
-                  <span className="topic-summary">{text.topics[topic.key].summary}</span>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {/* Once every topic is built there is nothing to come, and an empty heading is worse than none. */}
+          {coming.length === 0 ? null : (
+            <>
+              <h2 className="section">{text.home.coming}</h2>
+              <p className="quiet">{text.home.comingNote}</p>
+              <ul className="topics">
+                {coming.map((topic) => (
+                  <li key={topic.slug}>
+                    <div className="topic">
+                      <span className="topic-title">{text.topics[topic.key].title} <StatusLabel status={null} /></span>
+                      <span className="topic-summary">{text.topics[topic.key].summary}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
       </main>
       <Footer />

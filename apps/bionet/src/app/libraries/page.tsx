@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LINKS, SITES } from "@libsbio/shared";
 import { Mark } from "@/components/Mark.tsx";
-import { stack, totals } from "@/lib/libraries.ts";
+import { firstSentence, stack, totals } from "@/lib/libraries.ts";
 import { messages } from "@/messages/index.ts";
 
 const text = messages();
@@ -24,6 +24,7 @@ export default function Libraries() {
         <div className="wrap">
           <a className="logo" href="/"><Mark /><span>{text.name}</span></a>
           <nav>
+            <a href="/what-it-is">{text.nav.whatItIs}</a>
             <a href={SITES.libs.url}>{text.nav.libs}</a>
             <a href={LINKS.source}>{text.nav.source}</a>
           </nav>
@@ -55,7 +56,7 @@ export default function Libraries() {
                     {pack.shown.map((one) => (
                       <div key={one.name}>
                         <dt><code>{one.name}</code> <span className="kind">{one.kind}</span></dt>
-                        <dd>{one.summary === "" ? text.libraries.undocumented : one.summary}</dd>
+                        <dd>{one.summary === "" ? text.libraries.undocumented : firstSentence(one.summary)}</dd>
                       </div>
                     ))}
                   </dl>

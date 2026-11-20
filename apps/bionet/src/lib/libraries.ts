@@ -9,6 +9,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { LAYERS, type Layer } from "../../content/libraries.ts";
+import { CITES } from "../../content/what-it-is.ts";
 
 /** What a package says about one of its exports. */
 export interface Export {
@@ -76,7 +77,37 @@ export function check(): string[] {
   for (const pack of PACKAGES) {
     if (!introduced.has(pack.name)) problems.push(`@biolibs/${pack.name} is read but no layer introduces it.`);
   }
+
+  // What Bionet is rests on these: a claim about what the protocol settles should not outlive the
+  // function that settles it.
+  for (const cite of CITES) {
+    const pack = byName.get(cite.pack);
+    if (pack === undefined) problems.push(`What Bionet is cites @biolibs/${cite.pack}, which is not among the packages read.`);
+    else if (!(cite.name in pack.exports)) problems.push(`@biolibs/${cite.pack} does not export ${cite.name}, which What Bionet is rests on.`);
+  }
   return problems;
+}
+
+/**
+ * Some doc comments are a paragraph. A list wants one line of it.
+ *
+ * @param text - A summary as the package wrote it.
+ * @returns Its first sentence, or the whole thing when it is already one.
+ */
+export function firstSentence(text: string): string {
+  const stop = /[.?!](\s|$)/.exec(text);
+  return stop === null ? text : text.slice(0, stop.index + 1);
+}
+
+/**
+ * @param pack - A package's name without the `@biolibs/` in front.
+ * @param name - One of its exports.
+ * @returns What the package says about it, checked by `check` when the site is built.
+ */
+export function cited(pack: string, name: string): Export {
+  const found = byName.get(pack)?.exports[name];
+  if (found === undefined) throw new Error(`@biolibs/${pack} does not export ${name}.`);
+  return { name, ...found };
 }
 
 /** @returns The stack, each package with its own words and the names this page shows. */
@@ -107,4 +138,4 @@ export function totals(): { packages: number; exports: number } {
 }
 
 const problems = check();
-if (problems.length > 0) throw new Error(`The libraries page disagrees with the packages:\n  ${problems.join("\n  ")}`);
+if (problems.length > 0) throw new Error(`The site disagrees with the packages:\n  ${problems.join("\n  ")}`);

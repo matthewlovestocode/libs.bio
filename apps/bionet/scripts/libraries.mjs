@@ -80,9 +80,10 @@ function read(name) {
       signature = `const ${written(node, from)}`;
     } else if (ts.isEnumDeclaration(node)) { kind = "type"; signature = written(node, from); }
     else continue;
-    // The first line of the comment is what the page prints. The rest is for the reference, which
-    // this page is not.
-    const summary = plain(ts.displayPartsToString(symbol.getDocumentationComment(checker))).split("\n")[0];
+    // What the page prints is the whole summary with its line breaks closed up. Taking the first
+    // line instead would cut a sentence wherever the comment happened to wrap, which is how
+    // `settled` came out as "at least one signature holds, and the document".
+    const summary = plain(ts.displayPartsToString(symbol.getDocumentationComment(checker))).replace(/\s+/g, " ").trim();
     exports[exported.name] = { kind, signature: cut(signature), summary };
   }
   return { name, version: manifest.version, description: (manifest.description ?? "").trim(), exports };

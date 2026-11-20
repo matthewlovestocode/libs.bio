@@ -191,6 +191,25 @@ each topic is built.
     comment happened to wrap on, so `settled` had been reading "at least one signature holds, and the
     document". Both Bionet pages now close the comment up and show its first sentence.
 
+- **"Bionet and biosafety" went live on 2026-11-19**, at https://bionet.libs.bio/safety. It is the
+  plain statement this plan's Biosafety section asks for, and it leads with what Bionet **does not**
+  do, because that is what a reader is owed first and what would do harm if it were vague: it moves
+  no material, vets no lab, screens no sequence, treats one lab pointing at another as no kind of
+  endorsement, and enforces nothing, there being no central party to enforce with. How it stands:
+  - **it does not restate how to work safely.** That has real authorities behind it and the *working
+    safely* topic on `libs.bio` quotes them; this page is about the software and links across;
+  - what publishing an inventory actually publishes is read from `InventoryPart` rather than
+    remembered: the lab's own name and identifier, a checksum, the length, whether it is a circle,
+    whether it is offered, and a note. **No sequence**, and a SEGUID does not run backwards, so what
+    goes out is closer to a catalogue card than a sequence record. Five exports carry that claim and
+    are checked when the site is built;
+  - listing and offering are kept apart, and the page says plainly that publishing is a public act
+    and that the notes go out with everything else;
+  - the DIYbio code is linked as the 2011 document both sources support, and the dead
+    `ask.diybio.org` service is **not** linked. Both failed checks are printed on the page in amber,
+    the theme's colour for something needing attention, on the same principle as the safety topic:
+    an absence must never read as a judgement that something did not matter.
+
 - **The demo lab is not to be brought over yet.** Matthew said on 2026-11-19 that the
   three-dimensional lab is still being refined. `@biolibs/bionet-demo` rests on
   `@biolibs/bionet-scene`, so the demo and the scene arrive together or not at all; documenting them
@@ -612,7 +631,7 @@ Choices made while setting up, which were not in the plan and can be changed:
 | 4 | The generated API reference, starting with the packages behind that topic | Step 3 |
 | 5 | The other three bench-work topics: PCR and primers, cloning and assembly, plasmid maps | Step 3 |
 | 6 | Archive `biolibs-site` and delete its Render service | Step 5 |
-| 7 | **First release of `bionet.libs.bio`**: ~~what Bionet is~~ (live 2026-11-19), the demo lab, the plain statement on biosafety | Step 2 · the libraries page landed ahead of it on 2026-11-19 · **the demo lab waits on the three-dimensional lab**, below |
+| 7 | **First release of `bionet.libs.bio`**: ~~what Bionet is~~, ~~the plain statement on biosafety~~ (both live 2026-11-19), the demo lab | Step 2 · the libraries page landed ahead of it on 2026-11-19 · **only the demo lab is left, and it waits on the three-dimensional lab**, below |
 | 8 | Move Wren and Thistle to their new addresses and re-sign them | Step 1 |
 | 9 | The peer starter template, then the Render and Docker guides | Step 7 |
 | 10 | The remaining eight topics, and the machine-in-the-lab guide | Steps 5 and 9 |

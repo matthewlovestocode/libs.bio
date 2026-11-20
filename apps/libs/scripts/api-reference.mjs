@@ -14,8 +14,13 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import ts from "typescript";
 
-/** The packages documented, in the order they are listed. More are added as their topics are built. */
-const PACKAGES = ["seq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "cloning", "seqrecord", "seqtools", "align", "phylo", "pdb", "motifs", "uniprot", "europepmc", "entrez"];
+/**
+ * The packages documented, in the order they are listed, each next to its closest relative. Most
+ * arrived with the topic that uses them; `dseq`, `features` and `assembly` are here because the
+ * glossary already sends readers to them, and a term should not have to leave the site to find out
+ * what the library behind it does.
+ */
+const PACKAGES = ["seq", "dseq", "restriction", "gel", "pcr", "seqio", "seqmap", "seqfeature", "features", "cloning", "assembly", "seqrecord", "seqtools", "align", "phylo", "pdb", "motifs", "uniprot", "europepmc", "entrez"];
 
 const here = dirname(fileURLToPath(import.meta.url));
 const out = join(here, "..", "src", "generated", "api");

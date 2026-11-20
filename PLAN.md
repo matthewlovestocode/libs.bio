@@ -210,6 +210,20 @@ each topic is built.
     the theme's colour for something needing attention, on the same principle as the safety topic:
     an absence must never read as a judgement that something did not matter.
 
+- **`bionet.libs.bio` has a front page rather than a holding page** (2026-11-20). The old one was a
+  scaffold the four real pages had outgrown, and it had started contradicting itself: *What comes
+  first* promised "What Bionet is" on the same screen that linked to it, and it promised the demo
+  lab, which is blocked. It also faced the project's to-do list outward. How it stands:
+  - the shape is the three questions a reader arrives with. **What it is**, two paragraphs. **Can I
+    use it yet** — answered "No, not without building it yourself", early and in bold, because that
+    is the answer. **What it does not do**, which is the safety page's own five rather than a
+    summary of them, so the two cannot drift;
+  - it opens with a photograph of the app working out a PCR, taken by the capture above. A site
+    about software nobody can download should at least show it;
+  - **nothing on it is counted by hand.** `lib/home.ts` reads the routes on disk, the packages
+    installed and the photographs taken. A page added without a way in from the front, a link to a
+    page that does not exist, or a picture of a tool never photographed each stop the build. All
+    four were planted and the build refused each one by name.
 - **The bench tools are photographed, four of them, on `bionet.libs.bio/tools`** (2026-11-20).
   Matthew asked whether tool profiles could be made from the desktop app with screenshots. They can,
   and the app already had most of the machinery: `scripts/try-app.mjs` drives the real window and

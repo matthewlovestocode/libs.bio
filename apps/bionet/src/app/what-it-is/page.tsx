@@ -114,7 +114,7 @@ export default function WhatItIs() {
             <h2>{text.whatItIs.whereHeading}</h2>
             <p>{text.whatItIs.whereNote}</p>
             <ul>
-              <li><a href="/libraries">{text.home.libraries}</a></li>
+              <li><a href="/libraries">{text.whatItIs.libraries}</a></li>
               <li><a href={`${LINKS.source}/blob/main/PLAN.md`}>{text.whatItIs.plan}</a></li>
             </ul>
           </section>

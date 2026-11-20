@@ -173,3 +173,32 @@ footer .wrap { padding-top: 16px; padding-bottom: 22px; }
 
 .versions { list-style: none; margin: 10px 0 14px; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 14px; }
 .versions code { font-family: var(--font-geist-mono), ui-monospace, monospace; font-size: 13px; }
+
+/* The front page. ---------------------------------------------------------- */
+
+/* The app, at the top, because showing it says more than another paragraph. */
+.hero { margin: 28px 0 0; }
+.hero img {
+  display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 12px;
+  background: var(--surface);
+}
+.hero figcaption { margin-top: 10px; font-size: 14px; color: var(--muted); max-width: 72ch; }
+
+/* The answer to "can I use it yet", which is no and should read as one. */
+.answer { font-size: 19px; font-weight: 600; color: var(--ink); }
+
+.does-not { margin: 14px 0 14px; padding: 0; list-style: none; }
+.does-not li {
+  margin: 0 0 8px; padding-left: 14px; border-left: 2px solid var(--bionet-held, var(--muted));
+  font-weight: 600;
+}
+
+/* A way into each of the other pages, with enough said to choose between them. */
+.doors { display: grid; gap: 12px; margin-top: 16px; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.door {
+  display: block; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; text-decoration: none; color: inherit;
+}
+.door:hover { border-color: var(--accent); }
+.door b { display: block; margin-bottom: 4px; color: var(--ink); }
+.door span { color: var(--muted); font-size: 14.5px; }
